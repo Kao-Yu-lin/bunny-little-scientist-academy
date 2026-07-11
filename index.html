@@ -1,0 +1,3251 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="給 3 歲半幼兒的兔兔互動學習網站：ABC、寶寶物理、寶寶量子與寶寶科學。">
+  <meta name="theme-color" content="#fff4e8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="preload" as="image" href="bunny_garden_3d_v1.webp" type="image/webp" fetchpriority="high">
+  <title>兔兔小小科學院</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #24324a;
+      --muted: #65748c;
+      --paper: #fffdf8;
+      --panel: #ffffff;
+      --mint: #bcebdc;
+      --sky: #b8d7ff;
+      --sun: #ffe49b;
+      --berry: #f68aa2;
+      --leaf: #6fc48a;
+      --violet: #9d8be9;
+      --line: #d9e2ef;
+      --shadow: 0 14px 34px rgba(43, 60, 87, 0.14);
+      --radius: 8px;
+      font-family: "Inter", "Nunito", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+      letter-spacing: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(180deg, rgba(184, 215, 255, 0.72), rgba(255, 253, 248, 0.98) 34%),
+        repeating-linear-gradient(90deg, rgba(188, 235, 220, 0.25), rgba(188, 235, 220, 0.25) 18px, transparent 18px, transparent 36px);
+      color: var(--ink);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app > main {
+      flex: 1;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 22px 12px;
+      border-bottom: 1px solid rgba(217, 226, 239, 0.75);
+      background: rgba(255, 253, 248, 0.82);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .bunny-mark {
+      width: 70px;
+      height: 70px;
+      flex: 0 0 auto;
+      filter: drop-shadow(0 8px 14px rgba(36, 50, 74, 0.16));
+    }
+
+    .bunny-mark .bunny-float,
+    .mini-bunny .bunny-float {
+      animation: bunnyFloat 2700ms ease-in-out infinite;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .bunny-mark .bunny-ears,
+    .mini-bunny .bunny-ears {
+      animation: bunnyEarWiggle 3200ms ease-in-out infinite;
+      transform-box: fill-box;
+      transform-origin: center bottom;
+    }
+
+    .sparkle-dot {
+      animation: sparklePulse 1800ms ease-in-out infinite;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .title-block {
+      min-width: 0;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .status-strip {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+      font-weight: 800;
+      box-shadow: 0 6px 16px rgba(43, 60, 87, 0.08);
+      white-space: nowrap;
+    }
+
+    .mode-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      padding: 14px 22px;
+      background: rgba(255, 255, 255, 0.72);
+      border-bottom: 1px solid rgba(217, 226, 239, 0.75);
+    }
+
+    .mode-button {
+      min-height: 58px;
+      border-radius: var(--radius);
+      border: 2px solid transparent;
+      background: #ffffff;
+      color: var(--ink);
+      font-size: 17px;
+      font-weight: 900;
+      box-shadow: 0 8px 18px rgba(43, 60, 87, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .mode-button[aria-pressed="true"] {
+      border-color: #24324a;
+      background: var(--sun);
+      transform: translateY(-1px);
+    }
+
+    main {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 22px;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .stage {
+      min-height: 600px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(217, 226, 239, 0.9);
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .stage-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, rgba(188, 235, 220, 0.86), rgba(184, 215, 255, 0.72));
+    }
+
+    .stage-title {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+
+    .stage-note {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .stage-body {
+      padding: 20px;
+    }
+
+    .learn-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .letter-panel {
+      min-height: 420px;
+      border-radius: var(--radius);
+      border: 2px solid #24324a;
+      background:
+        linear-gradient(180deg, #fffdf8, #f3fbff),
+        radial-gradient(circle at top left, rgba(255, 228, 155, 0.45), transparent 36%);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .letter-stack {
+      text-align: center;
+      display: grid;
+      justify-items: center;
+      gap: 12px;
+      z-index: 1;
+    }
+
+    .big-letter {
+      font-size: 160px;
+      line-height: 0.9;
+      font-weight: 1000;
+      color: #24324a;
+      text-shadow: 0 8px 0 rgba(246, 138, 162, 0.24);
+    }
+
+    .small-letter {
+      font-size: 52px;
+      line-height: 1;
+      font-weight: 1000;
+      color: #65748c;
+    }
+
+    .word-chip {
+      min-width: 170px;
+      min-height: 58px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: var(--radius);
+      background: var(--sun);
+      border: 2px solid #24324a;
+      font-size: 25px;
+      font-weight: 900;
+      padding: 8px 14px;
+    }
+
+    .object-panel {
+      min-height: 420px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #ffffff;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 14px;
+      padding: 20px;
+    }
+
+    .object-scene {
+      min-height: 260px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(184, 215, 255, 0.42), rgba(188, 235, 220, 0.34)),
+        linear-gradient(0deg, rgba(111, 196, 138, 0.12), rgba(255, 255, 255, 0));
+      border: 1px dashed #9eb4ce;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .object-emoji {
+      font-size: 104px;
+      line-height: 1;
+      filter: drop-shadow(0 12px 10px rgba(36, 50, 74, 0.16));
+    }
+
+    .mini-bunny {
+      position: absolute;
+      left: 20px;
+      bottom: 18px;
+      width: 104px;
+      height: 104px;
+      filter: drop-shadow(0 10px 12px rgba(36, 50, 74, 0.18));
+    }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .big-action,
+    .icon-action {
+      min-height: 64px;
+      border-radius: var(--radius);
+      border: 2px solid #24324a;
+      background: #ffffff;
+      color: var(--ink);
+      font-size: 24px;
+      font-weight: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 7px 0 rgba(36, 50, 74, 0.15);
+    }
+
+    .big-action.primary {
+      background: var(--leaf);
+      color: #10271a;
+    }
+
+    .icon-action {
+      aspect-ratio: 1 / 1;
+      min-width: 64px;
+    }
+
+    .match-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .memory-card {
+      aspect-ratio: 1 / 1;
+      min-height: 150px;
+      border-radius: var(--radius);
+      border: 2px solid #24324a;
+      background: var(--sky);
+      color: var(--ink);
+      font-size: 72px;
+      font-weight: 1000;
+      box-shadow: 0 8px 0 rgba(36, 50, 74, 0.14);
+      display: grid;
+      place-items: center;
+      position: relative;
+      transition: transform 140ms ease, background 140ms ease;
+    }
+
+    .memory-card::before {
+      content: "";
+      width: 76px;
+      height: 62px;
+      background:
+        radial-gradient(circle at 30% 30%, #ffffff 0 18px, transparent 19px),
+        radial-gradient(circle at 70% 30%, #ffffff 0 18px, transparent 19px),
+        radial-gradient(circle at 50% 62%, #ffffff 0 30px, transparent 31px);
+      opacity: 0.95;
+      display: block;
+    }
+
+    .memory-card.revealed::before,
+    .memory-card.matched::before {
+      display: none;
+    }
+
+    .memory-card.revealed {
+      background: var(--sun);
+      transform: translateY(-2px);
+    }
+
+    .memory-card.matched {
+      background: var(--mint);
+      border-color: #2f8d5d;
+    }
+
+    .listen-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .listen-pad {
+      border-radius: var(--radius);
+      border: 2px solid #24324a;
+      background: #ffffff;
+      display: grid;
+      place-items: center;
+      gap: 12px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .speaker-button {
+      width: 174px;
+      height: 174px;
+      border-radius: 50%;
+      background: var(--berry);
+      color: #ffffff;
+      border: 4px solid #24324a;
+      font-size: 78px;
+      box-shadow: 0 12px 0 rgba(36, 50, 74, 0.2);
+    }
+
+    .listen-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .choice-button {
+      min-height: 150px;
+      border-radius: var(--radius);
+      border: 2px solid #24324a;
+      background: var(--panel);
+      color: var(--ink);
+      font-size: 82px;
+      line-height: 1;
+      font-weight: 1000;
+      box-shadow: 0 8px 0 rgba(36, 50, 74, 0.14);
+    }
+
+    .choice-button.correct {
+      background: var(--mint);
+      border-color: #2f8d5d;
+    }
+
+    .choice-button.wrong {
+      background: #ffd3d3;
+      border-color: #c94c4c;
+    }
+
+    .side-panel {
+      display: grid;
+      gap: 14px;
+    }
+
+    .progress-panel,
+    .focus-panel,
+    .parent-panel {
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 10px 22px rgba(43, 60, 87, 0.1);
+      padding: 15px;
+    }
+
+    .panel-title {
+      margin: 0 0 12px;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .focus-letters {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .focus-letter {
+      min-height: 54px;
+      border-radius: var(--radius);
+      border: 2px solid #24324a;
+      display: grid;
+      place-items: center;
+      font-size: 30px;
+      font-weight: 1000;
+      background: var(--sun);
+    }
+
+    .meter-list {
+      display: grid;
+      gap: 8px;
+      max-height: 260px;
+      overflow: auto;
+      padding-right: 3px;
+    }
+
+    .meter-item {
+      display: grid;
+      grid-template-columns: 34px 1fr 42px;
+      gap: 8px;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .meter-track {
+      height: 12px;
+      border-radius: 999px;
+      background: #e8edf5;
+      overflow: hidden;
+    }
+
+    .meter-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--leaf), var(--sky));
+    }
+
+    .parent-actions {
+      display: grid;
+      gap: 8px;
+    }
+
+    .quiet-button {
+      min-height: 44px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #ffffff;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 900;
+      text-align: center;
+      padding: 8px;
+    }
+
+    .feedback {
+      min-height: 52px;
+      margin-top: 16px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: #f4f8ff;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .reward-sky {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 20;
+    }
+
+    .star-pop {
+      position: absolute;
+      font-size: 34px;
+      animation: floatUp 900ms ease-out forwards;
+    }
+
+    footer {
+      padding: 10px 22px 18px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @keyframes floatUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.78);
+      }
+      20% {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-82px) scale(1.18);
+      }
+    }
+
+    @keyframes bunnyFloat {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-4px);
+      }
+    }
+
+    @keyframes bunnyEarWiggle {
+      0%,
+      100% {
+        transform: rotate(0deg);
+      }
+      46% {
+        transform: rotate(-3deg);
+      }
+      56% {
+        transform: rotate(2deg);
+      }
+    }
+
+    @keyframes sparklePulse {
+      0%,
+      100% {
+        opacity: 0.55;
+        transform: scale(0.86);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.08);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+
+      .side-panel {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .parent-panel {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .status-strip {
+        justify-content: flex-start;
+      }
+
+      .mode-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: 12px;
+      }
+
+      main {
+        padding: 12px;
+      }
+
+      .learn-layout,
+      .listen-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .letter-panel,
+      .object-panel {
+        min-height: 310px;
+      }
+
+      .big-letter {
+        font-size: 112px;
+      }
+
+      .small-letter {
+        font-size: 42px;
+      }
+
+      .action-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .match-grid {
+        gap: 10px;
+      }
+
+      .memory-card {
+        min-height: 108px;
+        font-size: 54px;
+      }
+
+      .choice-button {
+        min-height: 112px;
+        font-size: 62px;
+      }
+
+      .side-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Premium 3D storybook visual pass */
+    :root {
+      --ink: #3f3555;
+      --muted: #746985;
+      --paper: #fffaf3;
+      --panel: #ffffff;
+      --mint: #aee7ce;
+      --sky: #b9ddff;
+      --sun: #ffe58f;
+      --berry: #f586a6;
+      --leaf: #79cb94;
+      --violet: #8e7ad9;
+      --line: #e7dfee;
+      --shadow: 0 18px 44px rgba(73, 54, 92, 0.16);
+    }
+
+    body {
+      background: linear-gradient(180deg, #fff4e8 0%, #f3faff 48%, #fffdf8 100%);
+    }
+
+    .topbar {
+      padding: 16px 24px 14px;
+      background: rgba(255, 252, 247, 0.88);
+      border-bottom-color: rgba(231, 223, 238, 0.86);
+      box-shadow: 0 8px 28px rgba(105, 82, 115, 0.08);
+    }
+
+    .bunny-mark {
+      width: 72px;
+      height: 72px;
+      border: 4px solid #ffffff;
+      border-radius: 50%;
+      background-image: url("bunny_garden_3d_v1.webp");
+      background-position: 78% 39%;
+      background-size: 270% auto;
+      background-repeat: no-repeat;
+      box-shadow: 0 9px 20px rgba(86, 66, 102, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+      filter: none;
+    }
+
+    .bunny-mark > * {
+      opacity: 0;
+    }
+
+    h1 {
+      color: #403456;
+      font-size: 30px;
+      text-shadow: 0 2px 0 #ffffff;
+    }
+
+    .subtitle {
+      color: #7c6b86;
+      font-weight: 700;
+    }
+
+    .pill {
+      border-color: rgba(226, 210, 233, 0.95);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 7px 18px rgba(80, 59, 93, 0.1), inset 0 2px 0 #ffffff;
+    }
+
+    .mode-row {
+      padding: 12px 24px 14px;
+      background: rgba(255, 255, 255, 0.68);
+      border-bottom-color: rgba(231, 223, 238, 0.8);
+    }
+
+    .mode-button {
+      min-height: 56px;
+      border: 1px solid rgba(225, 215, 235, 0.92);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 8px 18px rgba(83, 65, 96, 0.1), inset 0 2px 0 #ffffff;
+      transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+    }
+
+    .mode-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 11px 22px rgba(83, 65, 96, 0.14), inset 0 2px 0 #ffffff;
+    }
+
+    .mode-button[aria-pressed="true"] {
+      border-color: #f0bf5e;
+      background: linear-gradient(180deg, #fff4b9, #ffdd73);
+      box-shadow: 0 8px 0 #e8b85b, 0 14px 24px rgba(161, 112, 46, 0.14), inset 0 2px 0 rgba(255, 255, 255, 0.85);
+      transform: translateY(-3px);
+    }
+
+    main {
+      width: min(1240px, 100%);
+      padding: 22px 24px 28px;
+    }
+
+    .dashboard {
+      grid-template-columns: minmax(0, 1fr) 292px;
+      gap: 20px;
+    }
+
+    .stage {
+      min-height: 640px;
+      border: 1px solid rgba(231, 223, 238, 0.9);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 24px 56px rgba(82, 61, 94, 0.17);
+    }
+
+    .stage-header {
+      padding: 15px 18px;
+      border-bottom-color: rgba(229, 215, 235, 0.84);
+      background: linear-gradient(90deg, #c8f0df 0%, #d6e9ff 55%, #ffe8b8 100%);
+    }
+
+    .stage-title {
+      color: #493b5c;
+      font-size: 23px;
+    }
+
+    .stage-body {
+      padding: 18px;
+    }
+
+    .learn-layout {
+      display: block;
+    }
+
+    .storybook-card {
+      display: grid;
+      gap: 14px;
+    }
+
+    .storybook-scene {
+      position: relative;
+      min-height: 500px;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      isolation: isolate;
+      border: 4px solid #ffffff;
+      border-radius: var(--radius);
+      background: #dff2ff;
+      box-shadow: 0 18px 40px rgba(83, 62, 90, 0.18), inset 0 0 0 1px rgba(99, 80, 99, 0.08);
+    }
+
+    .storybook-scene::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(90deg, rgba(255, 250, 239, 0.3), transparent 52%);
+      pointer-events: none;
+    }
+
+    .storybook-scene::after {
+      content: "";
+      position: absolute;
+      inset: -2%;
+      z-index: -2;
+      background-image: url("bunny_garden_3d_v1.webp");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      transform: scale(1.02);
+      animation: sceneDrift 10s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    .storybook-scene.is-speaking .object-scene {
+      animation: objectSpeak 560ms cubic-bezier(0.2, 0.85, 0.25, 1.25);
+    }
+
+    .storybook-scene.is-celebrating .object-scene {
+      animation: objectCelebrate 680ms cubic-bezier(0.18, 0.9, 0.25, 1.25);
+    }
+
+    .storybook-scene.is-celebrating::before {
+      background: linear-gradient(90deg, rgba(255, 250, 239, 0.42), rgba(255, 240, 150, 0.18), transparent 72%);
+    }
+
+    .storybook-scene .letter-panel {
+      position: absolute;
+      top: 6.5%;
+      left: 5%;
+      width: 38%;
+      min-height: 77%;
+      padding: 20px 14px;
+      border: 3px solid rgba(255, 255, 255, 0.96);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 22px 48px rgba(78, 60, 87, 0.2), inset 0 0 30px rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(13px) saturate(1.14);
+      -webkit-backdrop-filter: blur(13px) saturate(1.14);
+    }
+
+    .letter-stack {
+      gap: 8px;
+      width: 100%;
+    }
+
+    .big-letter {
+      font-size: 172px;
+      line-height: 0.82;
+      color: #6250a7;
+      text-shadow:
+        0 4px 0 #ffffff,
+        0 10px 0 #f6a3b8,
+        0 17px 24px rgba(88, 62, 106, 0.25);
+      transform: translateZ(0);
+      transition: transform 180ms ease;
+    }
+
+    .big-letter:hover {
+      transform: translateY(-4px) rotate(-2deg) scale(1.03);
+    }
+
+    .letter-panel.letter-pop .big-letter {
+      animation: letterPop 420ms cubic-bezier(0.2, 0.9, 0.24, 1.25);
+    }
+
+    .small-letter {
+      color: #71608c;
+      font-size: 58px;
+      text-shadow: 0 3px 0 #ffffff, 0 7px 12px rgba(78, 59, 91, 0.16);
+    }
+
+    .word-chip {
+      min-width: min(210px, 92%);
+      min-height: 58px;
+      border: 2px solid rgba(169, 114, 58, 0.42);
+      background: linear-gradient(180deg, #fff4b0, #ffd974);
+      box-shadow: 0 7px 0 #e8b55d, 0 12px 20px rgba(127, 84, 47, 0.17), inset 0 3px 0 rgba(255, 255, 255, 0.72);
+      color: #493b58;
+    }
+
+    .object-scene {
+      position: absolute;
+      left: 45%;
+      top: 47%;
+      width: 128px;
+      height: 128px;
+      min-height: 0;
+      border: 3px solid rgba(255, 255, 255, 0.96);
+      border-radius: 50%;
+      background: radial-gradient(circle at 36% 28%, #ffffff 0 18%, rgba(255, 255, 255, 0.94) 35%, rgba(219, 245, 255, 0.88) 72%, rgba(175, 219, 242, 0.84) 100%);
+      box-shadow: 0 16px 34px rgba(67, 87, 99, 0.22), inset 0 -9px 20px rgba(102, 164, 194, 0.18), inset 0 7px 16px rgba(255, 255, 255, 0.94);
+      animation: objectBob 2600ms ease-in-out infinite;
+    }
+
+    .object-scene::after {
+      content: "";
+      position: absolute;
+      top: 15px;
+      left: 22px;
+      width: 28px;
+      height: 13px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.8);
+      transform: rotate(-28deg);
+    }
+
+    .object-emoji {
+      font-size: 80px;
+      filter: drop-shadow(0 10px 8px rgba(64, 57, 68, 0.2));
+      transform: translateY(2px);
+    }
+
+    .scene-sparkle {
+      position: absolute;
+      color: #fff6a7;
+      line-height: 1;
+      text-shadow: 0 2px 10px rgba(255, 184, 63, 0.62);
+      animation: sparklePulse 1800ms ease-in-out infinite;
+    }
+
+    .sparkle-one {
+      left: 47%;
+      top: 35%;
+      font-size: 26px;
+    }
+
+    .sparkle-two {
+      left: 56%;
+      top: 56%;
+      font-size: 18px;
+      animation-delay: 420ms;
+    }
+
+    .storybook-card .action-row {
+      grid-template-columns: 72px 86px 72px minmax(140px, 1fr);
+      justify-content: center;
+      width: min(560px, 100%);
+      margin: 0 auto;
+      gap: 12px;
+    }
+
+    .big-action,
+    .icon-action {
+      min-height: 68px;
+      border: 1px solid rgba(183, 166, 194, 0.9);
+      background: linear-gradient(180deg, #ffffff, #f5f0f8);
+      color: #4b3e5d;
+      box-shadow: 0 7px 0 #d4c7dd, 0 12px 18px rgba(72, 54, 84, 0.13), inset 0 3px 0 #ffffff;
+      transition: transform 110ms ease, box-shadow 110ms ease;
+    }
+
+    .big-action.primary {
+      border-color: #48a96c;
+      background: linear-gradient(180deg, #9be1af, #61c783);
+      color: #234b31;
+      box-shadow: 0 7px 0 #409d61, 0 12px 18px rgba(49, 117, 72, 0.19), inset 0 3px 0 rgba(255, 255, 255, 0.55);
+    }
+
+    .big-action:active,
+    .icon-action:active,
+    .memory-card:active,
+    .choice-button:active,
+    .speaker-button:active {
+      transform: translateY(5px) scale(0.985);
+      box-shadow: 0 2px 0 #c5b6ce, 0 5px 10px rgba(72, 54, 84, 0.12);
+    }
+
+    .feedback {
+      border-color: rgba(210, 199, 223, 0.9);
+      background: linear-gradient(180deg, #fffaff, #f6f2ff);
+      box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .memory-card {
+      border: 3px solid #ffffff;
+      background: linear-gradient(145deg, #cbe7ff 0%, #a8cff7 55%, #95bfe9 100%);
+      box-shadow: 0 9px 0 #83a9cf, 0 15px 25px rgba(62, 77, 105, 0.16), inset 0 4px 0 rgba(255, 255, 255, 0.68);
+    }
+
+    .memory-card::before {
+      width: 88px;
+      height: 70px;
+      border-radius: 50%;
+      background:
+        radial-gradient(ellipse at 29% 6%, #ffd4df 0 9px, #fff 10px 18px, transparent 19px),
+        radial-gradient(ellipse at 71% 6%, #ffd4df 0 9px, #fff 10px 18px, transparent 19px),
+        radial-gradient(circle at 50% 62%, #fff 0 31px, transparent 32px);
+      filter: drop-shadow(0 8px 6px rgba(70, 86, 112, 0.16));
+    }
+
+    .memory-card.revealed {
+      background: linear-gradient(180deg, #fff1ad, #ffd767);
+      box-shadow: 0 9px 0 #e7b849, 0 15px 25px rgba(111, 80, 36, 0.15), inset 0 4px 0 rgba(255, 255, 255, 0.7);
+    }
+
+    .memory-card.matched {
+      background: linear-gradient(180deg, #b9efd2, #7ed49f);
+      border-color: #ffffff;
+      box-shadow: 0 9px 0 #58b77d, 0 15px 25px rgba(49, 110, 72, 0.14), inset 0 4px 0 rgba(255, 255, 255, 0.65);
+    }
+
+    .listen-pad {
+      position: relative;
+      overflow: hidden;
+      border: 4px solid #ffffff;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.28)),
+        url("bunny_garden_3d_v1.webp");
+      background-position: center, 78% 40%;
+      background-size: auto, 270% auto;
+      background-repeat: no-repeat;
+      box-shadow: 0 15px 30px rgba(75, 59, 88, 0.15);
+    }
+
+    .listen-pad .stage-note {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.86);
+      color: #493c5a;
+      backdrop-filter: blur(8px);
+    }
+
+    .speaker-button {
+      border-color: #ffffff;
+      background: linear-gradient(180deg, #ff9ab4, #ef6f96);
+      box-shadow: 0 11px 0 #c95077, 0 18px 28px rgba(131, 57, 82, 0.22), inset 0 4px 0 rgba(255, 255, 255, 0.52);
+    }
+
+    .choice-button {
+      border: 3px solid #ffffff;
+      background: linear-gradient(180deg, #ffffff, #eee8f7);
+      box-shadow: 0 9px 0 #d0c4de, 0 15px 25px rgba(70, 52, 82, 0.14), inset 0 4px 0 #ffffff;
+      color: #604da0;
+      text-shadow: 0 4px 0 #ffffff, 0 8px 10px rgba(81, 62, 97, 0.16);
+    }
+
+    .progress-panel,
+    .focus-panel,
+    .parent-panel {
+      border-color: rgba(226, 215, 234, 0.96);
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 14px 28px rgba(77, 58, 90, 0.11), inset 0 2px 0 #ffffff;
+    }
+
+    .focus-panel {
+      border-top: 5px solid #ffd66d;
+    }
+
+    .progress-panel {
+      border-top: 5px solid #91d9bb;
+    }
+
+    .parent-panel {
+      border-top: 5px solid #b7a8ed;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .parent-summary {
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 15px;
+      color: #493c5a;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+    }
+
+    .parent-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .parent-chevron {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #eee8fa;
+      transition: transform 160ms ease;
+    }
+
+    .parent-panel[open] .parent-summary {
+      border-bottom: 1px solid #e5dced;
+    }
+
+    .parent-panel[open] .parent-chevron {
+      transform: rotate(180deg);
+    }
+
+    .parent-panel .parent-actions {
+      padding: 12px 14px 15px;
+    }
+
+    .focus-letter {
+      border: 2px solid #ffffff;
+      background: linear-gradient(180deg, #fff1ae, #ffd66b);
+      color: #594471;
+      box-shadow: 0 5px 0 #e6b848, inset 0 3px 0 rgba(255, 255, 255, 0.7);
+      text-shadow: 0 2px 0 #ffffff;
+    }
+
+    .quiet-button {
+      border-color: #e1d7e8;
+      background: linear-gradient(180deg, #ffffff, #f6f1fa);
+      box-shadow: 0 3px 0 #e0d6e7, inset 0 2px 0 #ffffff;
+    }
+
+    .world-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      padding: 12px 18px 4px;
+      background: rgba(255, 255, 255, 0.82);
+      border-bottom: 1px solid rgba(223, 211, 230, 0.75);
+    }
+
+    .world-button {
+      min-width: 0;
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 2px solid #e5dcec;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ffffff, #f7f2fa);
+      color: #574866;
+      font-size: 17px;
+      font-weight: 950;
+      box-shadow: 0 4px 0 #ded3e5, inset 0 2px 0 #ffffff;
+      transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+    }
+
+    .world-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #ded3e5, 0 10px 20px rgba(72, 55, 84, 0.08);
+    }
+
+    .world-button:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #ded3e5;
+    }
+
+    .world-button[aria-pressed="true"] {
+      border-color: #6dcab0;
+      background: linear-gradient(180deg, #eafff8, #c9f3e6);
+      color: #315b51;
+      box-shadow: 0 4px 0 #83cdb8, inset 0 2px 0 rgba(255, 255, 255, 0.85);
+    }
+
+    .world-icon {
+      font-size: 25px;
+      line-height: 1;
+    }
+
+    .discovery-main[hidden],
+    .mode-row[hidden],
+    main[hidden] {
+      display: none !important;
+    }
+
+    .discovery-main {
+      width: min(1380px, 100%);
+      padding: 16px 18px 22px;
+    }
+
+    .discovery-shell {
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+
+    .discovery-scene {
+      --world-image: url("bunny_physics_3d_v1.webp");
+      position: relative;
+      isolation: isolate;
+      min-height: 650px;
+      overflow: hidden;
+      border: 4px solid #ffffff;
+      border-radius: 8px;
+      background-image: var(--world-image);
+      background-position: center;
+      background-size: cover;
+      box-shadow: 0 18px 45px rgba(72, 55, 84, 0.17), inset 0 0 0 1px rgba(74, 60, 80, 0.08);
+    }
+
+    .discovery-scene[data-subject="physics"] {
+      --world-image: url("bunny_physics_3d_v1.webp");
+      --accent: #ef7f5f;
+      --accent-soft: #fff0e9;
+      --accent-shadow: #cf6549;
+    }
+
+    .discovery-scene[data-subject="quantum"] {
+      --world-image: url("bunny_quantum_3d_v1.webp");
+      --accent: #35a9bd;
+      --accent-soft: #e5fbff;
+      --accent-shadow: #258498;
+    }
+
+    .discovery-scene[data-subject="science"] {
+      --world-image: url("bunny_science_3d_v1.webp");
+      --accent: #55ad78;
+      --accent-soft: #e9faef;
+      --accent-shadow: #348754;
+    }
+
+    .discovery-scene::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(90deg, rgba(255, 252, 247, 0.34), rgba(255, 255, 255, 0) 58%);
+      pointer-events: none;
+    }
+
+    .lesson-console,
+    .experiment-zone {
+      position: absolute;
+      left: 3.5%;
+      width: 40%;
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: 0 14px 34px rgba(61, 48, 70, 0.15), inset 0 2px 0 rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(16px) saturate(1.08);
+      -webkit-backdrop-filter: blur(16px) saturate(1.08);
+    }
+
+    .lesson-console {
+      top: 4.5%;
+      padding: 18px;
+    }
+
+    .lesson-kicker {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 950;
+    }
+
+    .lesson-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+      margin: 10px 0 16px;
+    }
+
+    .lesson-tab {
+      min-width: 0;
+      min-height: 48px;
+      padding: 7px 5px;
+      border: 2px solid #e5dfea;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #6b5c75;
+      font-size: 14px;
+      font-weight: 900;
+      box-shadow: 0 3px 0 #ded7e4;
+    }
+
+    .lesson-tab[aria-pressed="true"] {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: #37404b;
+      box-shadow: 0 3px 0 var(--accent-shadow);
+    }
+
+    .lesson-title {
+      margin: 0;
+      color: #403456;
+      font-size: 31px;
+      line-height: 1.12;
+    }
+
+    .lesson-line {
+      min-height: 54px;
+      margin: 10px 0 14px;
+      color: #675a70;
+      font-size: 18px;
+      font-weight: 760;
+      line-height: 1.5;
+    }
+
+    .lesson-actions {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 9px;
+    }
+
+    .speak-discovery,
+    .run-experiment {
+      min-height: 58px;
+      border: 0;
+      border-radius: 8px;
+      color: #ffffff;
+      font-weight: 950;
+      box-shadow: 0 5px 0 var(--accent-shadow);
+    }
+
+    .speak-discovery {
+      background: linear-gradient(180deg, #776a83, #5b4e66);
+      font-size: 24px;
+      box-shadow: 0 5px 0 #43394a;
+    }
+
+    .run-experiment {
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 78%, white), var(--accent));
+      font-size: 19px;
+    }
+
+    .speak-discovery:active,
+    .run-experiment:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 var(--accent-shadow);
+    }
+
+    .experiment-zone {
+      bottom: 4.5%;
+      height: 190px;
+      padding: 10px 14px 12px;
+      overflow: hidden;
+    }
+
+    .experiment-label {
+      position: relative;
+      z-index: 5;
+      color: #6d6075;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .experiment-visual {
+      position: absolute;
+      inset: 30px 12px 10px;
+      overflow: hidden;
+    }
+
+    .discovery-feedback {
+      position: absolute;
+      right: 3.5%;
+      bottom: 4.5%;
+      z-index: 4;
+      max-width: 38%;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      padding: 9px 14px;
+      border: 2px solid rgba(255, 255, 255, 0.88);
+      border-radius: 8px;
+      background: rgba(52, 44, 61, 0.72);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 850;
+      line-height: 1.4;
+      box-shadow: 0 10px 24px rgba(43, 34, 49, 0.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .discovery-parent {
+      margin-top: 12px;
+      border: 1px solid #ded4e5;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.92);
+      color: #5f5368;
+      box-shadow: 0 8px 22px rgba(65, 49, 76, 0.08);
+    }
+
+    .discovery-parent summary {
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      padding: 9px 14px;
+      color: #4f4359;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .discovery-parent p {
+      margin: 0;
+      padding: 0 14px 14px;
+      line-height: 1.6;
+    }
+
+    .toy-ramp {
+      position: absolute;
+      left: 20%;
+      bottom: 18px;
+      width: 58%;
+      height: 24px;
+      border: 4px solid #8a6447;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #f1c17e, #c98d51);
+      transform: rotate(15deg);
+      box-shadow: 0 9px 12px rgba(76, 52, 37, 0.18);
+    }
+
+    .rolling-ball {
+      position: absolute;
+      left: 15%;
+      bottom: 78px;
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(119, 46, 35, 0.28);
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 26%, #ffffff 0 7%, #ff8e72 10%, #eb4e38 62%, #b72f24 100%);
+      box-shadow: 0 8px 14px rgba(95, 45, 38, 0.22);
+    }
+
+    .is-running .rolling-ball {
+      animation: ballRoll 1.25s cubic-bezier(.2, .72, .32, 1) both;
+    }
+
+    .balloon-toy {
+      position: absolute;
+      left: 20%;
+      bottom: 24px;
+      width: 58px;
+      height: 70px;
+      border-radius: 50% 50% 45% 45%;
+      background: radial-gradient(circle at 32% 25%, #fff8ba 0 8%, #ffd74d 15%, #f1a928 75%);
+      box-shadow: 0 9px 16px rgba(123, 89, 26, 0.2);
+    }
+
+    .balloon-toy::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 67px;
+      width: 2px;
+      height: 55px;
+      background: #8c796a;
+    }
+
+    .stone-toy {
+      position: absolute;
+      right: 22%;
+      top: 8px;
+      width: 58px;
+      height: 45px;
+      border-radius: 50% 55% 42% 48%;
+      background: linear-gradient(145deg, #b5b9c1, #747d89);
+      box-shadow: 0 8px 12px rgba(45, 51, 61, 0.24);
+    }
+
+    .is-running .balloon-toy {
+      animation: balloonRise 1.25s ease-out both;
+    }
+
+    .is-running .stone-toy {
+      animation: stoneDrop .82s cubic-bezier(.25, .8, .45, 1) both;
+    }
+
+    .water-tub {
+      position: absolute;
+      left: 9%;
+      right: 9%;
+      bottom: 8px;
+      height: 82px;
+      overflow: hidden;
+      border: 6px solid rgba(110, 179, 206, 0.72);
+      border-radius: 8px 8px 28px 28px;
+      background: linear-gradient(180deg, rgba(146, 227, 245, 0.68), rgba(70, 180, 220, 0.82));
+      box-shadow: inset 0 8px 12px rgba(255, 255, 255, 0.45);
+    }
+
+    .toy-boat {
+      position: absolute;
+      left: 24%;
+      top: -4px;
+      width: 64px;
+      height: 32px;
+      border-radius: 5px 5px 28px 28px;
+      background: linear-gradient(180deg, #fff3ab, #f0a62f);
+      box-shadow: 0 7px 9px rgba(62, 99, 118, 0.2);
+    }
+
+    .water-pebble {
+      position: absolute;
+      right: 25%;
+      top: -38px;
+      width: 44px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #a7abb1, #69727f);
+    }
+
+    .is-running .toy-boat {
+      animation: boatBob 1.15s ease-in-out both;
+    }
+
+    .is-running .water-pebble {
+      animation: pebbleSink 1.1s ease-in both;
+    }
+
+    .light-source,
+    .light-detector {
+      position: absolute;
+      top: 46px;
+      width: 54px;
+      height: 54px;
+      border: 6px solid #6ca9b6;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fffbd2 0 25%, #ffd85f 38%, #e8a83d 68%);
+      box-shadow: 0 0 24px rgba(255, 206, 83, 0.55);
+    }
+
+    .light-source { left: 7%; }
+    .light-detector { right: 7%; border-radius: 12px; }
+
+    .photon-dot {
+      --delay: 0ms;
+      position: absolute;
+      left: 21%;
+      top: 64px;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #ffe46f;
+      box-shadow: 0 0 12px #ffd64c;
+      opacity: 0;
+    }
+
+    .photon-dot:nth-child(2) { --delay: 0ms; }
+    .photon-dot:nth-child(3) { --delay: 100ms; }
+    .photon-dot:nth-child(4) { --delay: 200ms; }
+    .photon-dot:nth-child(5) { --delay: 300ms; }
+    .photon-dot:nth-child(6) { --delay: 400ms; }
+    .photon-dot:nth-child(7) { --delay: 500ms; }
+
+    .is-running .photon-dot {
+      animation: photonTravel .85s var(--delay) linear both;
+    }
+
+    .chance-clouds {
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      align-items: center;
+      gap: 9px;
+    }
+
+    .chance-cloud {
+      position: relative;
+      height: 78px;
+      border: 3px solid rgba(74, 164, 183, 0.38);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.95), rgba(176, 227, 235, 0.56));
+      box-shadow: 0 8px 16px rgba(55, 113, 125, 0.12);
+    }
+
+    .chance-cloud::after {
+      content: "";
+      position: absolute;
+      inset: 28%;
+      border-radius: 50%;
+      background: #ffe269;
+      box-shadow: 0 0 16px #ffd84f;
+      opacity: .22;
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .choice-0 .chance-cloud:nth-child(1)::after,
+    .choice-1 .chance-cloud:nth-child(2)::after,
+    .choice-2 .chance-cloud:nth-child(3)::after {
+      opacity: 1;
+      transform: scale(1.35);
+    }
+
+    .slit-gate {
+      position: absolute;
+      left: 45%;
+      top: 16px;
+      width: 28px;
+      height: 110px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #6aa4b1 0 28%, transparent 28% 42%, #6aa4b1 42% 58%, transparent 58% 72%, #6aa4b1 72%);
+    }
+
+    .stripe-screen {
+      position: absolute;
+      right: 7%;
+      top: 18px;
+      width: 27%;
+      height: 106px;
+      border: 5px solid #6595a2;
+      border-radius: 8px;
+      background: repeating-linear-gradient(90deg, #fff7c8 0 7px, #e3a93e 7px 12px, #6b8794 12px 17px);
+      box-shadow: 0 7px 15px rgba(53, 76, 84, 0.17);
+      opacity: .28;
+    }
+
+    .interference-beam {
+      position: absolute;
+      left: 8%;
+      top: 62px;
+      width: 37%;
+      height: 14px;
+      border-radius: 7px;
+      background: linear-gradient(90deg, #ffe879, rgba(255, 232, 121, 0.2));
+      box-shadow: 0 0 15px #ffe15d;
+      opacity: 0;
+    }
+
+    .is-running .interference-beam {
+      animation: beamGrow .7s ease-out both;
+    }
+
+    .is-running .stripe-screen {
+      animation: stripesAppear 1.25s .45s ease-out both;
+    }
+
+    .mix-cups {
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 13px;
+      padding-bottom: 8px;
+    }
+
+    .mix-cup {
+      position: relative;
+      width: 64px;
+      height: 82px;
+      overflow: hidden;
+      border: 5px solid rgba(117, 167, 184, 0.55);
+      border-top-width: 2px;
+      border-radius: 5px 5px 17px 17px;
+      background: rgba(255, 255, 255, 0.52);
+    }
+
+    .mix-cup::after {
+      content: "";
+      position: absolute;
+      inset: 34px 3px 3px;
+      border-radius: 3px 3px 11px 11px;
+      background: var(--liquid, #ef5a51);
+    }
+
+    .mix-plus {
+      align-self: center;
+      color: #756680;
+      font-size: 28px;
+      font-weight: 950;
+    }
+
+    .mix-result::after {
+      background: #f2a640;
+      transform: scaleY(0);
+      transform-origin: bottom;
+    }
+
+    .is-running .mix-result::after {
+      animation: fillCup .95s ease-out both;
+    }
+
+    .horseshoe {
+      position: absolute;
+      left: 8%;
+      top: 23px;
+      width: 100px;
+      height: 100px;
+      border: 24px solid #ef5548;
+      border-bottom-color: transparent;
+      border-radius: 55px 55px 24px 24px;
+      box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.35), 0 9px 15px rgba(90, 45, 42, 0.18);
+      transform: rotate(-90deg);
+    }
+
+    .metal-star {
+      --star-x: -110px;
+      position: absolute;
+      right: 9%;
+      top: var(--star-y, 25px);
+      color: #a8b3bd;
+      font-size: 34px;
+      filter: drop-shadow(0 4px 3px rgba(42, 49, 57, 0.2));
+    }
+
+    .metal-star:nth-child(3) { --star-y: 75px; --star-x: -82px; }
+    .metal-star:nth-child(4) { --star-y: 44px; --star-x: -55px; }
+
+    .is-running .metal-star {
+      animation: magnetPull .85s ease-in both;
+    }
+
+    .plant-pot {
+      position: absolute;
+      left: 42%;
+      bottom: 4px;
+      width: 86px;
+      height: 54px;
+      border-radius: 8px 8px 28px 28px;
+      background: linear-gradient(180deg, #ed9d67, #bd653d);
+      box-shadow: 0 8px 12px rgba(91, 53, 38, 0.17);
+    }
+
+    .plant-stem {
+      position: absolute;
+      left: calc(50% - 5px);
+      bottom: 50px;
+      width: 10px;
+      height: 38px;
+      border-radius: 8px;
+      background: #54a766;
+      transform: scaleY(.18) rotate(0deg);
+      transform-origin: bottom;
+    }
+
+    .plant-leaf {
+      position: absolute;
+      left: 47%;
+      bottom: 82px;
+      width: 42px;
+      height: 25px;
+      border-radius: 100% 10% 100% 10%;
+      background: linear-gradient(145deg, #80cb6f, #3e9253);
+      opacity: 0;
+      transform: rotate(-18deg) scale(.3);
+    }
+
+    .plant-leaf.second {
+      left: 38%;
+      bottom: 68px;
+      transform: rotate(198deg) scale(.3);
+    }
+
+    .sun-toy {
+      position: absolute;
+      right: 8%;
+      top: 8px;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fffbd2 0 20%, #ffe16a 24%, #f8b937 76%);
+      box-shadow: 0 0 24px rgba(255, 202, 56, .62);
+    }
+
+    .is-running .plant-stem {
+      animation: sproutGrow 1.2s ease-out both;
+    }
+
+    .is-running .plant-leaf {
+      animation: leafGrow .8s .55s ease-out both;
+    }
+
+    .is-running .plant-leaf.second {
+      animation: leafGrowSecond .8s .72s ease-out both;
+    }
+
+    @keyframes ballRoll {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      72% { transform: translate(205px, 55px) rotate(560deg); }
+      100% { transform: translate(235px, 55px) rotate(650deg); }
+    }
+
+    @keyframes balloonRise {
+      to { transform: translateY(-115px) rotate(5deg); }
+    }
+
+    @keyframes stoneDrop {
+      0% { transform: translateY(0) rotate(0deg); }
+      82% { transform: translateY(92px) rotate(18deg); }
+      100% { transform: translateY(86px) rotate(14deg); }
+    }
+
+    @keyframes boatBob {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(7px) rotate(3deg); }
+    }
+
+    @keyframes pebbleSink {
+      to { transform: translateY(96px) rotate(24deg); }
+    }
+
+    @keyframes photonTravel {
+      0% { opacity: 0; transform: translateX(0) scale(.5); }
+      18% { opacity: 1; }
+      82% { opacity: 1; }
+      100% { opacity: 0; transform: translateX(220px) scale(1.12); }
+    }
+
+    @keyframes beamGrow {
+      from { opacity: 0; transform: scaleX(.05); transform-origin: left; }
+      to { opacity: 1; transform: scaleX(1); transform-origin: left; }
+    }
+
+    @keyframes stripesAppear {
+      from { opacity: .25; transform: scale(.93); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fillCup {
+      to { transform: scaleY(1); }
+    }
+
+    @keyframes magnetPull {
+      to { transform: translateX(var(--star-x)) rotate(270deg) scale(.9); }
+    }
+
+    @keyframes sproutGrow {
+      0% { transform: scaleY(.18) rotate(0deg); }
+      70% { transform: scaleY(1) rotate(4deg); }
+      100% { transform: scaleY(1) rotate(9deg); }
+    }
+
+    @keyframes leafGrow {
+      to { opacity: 1; transform: rotate(-18deg) scale(1); }
+    }
+
+    @keyframes leafGrowSecond {
+      to { opacity: 1; transform: rotate(198deg) scale(1); }
+    }
+
+    @keyframes objectBob {
+      0%,
+      100% {
+        transform: translateY(0) rotate(-2deg);
+      }
+      50% {
+        transform: translateY(-9px) rotate(2deg);
+      }
+    }
+
+    @keyframes sceneDrift {
+      0% {
+        transform: scale(1.02) translate3d(-0.25%, 0, 0);
+      }
+      100% {
+        transform: scale(1.045) translate3d(0.35%, -0.35%, 0);
+      }
+    }
+
+    @keyframes objectSpeak {
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+      }
+      45% {
+        transform: translateY(-13px) scale(1.1) rotate(5deg);
+      }
+    }
+
+    @keyframes objectCelebrate {
+      0% {
+        transform: translateY(0) scale(1) rotate(0deg);
+      }
+      42% {
+        transform: translateY(-24px) scale(1.15) rotate(-8deg);
+      }
+      72% {
+        transform: translateY(-7px) scale(0.96) rotate(5deg);
+      }
+      100% {
+        transform: translateY(0) scale(1) rotate(0deg);
+      }
+    }
+
+    @keyframes letterPop {
+      0% {
+        transform: scale(0.82) rotate(-4deg);
+      }
+      68% {
+        transform: scale(1.06) rotate(2deg);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    @media (max-width: 1040px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+
+      .side-panel {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .parent-panel {
+        grid-column: auto;
+      }
+
+      .lesson-console,
+      .experiment-zone {
+        width: 44%;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        padding: 13px 14px 12px;
+        gap: 10px;
+      }
+
+      .brand {
+        gap: 10px;
+      }
+
+      .bunny-mark {
+        width: 58px;
+        height: 58px;
+      }
+
+      .subtitle {
+        margin-top: 4px;
+        font-size: 13px;
+      }
+
+      .status-strip {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 7px;
+      }
+
+      .pill {
+        min-height: 39px;
+        justify-content: center;
+        padding: 6px 7px;
+        font-size: 13px;
+      }
+
+      .mode-row {
+        padding: 10px 12px 12px;
+        gap: 8px;
+      }
+
+      .world-row {
+        padding: 9px 12px 3px;
+        gap: 7px;
+      }
+
+      .world-button {
+        min-height: 56px;
+        flex-direction: column;
+        gap: 2px;
+        padding: 6px 3px;
+        font-size: 13px;
+        line-height: 1.1;
+      }
+
+      .world-icon {
+        font-size: 22px;
+      }
+
+      .mode-button {
+        min-height: 51px;
+        font-size: 15px;
+      }
+
+      main {
+        padding: 12px;
+      }
+
+      .stage {
+        min-height: 0;
+      }
+
+      .stage-header {
+        padding: 13px 14px;
+      }
+
+      .stage-body {
+        padding: 10px;
+      }
+
+      .storybook-scene {
+        min-height: 500px;
+        aspect-ratio: auto;
+      }
+
+      .storybook-scene::after {
+        background-size: auto 100%;
+        background-position: 62% center;
+      }
+
+      .storybook-scene::before {
+        background: linear-gradient(90deg, rgba(255, 248, 236, 0.34), transparent 55%);
+      }
+
+      .storybook-scene .letter-panel {
+        top: 5%;
+        left: 4%;
+        width: 43%;
+        min-height: 57%;
+        padding: 15px 7px;
+      }
+
+      .big-letter {
+        font-size: 112px;
+      }
+
+      .small-letter {
+        font-size: 44px;
+      }
+
+      .word-chip {
+        min-width: 0;
+        width: 92%;
+        min-height: 50px;
+        padding: 7px 5px;
+        gap: 5px;
+        font-size: 18px;
+      }
+
+      .object-scene {
+        left: 39%;
+        top: 55%;
+        width: 98px;
+        height: 98px;
+      }
+
+      .object-emoji {
+        font-size: 62px;
+      }
+
+      .sparkle-one {
+        left: 42%;
+        top: 46%;
+      }
+
+      .sparkle-two {
+        left: 54%;
+        top: 64%;
+      }
+
+      .storybook-card .action-row {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .big-action,
+      .icon-action {
+        min-width: 0;
+        min-height: 58px;
+        font-size: 20px;
+      }
+
+      .feedback {
+        margin-top: 12px;
+        font-size: 15px;
+      }
+
+      .side-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .listen-pad {
+        min-height: 250px;
+      }
+
+      .discovery-main {
+        padding: 12px;
+      }
+
+      .discovery-scene {
+        min-height: 780px;
+        background-position: 67% center;
+      }
+
+      .discovery-scene::before {
+        background: linear-gradient(180deg, rgba(255, 252, 247, .45), rgba(255, 255, 255, 0) 72%);
+      }
+
+      .lesson-console {
+        top: 2.5%;
+        left: 4%;
+        width: 92%;
+        padding: 14px;
+      }
+
+      .lesson-kicker {
+        font-size: 12px;
+      }
+
+      .lesson-tabs {
+        margin: 8px 0 12px;
+      }
+
+      .lesson-tab {
+        min-height: 45px;
+        font-size: 12px;
+      }
+
+      .lesson-title {
+        font-size: 25px;
+      }
+
+      .lesson-line {
+        min-height: 48px;
+        margin: 7px 0 10px;
+        font-size: 16px;
+      }
+
+      .experiment-zone {
+        left: 4%;
+        bottom: 3%;
+        width: 92%;
+        height: 185px;
+      }
+
+      .discovery-feedback {
+        right: 5%;
+        bottom: 27.5%;
+        max-width: 90%;
+        font-size: 13px;
+      }
+
+      .toy-ramp {
+        left: 15%;
+      }
+
+      @keyframes ballRoll {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        72% { transform: translate(190px, 51px) rotate(540deg); }
+        100% { transform: translate(216px, 51px) rotate(620deg); }
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 1ms !important;
+        scroll-behavior: auto !important;
+        transition-duration: 1ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <svg class="bunny-mark" id="bunnyMark" viewBox="0 0 120 120" role="img" aria-label="兔兔小老師">
+          <defs>
+            <linearGradient id="brandBunnyFur" x1="28" x2="92" y1="18" y2="104" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#ffffff"/>
+              <stop offset="0.72" stop-color="#fff4f7"/>
+              <stop offset="1" stop-color="#f7e6ee"/>
+            </linearGradient>
+            <linearGradient id="brandBunnyEar" x1="34" x2="92" y1="10" y2="54" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#ffd9e6"/>
+              <stop offset="1" stop-color="#ffaac6"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="60" cy="104" rx="33" ry="8" fill="#24324a" opacity="0.12"/>
+          <g class="bunny-float">
+            <g class="bunny-ears">
+              <path d="M43 50 C29 30 29 7 42 6 C57 5 59 30 55 52 Z" fill="url(#brandBunnyFur)" stroke="#24324a" stroke-width="3.2" stroke-linejoin="round"/>
+              <path d="M44 43 C37 29 38 15 43 14 C50 14 51 31 49 45 Z" fill="url(#brandBunnyEar)" opacity="0.92"/>
+              <path d="M76 51 C78 28 93 8 104 14 C115 20 103 42 83 55 Z" fill="url(#brandBunnyFur)" stroke="#24324a" stroke-width="3.2" stroke-linejoin="round"/>
+              <path d="M81 45 C84 31 94 20 99 23 C103 26 94 39 84 48 Z" fill="url(#brandBunnyEar)" opacity="0.92"/>
+            </g>
+            <path d="M31 68 C31 45 45 31 61 31 C79 31 93 45 93 68 C93 90 79 101 61 101 C44 101 31 90 31 68 Z" fill="url(#brandBunnyFur)" stroke="#24324a" stroke-width="3.4" stroke-linejoin="round"/>
+            <path d="M42 77 C38 71 39 62 46 58" fill="none" stroke="#e9d4df" stroke-width="4" stroke-linecap="round"/>
+            <path d="M79 77 C84 71 83 62 76 58" fill="none" stroke="#e9d4df" stroke-width="4" stroke-linecap="round"/>
+            <ellipse cx="49" cy="65" rx="5.2" ry="6.2" fill="#24324a"/>
+            <ellipse cx="73" cy="65" rx="5.2" ry="6.2" fill="#24324a"/>
+            <circle cx="51" cy="62" r="1.7" fill="#ffffff"/>
+            <circle cx="75" cy="62" r="1.7" fill="#ffffff"/>
+            <circle cx="41" cy="73" r="6.2" fill="#ff9fbc" opacity="0.65"/>
+            <circle cx="81" cy="73" r="6.2" fill="#ff9fbc" opacity="0.65"/>
+            <path d="M59 71 Q61 73 63 71" fill="none" stroke="#24324a" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M53 78 Q61 84 69 78" fill="none" stroke="#f36f98" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M42 92 Q50 86 57 93" fill="#ffffff" stroke="#24324a" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M80 92 Q72 86 65 93" fill="#ffffff" stroke="#24324a" stroke-width="3" stroke-linejoin="round"/>
+            <rect x="41" y="89" width="40" height="20" rx="8" fill="#ffe49b" stroke="#24324a" stroke-width="3"/>
+            <text x="61" y="104" text-anchor="middle" font-size="15" font-weight="1000" fill="#24324a">ABC</text>
+          </g>
+          <path class="sparkle-dot" d="M22 35 L25 43 L33 46 L25 49 L22 57 L19 49 L11 46 L19 43 Z" fill="#ffe49b" stroke="#24324a" stroke-width="2"/>
+          <path class="sparkle-dot" d="M97 62 L99 67 L104 69 L99 71 L97 76 L95 71 L90 69 L95 67 Z" fill="#bcebdc" stroke="#24324a" stroke-width="1.8"/>
+        </svg>
+        <div class="title-block">
+          <h1 id="appTitle">兔兔小小科學院</h1>
+          <p class="subtitle" id="appSubtitle">今天和兔兔一起認 4 個英文字母。</p>
+        </div>
+      </div>
+      <div class="status-strip" aria-live="polite">
+        <div class="pill" id="starPill">星星 0</div>
+        <div class="pill" id="unlockPill">開啟 4/26</div>
+        <div class="pill" id="todayPill">今天 0</div>
+      </div>
+    </header>
+
+    <nav class="world-row" aria-label="學習世界">
+      <button class="world-button" type="button" data-world="alphabet" aria-pressed="true"><span class="world-icon" aria-hidden="true">🔤</span><span>ABC</span></button>
+      <button class="world-button" type="button" data-world="physics" aria-pressed="false"><span class="world-icon" aria-hidden="true">🛝</span><span>寶寶物理</span></button>
+      <button class="world-button" type="button" data-world="quantum" aria-pressed="false"><span class="world-icon" aria-hidden="true">✨</span><span>寶寶量子</span></button>
+      <button class="world-button" type="button" data-world="science" aria-pressed="false"><span class="world-icon" aria-hidden="true">🔬</span><span>寶寶科學</span></button>
+    </nav>
+
+    <nav class="mode-row" id="alphabetModeRow" aria-label="練習模式">
+      <button class="mode-button" type="button" data-mode="learn" aria-pressed="true">🔤 看字母</button>
+      <button class="mode-button" type="button" data-mode="match" aria-pressed="false">🧩 配對</button>
+      <button class="mode-button" type="button" data-mode="listen" aria-pressed="false">🔊 聽一聽</button>
+      <button class="mode-button" type="button" data-mode="progress" aria-pressed="false">⭐ 進度</button>
+    </nav>
+
+    <main id="alphabetWorld">
+      <div class="dashboard">
+        <section class="stage" aria-live="polite">
+          <div class="stage-header">
+            <h2 class="stage-title" id="stageTitle">看字母</h2>
+            <div class="stage-note" id="stageNote">今天先練 4 個字母</div>
+          </div>
+
+          <div class="stage-body" id="learnView">
+            <div class="learn-layout">
+              <div class="storybook-card">
+                <div class="storybook-scene" id="storybookScene">
+                  <button class="letter-panel" id="learnCard" type="button" aria-label="唸出 A, Apple">
+                    <div class="letter-stack">
+                      <div class="big-letter" id="learnUpper">A</div>
+                      <div class="small-letter" id="learnLower">a</div>
+                      <div class="word-chip"><span id="learnIcon">🍎</span><span id="learnWord">Apple</span></div>
+                    </div>
+                  </button>
+                  <div class="object-scene" aria-hidden="true">
+                    <div class="object-emoji" id="objectEmoji">🍎</div>
+                  </div>
+                  <div class="scene-sparkle sparkle-one" aria-hidden="true">✦</div>
+                  <div class="scene-sparkle sparkle-two" aria-hidden="true">✦</div>
+                </div>
+                <div class="action-row">
+                  <button class="icon-action" type="button" id="prevLetter" title="上一個" aria-label="上一個字母">‹</button>
+                  <button class="icon-action" type="button" id="sayLetter" title="唸字母" aria-label="唸出字母">🔊</button>
+                  <button class="icon-action" type="button" id="nextLetter" title="下一個" aria-label="下一個字母">›</button>
+                  <button class="big-action primary" type="button" id="knowLetter">會了</button>
+                </div>
+              </div>
+            </div>
+            <div class="feedback" id="learnFeedback">點字母或喇叭，兔兔會一起練。</div>
+          </div>
+
+          <div class="stage-body" id="matchView" hidden>
+            <div class="match-grid" id="matchGrid"></div>
+            <div class="feedback" id="matchFeedback">翻兩張，找一樣的大小寫字母。</div>
+          </div>
+
+          <div class="stage-body" id="listenView" hidden>
+            <div class="listen-layout">
+              <div class="listen-pad">
+                <button class="speaker-button" type="button" id="playPrompt" title="再聽一次" aria-label="再聽一次">🔊</button>
+                <div class="stage-note">聽聲音，選字母</div>
+              </div>
+              <div class="listen-options" id="listenOptions"></div>
+            </div>
+            <div class="feedback" id="listenFeedback">先點喇叭，再選兔兔說的字母。</div>
+          </div>
+
+          <div class="stage-body" id="progressView" hidden>
+            <div class="progress-panel">
+              <h3 class="panel-title">字母熟悉度</h3>
+              <div class="meter-list" id="fullProgressList"></div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="side-panel">
+          <section class="focus-panel">
+            <h3 class="panel-title">今日字母</h3>
+            <div class="focus-letters" id="focusLetters"></div>
+          </section>
+
+          <section class="progress-panel">
+            <h3 class="panel-title">練習紀錄</h3>
+            <div class="meter-list" id="miniProgressList"></div>
+          </section>
+
+          <details class="parent-panel">
+            <summary class="parent-summary">
+              <span>⚙️ 家長設定</span>
+              <span class="parent-chevron" aria-hidden="true">⌄</span>
+            </summary>
+            <div class="parent-actions">
+              <button class="quiet-button" type="button" id="newMatch">換一組配對</button>
+              <button class="quiet-button" type="button" id="practiceWeak">練較不熟字母</button>
+              <button class="quiet-button" type="button" id="toggleSoundStyle">聲音：自然語音</button>
+              <button class="quiet-button" type="button" id="resetProgress">重置進度</button>
+            </div>
+          </details>
+        </aside>
+      </div>
+    </main>
+
+    <main class="discovery-main" id="discoveryWorld" hidden>
+      <div class="discovery-shell">
+        <section class="discovery-scene" id="discoveryScene" data-subject="physics" aria-live="polite">
+          <div class="lesson-console">
+            <div class="lesson-kicker" id="lessonKicker">寶寶物理 · 小實驗 1</div>
+            <div class="lesson-tabs" id="lessonTabs" aria-label="選擇小實驗"></div>
+            <h2 class="lesson-title" id="lessonTitle">滾下來</h2>
+            <p class="lesson-line" id="lessonLine">斜斜的路，會讓球越滾越快。</p>
+            <div class="lesson-actions">
+              <button class="speak-discovery" type="button" id="speakDiscovery" title="聽兔兔說" aria-label="聽兔兔說">🔊</button>
+              <button class="run-experiment" type="button" id="runExperiment">放開小球</button>
+            </div>
+          </div>
+
+          <div class="experiment-zone" id="experimentZone">
+            <div class="experiment-label">摸摸看，會發生什麼？</div>
+            <div class="experiment-visual" id="experimentVisual"></div>
+          </div>
+
+          <div class="discovery-feedback" id="discoveryFeedback">兔兔準備好囉，按下按鈕做實驗。</div>
+        </section>
+
+        <details class="discovery-parent">
+          <summary>給家長的科學小提醒</summary>
+          <p id="parentScienceNote">先讓孩子猜球會往哪裡走，再按下按鈕。重點是觀察「斜坡讓球往下加速」，不需要背公式。</p>
+        </details>
+      </div>
+    </main>
+
+    <footer>所有學習紀錄只存在這台裝置，不會上傳小孩資料。</footer>
+  </div>
+
+  <div class="reward-sky" id="rewardSky" aria-hidden="true"></div>
+
+  <script>
+    const STORE_KEY = "bunnyAlphabetMemoryV1";
+    const TODAY_KEY = new Date().toISOString().slice(0, 10);
+
+    const LETTERS = [
+      { upper: "A", lower: "a", word: "Apple", icon: "🍎" },
+      { upper: "B", lower: "b", word: "Balloon", icon: "🎈" },
+      { upper: "C", lower: "c", word: "Cake", icon: "🍰" },
+      { upper: "D", lower: "d", word: "Drum", icon: "🥁" },
+      { upper: "E", lower: "e", word: "Egg", icon: "🥚" },
+      { upper: "F", lower: "f", word: "Flower", icon: "🌸" },
+      { upper: "G", lower: "g", word: "Grapes", icon: "🍇" },
+      { upper: "H", lower: "h", word: "Hat", icon: "🎩" },
+      { upper: "I", lower: "i", word: "Ice", icon: "🧊" },
+      { upper: "J", lower: "j", word: "Juice", icon: "🧃" },
+      { upper: "K", lower: "k", word: "Kite", icon: "🪁" },
+      { upper: "L", lower: "l", word: "Leaf", icon: "🍃" },
+      { upper: "M", lower: "m", word: "Moon", icon: "🌙" },
+      { upper: "N", lower: "n", word: "Note", icon: "🎵" },
+      { upper: "O", lower: "o", word: "Orange", icon: "🍊" },
+      { upper: "P", lower: "p", word: "Paint", icon: "🎨" },
+      { upper: "Q", lower: "q", word: "Queen", icon: "👑" },
+      { upper: "R", lower: "r", word: "Rainbow", icon: "🌈" },
+      { upper: "S", lower: "s", word: "Star", icon: "⭐" },
+      { upper: "T", lower: "t", word: "Train", icon: "🚂" },
+      { upper: "U", lower: "u", word: "Umbrella", icon: "☂️" },
+      { upper: "V", lower: "v", word: "Violin", icon: "🎻" },
+      { upper: "W", lower: "w", word: "Wave", icon: "🌊" },
+      { upper: "X", lower: "x", word: "Xylophone", icon: "🎶" },
+      { upper: "Y", lower: "y", word: "Yo-yo", icon: "🪀" },
+      { upper: "Z", lower: "z", word: "Zipper", icon: "🧥" }
+    ];
+
+    const DISCOVERY = {
+      physics: {
+        name: "寶寶物理",
+        title: "兔兔物理遊樂園",
+        subtitle: "推一推、放一放，看看東西怎麼動。",
+        image: "bunny_physics_3d_v1.webp",
+        lessons: [
+          {
+            id: "roll",
+            tab: "滾滾球",
+            title: "斜坡上的小球",
+            line: "斜斜的路，會讓球往下越滾越快。",
+            action: "放開小球",
+            voice: "小球在斜坡上，會被地球往下拉，越滾越快。",
+            feedback: "小球往下滾了！斜坡越陡，速度通常變快得越快。",
+            parent: "先讓孩子猜球會往哪裡走，再按下按鈕。重點是觀察重力沿斜坡方向讓球加速，不需要背公式。",
+            visual: `<div class="toy-ramp"></div><div class="rolling-ball"></div>`
+          },
+          {
+            id: "up-down",
+            tab: "上與下",
+            title: "誰上去？誰下來？",
+            line: "輕氣體氣球往上，石頭被地球拉往下。",
+            action: "一起放手",
+            voice: "裝了很輕氣體的氣球會往上，石頭會被地球拉往下。",
+            feedback: "一個升高、一個落下。空氣的浮力和重力一起決定方向。",
+            parent: "這裡的氣球代表充入氦氣等低密度氣體的氣球，不是一般吹氣氣球。可問孩子：兩個東西走的方向一樣嗎？",
+            visual: `<div class="balloon-toy"></div><div class="stone-toy"></div>`
+          },
+          {
+            id: "float-sink",
+            tab: "浮或沉",
+            title: "小船浮、石頭沉",
+            line: "形狀和材料不同，在水裡會有不同結果。",
+            action: "放進水裡",
+            voice: "小船浮在水面，石頭沉到水底。浮力和重量在比賽。",
+            feedback: "小船浮著，石頭沉下去。不是只看大小，材料和形狀也很重要。",
+            parent: "避免只教「重的沉、輕的浮」。大型鋼船也能浮；是否浮起取決於平均密度、形狀、重力與浮力。",
+            visual: `<div class="water-tub"><div class="toy-boat"></div><div class="water-pebble"></div></div>`
+          }
+        ]
+      },
+      quantum: {
+        name: "寶寶量子",
+        title: "兔兔微小光世界",
+        subtitle: "看看非常小的光，會留下什麼線索。",
+        image: "bunny_quantum_3d_v1.webp",
+        lessons: [
+          {
+            id: "photons",
+            tab: "光的小包",
+            title: "一小包一小包的光",
+            line: "光被吸收時，可以是一小包一小包。",
+            action: "送出光點",
+            voice: "光被物體吸收時，可以是一小包一小包。科學家叫它光子。",
+            feedback: "小光點一個一個到達了。每一個亮點代表一次能量交換。",
+            parent: "幼兒版只建立「量子化」直覺：光與物質交換能量時呈現離散單位。畫面中的光點是示意，不代表肉眼真的能看到光子飛行。",
+            visual: `<div class="light-source"></div><i class="photon-dot"></i><i class="photon-dot"></i><i class="photon-dot"></i><i class="photon-dot"></i><i class="photon-dot"></i><i class="photon-dot"></i><div class="light-detector"></div>`
+          },
+          {
+            id: "probability",
+            tab: "可能在哪",
+            title: "小光點會在哪裡？",
+            line: "找到以前，我們只能說它可能在哪裡。",
+            action: "找找小光點",
+            voice: "在很小的世界裡，找到以前，我們用可能性來說它會出現在哪裡。",
+            feedback: "這次在其中一個地方找到了！再試一次，結果可能不同。",
+            parent: "三個光圈只是 probability distribution 的幼兒示意，不表示粒子真的分裂成三顆。測量會得到一個具體結果，多次結果形成機率分布。",
+            visual: `<div class="chance-clouds"><div class="chance-cloud"></div><div class="chance-cloud"></div><div class="chance-cloud"></div></div>`
+          },
+          {
+            id: "interference",
+            tab: "光的花紋",
+            title: "兩條路的明暗花紋",
+            line: "許多小光點慢慢排出明暗相間的條紋。",
+            action: "累積光點",
+            voice: "很多光點一個一個通過兩條窄路，最後會排出明暗相間的條紋。",
+            feedback: "條紋出現了！光的可能路徑會互相疊加，改變哪裡容易被找到。",
+            parent: "這是 double-slit interference 的概念模型。單次偵測是局部亮點；大量事件才逐漸形成干涉分布。不要把畫面說成一顆日常小球同時走兩條肉眼可見的路。",
+            visual: `<div class="interference-beam"></div><div class="slit-gate"></div><div class="stripe-screen"></div>`
+          }
+        ]
+      },
+      science: {
+        name: "寶寶科學",
+        title: "兔兔科學花園",
+        subtitle: "混顏色、玩磁鐵、陪小芽找陽光。",
+        image: "bunny_science_3d_v1.webp",
+        lessons: [
+          {
+            id: "colors",
+            tab: "混顏色",
+            title: "紅色加黃色",
+            line: "兩種顏色混在一起，會變成新的顏色。",
+            action: "混在一起",
+            voice: "紅色加上黃色，混在一起會看起來像橘色。",
+            feedback: "變成橘色了！用顏料再試一次，會更容易看見。",
+            parent: "此處是顏料／色料的 subtractive mixing 幼兒示意；螢幕光的 additive mixing 規則不同，之後可另外學。",
+            visual: `<div class="mix-cups"><div class="mix-cup" style="--liquid:#ef5a51"></div><span class="mix-plus">＋</span><div class="mix-cup" style="--liquid:#f2cf3d"></div><span class="mix-plus">＝</span><div class="mix-cup mix-result"></div></div>`
+          },
+          {
+            id: "magnet",
+            tab: "磁鐵",
+            title: "磁鐵把星星拉近",
+            line: "磁鐵會吸引鐵或鋼做的東西。",
+            action: "靠近磁鐵",
+            voice: "磁鐵會吸引鐵或鋼做的東西，但不是所有金屬都會被吸住。",
+            feedback: "鐵星星靠過來了！木頭、塑膠和很多金屬不會這樣被吸住。",
+            parent: "請使用尺寸大、不會吞食的安全物件實作。精確說法是磁鐵強烈吸引 ferromagnetic materials，例如鐵與多數鋼材；不是所有金屬。",
+            visual: `<div class="horseshoe"></div><span class="metal-star">★</span><span class="metal-star">★</span><span class="metal-star">★</span>`
+          },
+          {
+            id: "plant",
+            tab: "小芽找光",
+            title: "小芽往亮亮的地方長",
+            line: "植物需要光，也會慢慢朝著光生長。",
+            action: "打開陽光",
+            voice: "植物需要光來製造養分，小芽也常常會朝著光慢慢生長。",
+            feedback: "小芽長高、朝陽光彎過去了。植物也需要水、空氣和適合的溫度。",
+            parent: "這是 phototropism 的簡化觀察。可把豆苗放在窗邊，每天同一時間拍照；提醒孩子植物還需要水、空氣、養分與合適溫度。",
+            visual: `<div class="plant-pot"></div><div class="plant-stem"></div><div class="plant-leaf"></div><div class="plant-leaf second"></div><div class="sun-toy"></div>`
+          }
+        ]
+      }
+    };
+
+    const state = loadState();
+    let activeWorld = "alphabet";
+    let activeMode = "learn";
+    let activeLessonIndex = 0;
+    let learnIndex = 0;
+    let focusLetters = getFocusLetters();
+    let firstPick = null;
+    let lockCards = false;
+    let listenTarget = null;
+    let lastIncorrectChoice = "";
+    let cuteAudioContext = null;
+    let friendlyVoice = null;
+    let friendlyChineseVoice = null;
+
+    const els = {
+      starPill: document.getElementById("starPill"),
+      unlockPill: document.getElementById("unlockPill"),
+      todayPill: document.getElementById("todayPill"),
+      stageTitle: document.getElementById("stageTitle"),
+      stageNote: document.getElementById("stageNote"),
+      focusLetters: document.getElementById("focusLetters"),
+      learnView: document.getElementById("learnView"),
+      matchView: document.getElementById("matchView"),
+      listenView: document.getElementById("listenView"),
+      progressView: document.getElementById("progressView"),
+      learnUpper: document.getElementById("learnUpper"),
+      learnCard: document.getElementById("learnCard"),
+      storybookScene: document.getElementById("storybookScene"),
+      learnLower: document.getElementById("learnLower"),
+      learnIcon: document.getElementById("learnIcon"),
+      learnWord: document.getElementById("learnWord"),
+      objectEmoji: document.getElementById("objectEmoji"),
+      learnFeedback: document.getElementById("learnFeedback"),
+      matchGrid: document.getElementById("matchGrid"),
+      matchFeedback: document.getElementById("matchFeedback"),
+      listenOptions: document.getElementById("listenOptions"),
+      listenFeedback: document.getElementById("listenFeedback"),
+      miniProgressList: document.getElementById("miniProgressList"),
+      fullProgressList: document.getElementById("fullProgressList"),
+      rewardSky: document.getElementById("rewardSky")
+    };
+
+    Object.assign(els, {
+      appTitle: document.getElementById("appTitle"),
+      appSubtitle: document.getElementById("appSubtitle"),
+      bunnyMark: document.getElementById("bunnyMark"),
+      alphabetModeRow: document.getElementById("alphabetModeRow"),
+      alphabetWorld: document.getElementById("alphabetWorld"),
+      discoveryWorld: document.getElementById("discoveryWorld"),
+      discoveryScene: document.getElementById("discoveryScene"),
+      lessonKicker: document.getElementById("lessonKicker"),
+      lessonTabs: document.getElementById("lessonTabs"),
+      lessonTitle: document.getElementById("lessonTitle"),
+      lessonLine: document.getElementById("lessonLine"),
+      speakDiscovery: document.getElementById("speakDiscovery"),
+      runExperiment: document.getElementById("runExperiment"),
+      experimentZone: document.getElementById("experimentZone"),
+      experimentVisual: document.getElementById("experimentVisual"),
+      discoveryFeedback: document.getElementById("discoveryFeedback"),
+      parentScienceNote: document.getElementById("parentScienceNote")
+    });
+
+    document.querySelectorAll(".world-button").forEach((button) => {
+      button.addEventListener("click", () => setWorld(button.dataset.world));
+    });
+
+    document.querySelectorAll(".mode-button").forEach((button) => {
+      button.addEventListener("click", () => setMode(button.dataset.mode));
+    });
+
+    document.getElementById("prevLetter").addEventListener("click", () => moveLearn(-1));
+    document.getElementById("nextLetter").addEventListener("click", () => moveLearn(1));
+    document.getElementById("sayLetter").addEventListener("click", () => sayCurrentLetter());
+    els.learnCard.addEventListener("click", () => sayCurrentLetter());
+    document.getElementById("knowLetter").addEventListener("click", () => markKnown());
+    document.getElementById("newMatch").addEventListener("click", () => {
+      buildMatchBoard();
+      setMode("match");
+    });
+    document.getElementById("practiceWeak").addEventListener("click", () => {
+      focusLetters = getWeakLetters();
+      learnIndex = 0;
+      buildMatchBoard();
+      buildListenRound();
+      setMode("learn");
+      refreshAll();
+    });
+    document.getElementById("resetProgress").addEventListener("click", resetProgress);
+    document.getElementById("toggleSoundStyle").addEventListener("click", toggleSoundStyle);
+    document.getElementById("playPrompt").addEventListener("click", () => sayLetter(listenTarget, { includeWord: false }));
+    els.speakDiscovery.addEventListener("click", speakCurrentDiscovery);
+    els.runExperiment.addEventListener("click", runDiscoveryExperiment);
+
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.onvoiceschanged = () => {
+        friendlyVoice = pickFriendlyVoice();
+        friendlyChineseVoice = pickFriendlyChineseVoice();
+      };
+      friendlyVoice = pickFriendlyVoice();
+      friendlyChineseVoice = pickFriendlyChineseVoice();
+    }
+
+    renderLearnLetter();
+    buildMatchBoard();
+    buildListenRound();
+    renderDiscoveryLesson();
+    preloadDiscoveryImages();
+    refreshAll();
+
+    function loadState() {
+      const blankStats = Object.fromEntries(LETTERS.map((letter) => [
+        letter.upper,
+        { seen: 0, heard: 0, matched: 0, correct: 0, attempts: 0, last: "" }
+      ]));
+
+      try {
+        const parsed = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
+        return {
+          stars: Number(parsed.stars || 0),
+          days: parsed.days || {},
+          soundStyle: parsed.soundStyle === "chimeOnly" ? "chimeOnly" : "softVoice",
+          discoveryCompleted: parsed.discoveryCompleted || {},
+          stats: { ...blankStats, ...(parsed.stats || {}) }
+        };
+      } catch {
+        return { stars: 0, days: {}, soundStyle: "softVoice", discoveryCompleted: {}, stats: blankStats };
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORE_KEY, JSON.stringify(state));
+    }
+
+    function unlockedCount() {
+      const totalCorrect = Object.values(state.stats).reduce((sum, item) => sum + item.correct + item.matched, 0);
+      return Math.min(26, Math.max(4, 4 + Math.floor(totalCorrect / 5)));
+    }
+
+    function mastery(letter) {
+      const item = state.stats[letter.upper] || {};
+      const points = (item.seen || 0) + (item.heard || 0) + (item.correct || 0) * 2 + (item.matched || 0) * 2;
+      return Math.min(5, Math.floor(points / 3));
+    }
+
+    function getFocusLetters() {
+      const pool = LETTERS.slice(0, unlockedCount());
+      return [...pool]
+        .sort((a, b) => mastery(a) - mastery(b) || (state.stats[a.upper].last || "").localeCompare(state.stats[b.upper].last || ""))
+        .slice(0, 4);
+    }
+
+    function getWeakLetters() {
+      return [...LETTERS.slice(0, unlockedCount())]
+        .sort((a, b) => mastery(a) - mastery(b))
+        .slice(0, 4);
+    }
+
+    function touch(letter, field, star = false) {
+      const stat = state.stats[letter.upper];
+      stat[field] += 1;
+      stat.last = TODAY_KEY;
+      state.days[TODAY_KEY] = (state.days[TODAY_KEY] || 0) + 1;
+      if (star) {
+        state.stars += 1;
+        popStars();
+      }
+      saveState();
+      focusLetters = getFocusLetters();
+      refreshAll();
+    }
+
+    function setWorld(world) {
+      if (world !== "alphabet" && !DISCOVERY[world]) return;
+      activeWorld = world;
+      activeLessonIndex = 0;
+      window.speechSynthesis?.cancel();
+
+      document.querySelectorAll(".world-button").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.world === world));
+      });
+
+      const showAlphabet = world === "alphabet";
+      els.alphabetModeRow.hidden = !showAlphabet;
+      els.alphabetWorld.hidden = !showAlphabet;
+      els.discoveryWorld.hidden = showAlphabet;
+
+      if (showAlphabet) {
+        els.appTitle.textContent = "兔兔小小科學院";
+        els.appSubtitle.textContent = "今天和兔兔一起認 4 個英文字母。";
+        els.bunnyMark.style.backgroundImage = 'url("bunny_garden_3d_v1.webp")';
+        els.bunnyMark.style.backgroundPosition = "78% 39%";
+        setMode(activeMode);
+      } else {
+        renderDiscoveryLesson();
+      }
+      refreshAll();
+    }
+
+    function renderDiscoveryLesson() {
+      const subjectKey = activeWorld === "alphabet" ? "physics" : activeWorld;
+      const subject = DISCOVERY[subjectKey];
+      const lesson = subject.lessons[activeLessonIndex % subject.lessons.length];
+
+      els.discoveryScene.dataset.subject = subjectKey;
+      els.appTitle.textContent = subject.title;
+      els.appSubtitle.textContent = subject.subtitle;
+      els.bunnyMark.style.backgroundImage = `url("${subject.image}")`;
+      els.bunnyMark.style.backgroundPosition = "78% 39%";
+      els.lessonKicker.textContent = `${subject.name} · 小實驗 ${activeLessonIndex + 1}`;
+      els.lessonTitle.textContent = lesson.title;
+      els.lessonLine.textContent = lesson.line;
+      els.runExperiment.textContent = lesson.action;
+      els.experimentVisual.innerHTML = lesson.visual;
+      els.experimentZone.className = "experiment-zone";
+      els.discoveryFeedback.textContent = "先猜猜看，再按下按鈕做實驗。";
+      els.parentScienceNote.textContent = lesson.parent;
+
+      els.lessonTabs.innerHTML = "";
+      subject.lessons.forEach((item, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "lesson-tab";
+        button.textContent = item.tab;
+        button.setAttribute("aria-pressed", String(index === activeLessonIndex));
+        button.addEventListener("click", () => {
+          window.speechSynthesis?.cancel();
+          activeLessonIndex = index;
+          renderDiscoveryLesson();
+        });
+        els.lessonTabs.appendChild(button);
+      });
+    }
+
+    function preloadDiscoveryImages() {
+      const loadImages = () => {
+        Object.values(DISCOVERY).forEach((subject) => {
+          const image = new Image();
+          image.src = subject.image;
+        });
+      };
+
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(loadImages, { timeout: 1800 });
+      } else {
+        window.setTimeout(loadImages, 500);
+      }
+    }
+
+    function currentDiscoveryLesson() {
+      const subject = DISCOVERY[activeWorld];
+      return subject?.lessons[activeLessonIndex % subject.lessons.length] || null;
+    }
+
+    function speakCurrentDiscovery() {
+      const lesson = currentDiscoveryLesson();
+      if (!lesson) return;
+      sayDiscoveryText(lesson.voice);
+      els.discoveryFeedback.textContent = lesson.line;
+    }
+
+    function runDiscoveryExperiment() {
+      const lesson = currentDiscoveryLesson();
+      if (!lesson) return;
+
+      els.experimentZone.classList.remove("is-running", "choice-0", "choice-1", "choice-2");
+      void els.experimentZone.offsetWidth;
+      if (lesson.id === "probability") {
+        els.experimentZone.classList.add(`choice-${Math.floor(Math.random() * 3)}`);
+      }
+      els.experimentZone.classList.add("is-running");
+      els.discoveryFeedback.textContent = lesson.feedback;
+      sayDiscoveryText(lesson.feedback);
+      completeDiscoveryLesson(lesson);
+    }
+
+    function completeDiscoveryLesson(lesson) {
+      const key = `${activeWorld}:${lesson.id}`;
+      if (state.discoveryCompleted[key]) return;
+      state.discoveryCompleted[key] = TODAY_KEY;
+      state.stars += 1;
+      state.days[TODAY_KEY] = (state.days[TODAY_KEY] || 0) + 1;
+      saveState();
+      popStars();
+      refreshAll();
+    }
+
+    function completedDiscoveryCount() {
+      return Object.keys(state.discoveryCompleted || {}).filter((key) => /^(physics|quantum|science):/.test(key)).length;
+    }
+
+    function sayDiscoveryText(text) {
+      if (state.soundStyle === "chimeOnly") {
+        playDiscoveryChime();
+        return;
+      }
+
+      if (!("speechSynthesis" in window)) {
+        playDiscoveryChime();
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "zh-TW";
+      utterance.rate = 0.88;
+      utterance.pitch = 1;
+      utterance.volume = 0.9;
+      friendlyChineseVoice = friendlyChineseVoice || pickFriendlyChineseVoice();
+      if (friendlyChineseVoice) {
+        utterance.voice = friendlyChineseVoice;
+      }
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function pickFriendlyChineseVoice() {
+      if (!("speechSynthesis" in window)) return null;
+      const voices = window.speechSynthesis.getVoices();
+      const chineseVoices = voices.filter((voice) => /^zh[-_]/i.test(voice.lang));
+      const preferredNames = [
+        /ting.ting/i,
+        /mei.jia/i,
+        /sin.ji/i,
+        /mandarin.*taiwan/i,
+        /taiwan/i,
+        /google.*中文/i
+      ];
+      const preferredVoice = preferredNames
+        .map((pattern) => chineseVoices.find((voice) => pattern.test(voice.name)))
+        .find(Boolean);
+      const premiumVoice = chineseVoices.find((voice) => /enhanced|premium|neural|natural/i.test(voice.name));
+      return preferredVoice || premiumVoice || chineseVoices.find((voice) => voice.localService) || chineseVoices[0] || null;
+    }
+
+    function playDiscoveryChime() {
+      const offset = activeWorld === "quantum" ? 8 : activeWorld === "science" ? 16 : 0;
+      playCuteChime(LETTERS[(offset + activeLessonIndex) % LETTERS.length]);
+    }
+
+    function setMode(mode) {
+      activeMode = mode;
+      document.querySelectorAll(".mode-button").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.mode === mode));
+      });
+
+      els.learnView.hidden = mode !== "learn";
+      els.matchView.hidden = mode !== "match";
+      els.listenView.hidden = mode !== "listen";
+      els.progressView.hidden = mode !== "progress";
+
+      const titleMap = {
+        learn: ["看字母", "看大寫、小寫和圖像"],
+        match: ["配對", "找到一樣的大小寫字母"],
+        listen: ["聽一聽", "聽聲音，再選字母"],
+        progress: ["進度", "家長可看每個字母熟悉度"]
+      };
+      els.stageTitle.textContent = titleMap[mode][0];
+      els.stageNote.textContent = titleMap[mode][1];
+
+      if (mode === "listen") {
+        els.listenFeedback.textContent = "點兔兔喇叭，再選字母。";
+      }
+    }
+
+    function renderLearnLetter() {
+      const letter = focusLetters[learnIndex % focusLetters.length];
+      els.learnUpper.textContent = letter.upper;
+      els.learnLower.textContent = letter.lower;
+      els.learnIcon.textContent = letter.icon;
+      els.learnWord.textContent = letter.word;
+      els.objectEmoji.textContent = letter.icon;
+      els.learnCard.setAttribute("aria-label", `唸出 ${letter.upper}, ${letter.word}`);
+      animateLearnCard();
+      touchSeenOnce(letter);
+    }
+
+    function animateLearnCard() {
+      els.learnCard.classList.remove("letter-pop");
+      void els.learnCard.offsetWidth;
+      els.learnCard.classList.add("letter-pop");
+    }
+
+    function touchSeenOnce(letter) {
+      const stat = state.stats[letter.upper];
+      if (stat.last !== TODAY_KEY || stat.seen === 0) {
+        stat.seen += 1;
+        stat.last = TODAY_KEY;
+        saveState();
+      }
+    }
+
+    function moveLearn(direction, options = {}) {
+      learnIndex = (learnIndex + direction + focusLetters.length) % focusLetters.length;
+      renderLearnLetter();
+      if (!options.keepFeedback) {
+        els.learnFeedback.textContent = `${focusLetters[learnIndex].upper} ${focusLetters[learnIndex].word}`;
+      }
+      refreshAll();
+    }
+
+    function sayCurrentLetter() {
+      const letter = focusLetters[learnIndex % focusLetters.length];
+      pulseScene("is-speaking", 620);
+      sayLetter(letter);
+      els.learnFeedback.textContent = `兔兔唸：${letter.upper}, ${letter.word}`;
+    }
+
+    function markKnown() {
+      const letter = focusLetters[learnIndex % focusLetters.length];
+      pulseScene("is-celebrating", 760);
+      touch(letter, "correct", true);
+      els.learnFeedback.textContent = `收下 ${letter.upper} 的星星`;
+      moveLearn(1, { keepFeedback: true });
+    }
+
+    function pulseScene(className, duration) {
+      els.storybookScene.classList.remove(className);
+      void els.storybookScene.offsetWidth;
+      els.storybookScene.classList.add(className);
+      window.setTimeout(() => els.storybookScene.classList.remove(className), duration);
+    }
+
+    function buildMatchBoard() {
+      firstPick = null;
+      lockCards = false;
+      els.matchGrid.innerHTML = "";
+
+      const cards = shuffle(focusLetters.slice(0, 3).flatMap((letter) => [
+        { letter, value: letter.upper, pair: letter.upper },
+        { letter, value: letter.lower, pair: letter.upper }
+      ]));
+
+      cards.forEach((card, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "memory-card";
+        button.dataset.pair = card.pair;
+        button.dataset.index = String(index);
+        button.dataset.value = card.value;
+        button.setAttribute("aria-label", "翻開卡片");
+        button.addEventListener("click", () => flipCard(button, card.letter));
+        els.matchGrid.appendChild(button);
+      });
+
+      els.matchFeedback.textContent = "翻兩張，找一樣的大小寫字母。";
+    }
+
+    function flipCard(button, letter) {
+      if (lockCards || button.classList.contains("matched") || button.classList.contains("revealed")) return;
+
+      button.textContent = button.dataset.value;
+      button.classList.add("revealed");
+      button.setAttribute("aria-label", `字母 ${button.dataset.value}`);
+
+      if (!firstPick) {
+        firstPick = { button, letter };
+        return;
+      }
+
+      const isMatch = firstPick.button.dataset.pair === button.dataset.pair;
+      if (isMatch) {
+        firstPick.button.classList.add("matched");
+        button.classList.add("matched");
+        firstPick.button.classList.remove("revealed");
+        button.classList.remove("revealed");
+        touch(letter, "matched", true);
+        els.matchFeedback.textContent = `${letter.upper} 和 ${letter.lower} 配對成功`;
+        firstPick = null;
+
+        if (document.querySelectorAll(".memory-card.matched").length === 6) {
+          els.matchFeedback.textContent = "這一組完成了，兔兔再換一組。";
+          setTimeout(buildMatchBoard, 900);
+        }
+        return;
+      }
+
+      lockCards = true;
+      els.matchFeedback.textContent = "再找一次";
+      setTimeout(() => {
+        firstPick.button.textContent = "";
+        button.textContent = "";
+        firstPick.button.classList.remove("revealed");
+        button.classList.remove("revealed");
+        firstPick = null;
+        lockCards = false;
+      }, 720);
+    }
+
+    function buildListenRound() {
+      const options = shuffle([...focusLetters]).slice(0, 4);
+      listenTarget = options[Math.floor(Math.random() * options.length)];
+      lastIncorrectChoice = "";
+      els.listenOptions.innerHTML = "";
+
+      options.forEach((letter) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "choice-button";
+        button.textContent = letter.upper;
+        button.setAttribute("aria-label", `選 ${letter.upper}`);
+        button.addEventListener("click", () => chooseListen(letter, button));
+        els.listenOptions.appendChild(button);
+      });
+
+      els.listenFeedback.textContent = "先點喇叭，再選兔兔說的字母。";
+    }
+
+    function chooseListen(letter, button) {
+      state.stats[letter.upper].attempts += 1;
+      if (letter.upper === listenTarget.upper) {
+        button.classList.add("correct");
+        touch(letter, "correct", true);
+        els.listenFeedback.textContent = `聽對了：${letter.upper}`;
+        setTimeout(buildListenRound, 780);
+      } else {
+        lastIncorrectChoice = letter.upper;
+        button.classList.add("wrong");
+        els.listenFeedback.textContent = "再點喇叭聽一次";
+        setTimeout(() => button.classList.remove("wrong"), 520);
+      }
+      saveState();
+    }
+
+    function sayLetter(letter, options = {}) {
+      if (!letter) return;
+      const includeWord = options.includeWord !== false;
+
+      if (state.soundStyle === "chimeOnly") {
+        playCuteChime(letter);
+        touch(letter, "heard", false);
+        return;
+      }
+
+      if (!("speechSynthesis" in window)) {
+        els.listenFeedback.textContent = "這個瀏覽器沒有語音，兔兔先用鈴聲。";
+        playCuteChime(letter);
+        touch(letter, "heard", false);
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      const text = includeWord
+        ? `${letter.upper}. ${letter.upper} is for ${letter.word}.`
+        : `Can you find the letter ${letter.upper}?`;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+      utterance.rate = 0.86;
+      utterance.pitch = 1.02;
+      utterance.volume = 0.92;
+      friendlyVoice = friendlyVoice || pickFriendlyVoice();
+      if (friendlyVoice) {
+        utterance.voice = friendlyVoice;
+      }
+      window.speechSynthesis.speak(utterance);
+      touch(letter, "heard", false);
+    }
+
+    function pickFriendlyVoice() {
+      if (!("speechSynthesis" in window)) return null;
+      const voices = window.speechSynthesis.getVoices();
+      const englishVoices = voices.filter((voice) => /^en[-_]/i.test(voice.lang));
+      const preferredNames = [
+        /ava/i,
+        /samantha/i,
+        /zoe/i,
+        /karen/i,
+        /tessa/i,
+        /allison/i,
+        /jenny/i,
+        /aria/i,
+        /victoria/i,
+        /moira/i,
+        /google us english/i,
+        /english.*united states/i
+      ];
+      const preferredVoice = preferredNames
+        .map((pattern) => englishVoices.find((voice) => pattern.test(voice.name)))
+        .find(Boolean);
+      const premiumVoice = englishVoices.find((voice) => /enhanced|premium|neural|natural/i.test(voice.name));
+
+      return preferredVoice || premiumVoice || englishVoices.find((voice) => voice.localService) || englishVoices[0] || voices[0] || null;
+    }
+
+    function playCuteChime(letter) {
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        cuteAudioContext = cuteAudioContext || new AudioContextClass();
+        if (cuteAudioContext.state === "suspended") {
+          cuteAudioContext.resume();
+        }
+
+        const letterIndex = Math.max(0, LETTERS.findIndex((item) => item.upper === letter.upper));
+        const baseFrequencies = [523.25, 659.25, 783.99, 1046.5];
+        const root = baseFrequencies[letterIndex % baseFrequencies.length];
+        const now = cuteAudioContext.currentTime;
+        [1, 1.25, 1.5].forEach((ratio, index) => {
+          const oscillator = cuteAudioContext.createOscillator();
+          const gain = cuteAudioContext.createGain();
+          oscillator.type = "sine";
+          oscillator.frequency.setValueAtTime(root * ratio, now + index * 0.075);
+          gain.gain.setValueAtTime(0.0001, now + index * 0.075);
+          gain.gain.exponentialRampToValueAtTime(0.045, now + index * 0.075 + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + index * 0.075 + 0.18);
+          oscillator.connect(gain).connect(cuteAudioContext.destination);
+          oscillator.start(now + index * 0.075);
+          oscillator.stop(now + index * 0.075 + 0.2);
+        });
+      } catch {
+        // Audio APIs can be unavailable in restricted browsers; the page still works without the chime.
+      }
+    }
+
+    function toggleSoundStyle() {
+      state.soundStyle = state.soundStyle === "chimeOnly" ? "softVoice" : "chimeOnly";
+      saveState();
+      refreshAll();
+    }
+
+    function refreshAll() {
+      els.starPill.textContent = `星星 ${state.stars}`;
+      els.unlockPill.textContent = activeWorld === "alphabet"
+        ? `字母 ${unlockedCount()}/26`
+        : `實驗 ${completedDiscoveryCount()}/9`;
+      els.todayPill.textContent = `今天 ${state.days[TODAY_KEY] || 0}`;
+      document.getElementById("toggleSoundStyle").textContent = state.soundStyle === "chimeOnly" ? "聲音：只要鈴聲" : "聲音：自然語音";
+      renderFocusLetters();
+      renderProgressList(els.miniProgressList, LETTERS.slice(0, unlockedCount()), true);
+      renderProgressList(els.fullProgressList, LETTERS, false);
+    }
+
+    function renderFocusLetters() {
+      els.focusLetters.innerHTML = "";
+      focusLetters.forEach((letter) => {
+        const item = document.createElement("div");
+        item.className = "focus-letter";
+        item.textContent = letter.upper;
+        item.title = letter.word;
+        els.focusLetters.appendChild(item);
+      });
+    }
+
+    function renderProgressList(target, letters, compact) {
+      target.innerHTML = "";
+      letters.forEach((letter) => {
+        const level = mastery(letter);
+        const row = document.createElement("div");
+        row.className = "meter-item";
+
+        const label = document.createElement("div");
+        label.textContent = letter.upper;
+
+        const track = document.createElement("div");
+        track.className = "meter-track";
+        const fill = document.createElement("div");
+        fill.className = "meter-fill";
+        fill.style.width = `${level * 20}%`;
+        track.appendChild(fill);
+
+        const score = document.createElement("div");
+        score.textContent = `${level}/5`;
+
+        row.append(label, track, score);
+        target.appendChild(row);
+      });
+
+      if (compact && letters.length === 0) {
+        target.textContent = "尚未開始";
+      }
+    }
+
+    function popStars() {
+      const count = 5;
+      for (let index = 0; index < count; index += 1) {
+        const star = document.createElement("div");
+        star.className = "star-pop";
+        star.textContent = index % 2 === 0 ? "⭐" : "🌟";
+        star.style.left = `${30 + Math.random() * 40}%`;
+        star.style.top = `${58 + Math.random() * 20}%`;
+        star.style.animationDelay = `${index * 70}ms`;
+        els.rewardSky.appendChild(star);
+        setTimeout(() => star.remove(), 1200);
+      }
+    }
+
+    function resetProgress() {
+      const confirmed = window.confirm("確定要清空兔兔小小科學院的全部進度嗎？");
+      if (!confirmed) return;
+      localStorage.removeItem(STORE_KEY);
+      location.reload();
+    }
+
+    function shuffle(items) {
+      const output = [...items];
+      for (let index = output.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [output[index], output[swapIndex]] = [output[swapIndex], output[index]];
+      }
+      return output;
+    }
+  </script>
+</body>
+</html>

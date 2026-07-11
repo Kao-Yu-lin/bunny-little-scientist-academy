@@ -2850,7 +2850,7 @@
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "zh-TW";
-      utterance.rate = 0.88;
+      utterance.rate = 0.84;
       utterance.pitch = 1;
       utterance.volume = 0.9;
       friendlyChineseVoice = friendlyChineseVoice || pickFriendlyChineseVoice();
@@ -3091,7 +3091,7 @@
         : `Can you find the letter ${letter.upper}?`;
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "en-US";
-      utterance.rate = 0.86;
+      utterance.rate = 0.82;
       utterance.pitch = 1.02;
       utterance.volume = 0.92;
       friendlyVoice = friendlyVoice || pickFriendlyVoice();

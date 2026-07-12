@@ -53,6 +53,12 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    button:focus-visible,
+    summary:focus-visible {
+      outline: 4px solid rgba(245, 134, 166, 0.62);
+      outline-offset: 3px;
+    }
+
     .app {
       min-height: 100vh;
       display: flex;
@@ -741,18 +747,11 @@
     .bunny-mark {
       width: 72px;
       height: 72px;
-      border: 4px solid #ffffff;
-      border-radius: 50%;
-      background-image: url("bunny_garden_3d_v1.webp");
-      background-position: 78% 39%;
-      background-size: 270% auto;
-      background-repeat: no-repeat;
-      box-shadow: 0 9px 20px rgba(86, 66, 102, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-      filter: none;
+      filter: drop-shadow(0 9px 14px rgba(86, 66, 102, 0.2));
     }
 
     .bunny-mark > * {
-      opacity: 0;
+      opacity: 1;
     }
 
     h1 {
@@ -772,6 +771,21 @@
       box-shadow: 0 7px 18px rgba(80, 59, 93, 0.1), inset 0 2px 0 #ffffff;
     }
 
+    .status-strip .pill:nth-child(1) {
+      border-color: #f3d27a;
+      background: linear-gradient(180deg, #fff8d6, #fff0ad);
+    }
+
+    .status-strip .pill:nth-child(2) {
+      border-color: #a7dbc9;
+      background: linear-gradient(180deg, #effff8, #d9f6eb);
+    }
+
+    .status-strip .pill:nth-child(3) {
+      border-color: #f0bfd0;
+      background: linear-gradient(180deg, #fff4f8, #ffe4ee);
+    }
+
     .mode-row {
       padding: 12px 24px 14px;
       background: rgba(255, 255, 255, 0.68);
@@ -789,6 +803,11 @@
     .mode-button:hover {
       transform: translateY(-2px);
       box-shadow: 0 11px 22px rgba(83, 65, 96, 0.14), inset 0 2px 0 #ffffff;
+    }
+
+    .mode-button:active,
+    .world-button:active {
+      transform: translateY(2px);
     }
 
     .mode-button[aria-pressed="true"] {
@@ -1960,15 +1979,21 @@
       .topbar {
         padding: 13px 14px 12px;
         gap: 10px;
+        flex-wrap: wrap;
       }
 
       .brand {
         gap: 10px;
+        width: 100%;
       }
 
       .bunny-mark {
-        width: 58px;
-        height: 58px;
+        width: 62px;
+        height: 62px;
+      }
+
+      h1 {
+        font-size: 25px;
       }
 
       .subtitle {
@@ -2247,9 +2272,9 @@
         </div>
       </div>
       <div class="status-strip" aria-live="polite">
-        <div class="pill" id="starPill">星星 0</div>
-        <div class="pill" id="unlockPill">開啟 4/26</div>
-        <div class="pill" id="todayPill">今天 0</div>
+        <div class="pill" id="starPill">⭐ 星星 0</div>
+        <div class="pill" id="unlockPill">🔓 開啟 4/26</div>
+        <div class="pill" id="todayPill">🌷 今天 0</div>
       </div>
     </header>
 
@@ -2735,8 +2760,6 @@
       if (showAlphabet) {
         els.appTitle.textContent = "兔兔小小科學院";
         els.appSubtitle.textContent = "今天和兔兔一起認 4 個英文字母。";
-        els.bunnyMark.style.backgroundImage = 'url("bunny_garden_3d_v1.webp")';
-        els.bunnyMark.style.backgroundPosition = "78% 39%";
         setMode(activeMode);
       } else {
         renderDiscoveryLesson();
@@ -2752,8 +2775,6 @@
       els.discoveryScene.dataset.subject = subjectKey;
       els.appTitle.textContent = subject.title;
       els.appSubtitle.textContent = subject.subtitle;
-      els.bunnyMark.style.backgroundImage = `url("${subject.image}")`;
-      els.bunnyMark.style.backgroundPosition = "78% 39%";
       els.lessonKicker.textContent = `${subject.name} · 小實驗 ${activeLessonIndex + 1}`;
       els.lessonTitle.textContent = lesson.title;
       els.lessonLine.textContent = lesson.line;
@@ -3165,11 +3186,11 @@
     }
 
     function refreshAll() {
-      els.starPill.textContent = `星星 ${state.stars}`;
+      els.starPill.textContent = `⭐ 星星 ${state.stars}`;
       els.unlockPill.textContent = activeWorld === "alphabet"
-        ? `字母 ${unlockedCount()}/26`
-        : `實驗 ${completedDiscoveryCount()}/9`;
-      els.todayPill.textContent = `今天 ${state.days[TODAY_KEY] || 0}`;
+        ? `🔤 字母 ${unlockedCount()}/26`
+        : `🧪 實驗 ${completedDiscoveryCount()}/9`;
+      els.todayPill.textContent = `🌷 今天 ${state.days[TODAY_KEY] || 0}`;
       document.getElementById("toggleSoundStyle").textContent = state.soundStyle === "chimeOnly" ? "聲音：只要鈴聲" : "聲音：自然語音";
       renderFocusLetters();
       renderProgressList(els.miniProgressList, LETTERS.slice(0, unlockedCount()), true);

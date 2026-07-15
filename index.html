@@ -1438,6 +1438,192 @@
       animation: butterflyFloat 2.8s ease-in-out infinite;
     }
 
+    .mood-band {
+      --mood-accent: #8d78a6;
+      --mood-soft: #f8f3fc;
+      margin-top: 18px;
+      padding: 18px 4px 20px;
+      border-top: 1px solid rgba(216, 204, 224, .82);
+      border-bottom: 1px solid rgba(216, 204, 224, .82);
+    }
+
+    .mood-band[data-mood="happy"] {
+      --mood-accent: #bd8425;
+      --mood-soft: #fff8d8;
+    }
+
+    .mood-band[data-mood="slow"] {
+      --mood-accent: #4e9275;
+      --mood-soft: #eaf9f1;
+    }
+
+    .mood-band[data-mood="sad"] {
+      --mood-accent: #5385b1;
+      --mood-soft: #edf6ff;
+    }
+
+    .mood-band[data-mood="hug"] {
+      --mood-accent: #c35e80;
+      --mood-soft: #fff0f5;
+    }
+
+    .mood-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .mood-kicker {
+      display: block;
+      margin-bottom: 4px;
+      color: #b45e75;
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .mood-heading h2 {
+      margin: 0;
+      color: #493e52;
+      font-size: 25px;
+      line-height: 1.2;
+    }
+
+    .mood-speak {
+      flex: 0 0 auto;
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border: 2px solid #d9cee1;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #55465f;
+      font-size: 23px;
+      box-shadow: 0 4px 0 #d8cde0;
+    }
+
+    .mood-speak:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #d8cde0;
+    }
+
+    .mood-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .mood-choice {
+      --choice-accent: #8d78a6;
+      --choice-soft: #f8f3fc;
+      --choice-shadow: #d6c9df;
+      min-width: 0;
+      min-height: 82px;
+      display: grid;
+      grid-template-columns: 45px minmax(0, 1fr);
+      align-items: center;
+      gap: 9px;
+      padding: 11px 12px;
+      border: 2px solid #ded4e5;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #55485f;
+      text-align: left;
+      font-size: 16px;
+      font-weight: 950;
+      line-height: 1.25;
+      box-shadow: 0 4px 0 #ddd3e3;
+      transition: transform 150ms ease, border-color 150ms ease, background 150ms ease, box-shadow 150ms ease;
+    }
+
+    .mood-choice[data-mood="happy"] { --choice-accent: #bd8425; --choice-soft: #fff8d8; --choice-shadow: #e7bf65; }
+    .mood-choice[data-mood="slow"] { --choice-accent: #4e9275; --choice-soft: #eaf9f1; --choice-shadow: #92c8b1; }
+    .mood-choice[data-mood="sad"] { --choice-accent: #5385b1; --choice-soft: #edf6ff; --choice-shadow: #93b7d7; }
+    .mood-choice[data-mood="hug"] { --choice-accent: #c35e80; --choice-soft: #fff0f5; --choice-shadow: #e2a2b8; }
+
+    .mood-choice:hover {
+      transform: translateY(-2px);
+    }
+
+    .mood-choice[aria-pressed="true"] {
+      border-color: var(--choice-accent);
+      background: var(--choice-soft);
+      color: var(--choice-accent);
+      box-shadow: 0 4px 0 var(--choice-shadow), inset 0 2px 0 rgba(255, 255, 255, .82);
+    }
+
+    .mood-choice:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--choice-shadow);
+    }
+
+    .mood-choice-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--choice-soft);
+      font-size: 27px;
+      transition: transform 180ms ease;
+    }
+
+    .mood-choice[aria-pressed="true"] .mood-choice-icon {
+      background: #ffffff;
+      transform: scale(1.08) rotate(-4deg);
+    }
+
+    .mood-response {
+      min-height: 104px;
+      display: grid;
+      grid-template-columns: 78px minmax(0, 1fr);
+      align-items: center;
+      gap: 14px;
+      margin-top: 12px;
+      padding: 12px 16px 12px 12px;
+      border: 2px solid var(--mood-accent);
+      border-radius: 8px;
+      background: var(--mood-soft);
+      color: #4f4358;
+      box-shadow: inset 0 2px 0 rgba(255, 255, 255, .76);
+    }
+
+    .mood-bunny-portrait {
+      width: 78px;
+      height: 78px;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      background-color: #fff6df;
+      background-image: url("bunny_garden_3d_v1.webp");
+      background-repeat: no-repeat;
+      background-position: 78% 43%;
+      background-size: auto 260%;
+      box-shadow: 0 5px 12px rgba(75, 58, 82, .16);
+    }
+
+    .mood-response h3 {
+      margin: 0 0 4px;
+      color: var(--mood-accent);
+      font-size: 18px;
+    }
+
+    .mood-response p {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .mood-band.is-responding .mood-bunny-portrait {
+      animation: moodBunnyNod 720ms ease-out both;
+    }
+
+    .mood-band.is-responding .mood-response-copy {
+      animation: moodReplyIn 520ms ease-out both;
+    }
+
     .mission-band {
       padding: 22px 4px 2px;
     }
@@ -1572,6 +1758,17 @@
       margin: 0;
       padding: 0 14px 14px;
       line-height: 1.6;
+    }
+
+    @keyframes moodBunnyNod {
+      0% { transform: translateY(8px) rotate(-5deg) scale(.9); }
+      58% { transform: translateY(-4px) rotate(5deg) scale(1.06); }
+      100% { transform: translateY(0) rotate(0deg) scale(1); }
+    }
+
+    @keyframes moodReplyIn {
+      0% { transform: translateX(-10px); opacity: .25; }
+      100% { transform: translateX(0); opacity: 1; }
     }
 
     .discovery-main {
@@ -3767,6 +3964,8 @@
       .speak-discovery,
       .run-experiment,
       .today-speak,
+      .mood-choice,
+      .mood-speak,
       .mission-button,
       .quiet-button,
       .parent-summary,
@@ -3833,6 +4032,18 @@
 
       .garden-growth {
         width: 40%;
+      }
+
+      .mood-choice {
+        grid-template-columns: 40px minmax(0, 1fr);
+        padding: 10px 8px;
+        font-size: 14px;
+      }
+
+      .mood-choice-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
       }
 
       .side-panel {
@@ -3912,6 +4123,16 @@
 
       .today-hero {
         min-height: 390px;
+      }
+
+      .mood-band {
+        margin-top: 14px;
+        padding-top: 14px;
+        padding-bottom: 16px;
+      }
+
+      .mood-choice {
+        min-height: 74px;
       }
 
       .mission-button {
@@ -4056,6 +4277,59 @@
       .growth-flower { font-size: 48px; }
       .growth-butterfly { font-size: 35px; }
       .growth-rainbow { font-size: 52px; }
+
+      .mood-band {
+        margin-top: 14px;
+        padding: 16px 2px 18px;
+      }
+
+      .mood-heading {
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .mood-heading h2 {
+        font-size: 21px;
+      }
+
+      .mood-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+      }
+
+      .mood-choice {
+        min-height: 76px;
+        grid-template-columns: 40px minmax(0, 1fr);
+        gap: 7px;
+        padding: 9px;
+        font-size: 14px;
+      }
+
+      .mood-choice-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+      }
+
+      .mood-response {
+        min-height: 94px;
+        grid-template-columns: 64px minmax(0, 1fr);
+        gap: 11px;
+        padding: 11px;
+      }
+
+      .mood-bunny-portrait {
+        width: 64px;
+        height: 64px;
+      }
+
+      .mood-response h3 {
+        font-size: 16px;
+      }
+
+      .mood-response p {
+        font-size: 14px;
+      }
 
       .mission-band {
         padding-top: 18px;
@@ -4450,6 +4724,29 @@
           </div>
         </section>
 
+        <section class="mood-band" id="moodBand" data-mood="none" aria-labelledby="moodHeading">
+          <div class="mood-heading">
+            <div>
+              <span class="mood-kicker">兔兔今天陪你</span>
+              <h2 id="moodHeading">今天心裡像哪一個？</h2>
+            </div>
+            <button class="mood-speak" type="button" id="speakMood" aria-label="聽兔兔回應" title="聽兔兔回應"><span aria-hidden="true">🔊</span></button>
+          </div>
+          <div class="mood-grid" id="moodChoices" aria-label="選擇今天的感覺">
+            <button class="mood-choice" type="button" data-mood="happy" aria-pressed="false"><span class="mood-choice-icon" aria-hidden="true">😊</span><span>開心</span></button>
+            <button class="mood-choice" type="button" data-mood="slow" aria-pressed="false"><span class="mood-choice-icon" aria-hidden="true">😌</span><span>想慢慢來</span></button>
+            <button class="mood-choice" type="button" data-mood="sad" aria-pressed="false"><span class="mood-choice-icon" aria-hidden="true">😢</span><span>有點難過</span></button>
+            <button class="mood-choice" type="button" data-mood="hug" aria-pressed="false"><span class="mood-choice-icon" aria-hidden="true">🤗</span><span>需要抱抱</span></button>
+          </div>
+          <div class="mood-response" id="moodResponse" role="status" aria-live="polite">
+            <span class="mood-bunny-portrait" id="moodBunnyPortrait" aria-hidden="true"></span>
+            <div class="mood-response-copy">
+              <h3 id="moodResponseTitle">兔兔在這裡</h3>
+              <p id="moodResponseText">可以選一個，也可以先不選。兔兔會陪你慢慢來。</p>
+            </div>
+          </div>
+        </section>
+
         <section class="mission-band" aria-labelledby="missionHeading">
           <div class="mission-heading">
             <h2 id="missionHeading">今天三件小任務</h2>
@@ -4460,7 +4757,7 @@
 
         <details class="today-parent">
           <summary>給家長的陪玩小提醒</summary>
-          <p id="todayParentNote">每次約 8 到 12 分鐘就好。孩子想重玩可以重玩，不需要一次做完，也不必追求答對速度。</p>
+          <p id="todayParentNote">每次約 8 到 12 分鐘就好。心情選擇沒有正確答案，一次點選只代表當下，不用追問原因或固定標籤。孩子想重玩可以重玩，不需要一次做完，也不必追求答對速度。</p>
         </details>
       </div>
     </main>
@@ -5224,6 +5521,39 @@
       "彩虹花園"
     ];
 
+    const MOOD_CHECKINS = {
+      happy: {
+        label: "開心",
+        title: "開心亮亮的",
+        response: "開心可以一起分享。你可以說：「我今天有一件開心的事。」",
+        voice: "今天覺得開心。你可以把一件開心的事分享給喜歡的人。"
+      },
+      slow: {
+        label: "想慢慢來",
+        title: "慢慢來也可以",
+        response: "先伸伸手、喝口水，再挑一件想做的小事。",
+        voice: "想慢慢來也可以。先伸伸手，喝口水，再挑一件小事。"
+      },
+      sad: {
+        label: "有點難過",
+        title: "難過可以待一下",
+        response: "你可以找可信任的大人說：「請陪陪我。」",
+        voice: "有點難過沒關係。你可以找可信任的大人說，請陪陪我。"
+      },
+      hug: {
+        label: "需要抱抱",
+        title: "把需要說出來",
+        response: "你可以說：「我想要抱抱。」也可以選擇牽手或坐在旁邊。",
+        voice: "你可以說，我想要抱抱。也可以選擇牽手，或坐在旁邊。"
+      }
+    };
+
+    const DEFAULT_MOOD_RESPONSE = {
+      title: "兔兔在這裡",
+      response: "可以選一個，也可以先不選。兔兔會陪你慢慢來。",
+      voice: "今天心裡像哪一個？可以選一個，也可以先不選。"
+    };
+
     const state = loadState();
     let activeWorld = "today";
     let activeMode = "learn";
@@ -5279,6 +5609,12 @@
       todayStoryTitle: document.getElementById("todayStoryTitle"),
       todayStoryLine: document.getElementById("todayStoryLine"),
       speakToday: document.getElementById("speakToday"),
+      moodBand: document.getElementById("moodBand"),
+      moodChoices: document.getElementById("moodChoices"),
+      speakMood: document.getElementById("speakMood"),
+      moodBunnyPortrait: document.getElementById("moodBunnyPortrait"),
+      moodResponseTitle: document.getElementById("moodResponseTitle"),
+      moodResponseText: document.getElementById("moodResponseText"),
       gardenStageName: document.getElementById("gardenStageName"),
       gardenLevelLabel: document.getElementById("gardenLevelLabel"),
       gardenFill: document.getElementById("gardenFill"),
@@ -5337,6 +5673,10 @@
     els.speakDiscovery.addEventListener("click", speakCurrentDiscovery);
     els.runExperiment.addEventListener("click", runDiscoveryExperiment);
     els.speakToday.addEventListener("click", speakTodayAdventure);
+    els.speakMood.addEventListener("click", speakTodayMood);
+    els.moodChoices.querySelectorAll(".mood-choice").forEach((button) => {
+      button.addEventListener("click", () => chooseTodayMood(button.dataset.mood));
+    });
 
     if ("speechSynthesis" in window) {
       window.speechSynthesis.onvoiceschanged = () => {
@@ -5428,6 +5768,45 @@
         discover: saved?.discover === true,
         offline: saved?.offline === true
       };
+    }
+
+    function getTodayMood() {
+      const moodKey = state.adventureDays?.[TODAY_KEY]?.mood;
+      return MOOD_CHECKINS[moodKey] ? moodKey : null;
+    }
+
+    function renderMoodCheckin(options = {}) {
+      const moodKey = getTodayMood();
+      const mood = moodKey ? MOOD_CHECKINS[moodKey] : DEFAULT_MOOD_RESPONSE;
+      els.moodBand.dataset.mood = moodKey || "none";
+      els.moodChoices.querySelectorAll(".mood-choice").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.mood === moodKey));
+      });
+      els.moodResponseTitle.textContent = mood.title;
+      els.moodResponseText.textContent = mood.response;
+      els.moodBand.classList.remove("is-responding");
+      if (options.animate && moodKey) {
+        void els.moodBand.offsetWidth;
+        els.moodBand.classList.add("is-responding");
+      }
+    }
+
+    function chooseTodayMood(moodKey) {
+      const mood = MOOD_CHECKINS[moodKey];
+      if (!mood) return;
+      state.adventureDays[TODAY_KEY] = {
+        ...(state.adventureDays[TODAY_KEY] || {}),
+        mood: moodKey
+      };
+      saveState();
+      renderMoodCheckin({ animate: true });
+      sayDiscoveryText(mood.voice);
+    }
+
+    function speakTodayMood() {
+      const moodKey = getTodayMood();
+      const mood = moodKey ? MOOD_CHECKINS[moodKey] : DEFAULT_MOOD_RESPONSE;
+      sayDiscoveryText(mood.voice);
     }
 
     function completedTodayMissionCount() {
@@ -5530,6 +5909,7 @@
       els.todayStoryLine.textContent = allDone
         ? "今天的三件事都完成了。可以重玩喜歡的活動，明天再長大一點。"
         : `還有 ${3 - completedCount} 件小任務。慢慢來，一次做一件就好。`;
+      renderMoodCheckin();
 
       els.todayMissions.innerHTML = "";
       getTodayMissionCards().forEach((mission) => {

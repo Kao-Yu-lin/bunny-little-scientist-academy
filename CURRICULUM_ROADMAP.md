@@ -1,6 +1,6 @@
 # 兔兔陪伴成長課程地圖
 
-版本：2026-07-11  
+版本：2026-07-15  
 起始年齡：3 歲半  
 規劃範圍：3.5–8 歲，依 readiness 推進，不以生日硬性解鎖
 
@@ -128,6 +128,16 @@
 - 不要求記名詞、公式或把示意動畫當成肉眼可見的真實軌跡。
 - 每個量子活動都附家長科學邊界與一個可觀察的光學延伸。
 
+目前已實作的科學內容共 18 題：
+
+| 世界 | 6 個活動 |
+|---|---|
+| 寶寶物理 | 斜坡滾球、上與下、浮與沉、推力、聲音震動、光與影子 |
+| 寶寶量子 | 光的一小包、機率位置、雙路徑明暗條紋、光子能量、量測、穿隧 |
+| 寶寶科學 | 顏色混合、磁鐵、植物向光、融化、溶解、風與風車 |
+
+每題固定採用「選擇猜想 → 執行動畫實驗 → 比較猜想與結果」三步驟。猜想不同不扣星星；隨機量子活動會在每次執行後說明本次量測結果。
+
 ### 4.4 學習方法與執行功能
 
 - 專注：從 30–60 秒完成一個小目標開始。
@@ -226,7 +236,7 @@
 5. 是否能用實物在家延伸？
 6. 答錯是否仍安全、尊重且能再試？
 7. 科學說法是否簡化但不失真？
-8. 手機上是否無遮擋、無水平 overflow，觸控區足夠？
+8. 手機與 iPad mini 直／橫向是否無遮擋、無水平 overflow，主要觸控區至少 44 CSS px？
 9. 是否避免蒐集不必要的兒童資料？
 
 ## 10. 依據
@@ -239,4 +249,3 @@
 - [IES What Works Clearinghouse：Preparing Young Children for School](https://ies.ed.gov/ncee/wwc/PracticeGuide/30)
 - [Harvard Center on the Developing Child：Serve and Return](https://developingchild.harvard.edu/key-concept/serve-and-return/)
 - [American Academy of Pediatrics：Helping Kids Thrive in a Digital World](https://www.healthychildren.org/English/family-life/Media/Pages/helping-kids-thrive-in-a-digital-world-AAP-policy-explained.aspx)
-

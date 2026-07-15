@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#fff4e8">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="icon" type="image/webp" href="bunny_garden_3d_v1.webp">
   <link rel="preload" as="image" href="bunny_garden_3d_v1.webp" type="image/webp" fetchpriority="high">
   <title>兔兔小小科學院</title>
   <style>
@@ -51,6 +52,13 @@
       border: 0;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    button,
+    summary {
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     button:focus-visible,
@@ -1261,7 +1269,7 @@
       --world-image: url("bunny_physics_3d_v1.webp");
       position: relative;
       isolation: isolate;
-      min-height: 650px;
+      min-height: 800px;
       overflow: hidden;
       border: 4px solid #ffffff;
       border-radius: 8px;
@@ -1316,6 +1324,7 @@
 
     .lesson-console {
       top: 4.5%;
+      z-index: 6;
       padding: 18px;
     }
 
@@ -1368,6 +1377,55 @@
       line-height: 1.5;
     }
 
+    .prediction-block {
+      margin: 0 0 14px;
+      padding: 10px;
+      border: 2px solid color-mix(in srgb, var(--accent) 28%, white);
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent-soft) 82%, white);
+    }
+
+    .prediction-question {
+      min-height: 24px;
+      margin-bottom: 8px;
+      color: #4e4358;
+      font-size: 15px;
+      font-weight: 950;
+      line-height: 1.4;
+    }
+
+    .prediction-choices {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .prediction-choices[data-count="3"] {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .prediction-choice {
+      min-width: 0;
+      min-height: 52px;
+      padding: 7px 8px;
+      border: 2px solid rgba(185, 174, 193, 0.9);
+      border-radius: 8px;
+      background: #ffffff;
+      color: #564a61;
+      font-size: 15px;
+      font-weight: 950;
+      line-height: 1.2;
+      box-shadow: 0 3px 0 rgba(111, 94, 122, 0.18);
+    }
+
+    .prediction-choice[aria-pressed="true"] {
+      border-color: var(--accent);
+      background: #fff6c9;
+      color: #3d3545;
+      box-shadow: 0 3px 0 var(--accent-shadow), inset 0 2px 0 #ffffff;
+      transform: translateY(-1px);
+    }
+
     .lesson-actions {
       display: grid;
       grid-template-columns: 60px 1fr;
@@ -1382,6 +1440,15 @@
       color: #ffffff;
       font-weight: 950;
       box-shadow: 0 5px 0 var(--accent-shadow);
+    }
+
+    .run-experiment:disabled {
+      cursor: default;
+      background: linear-gradient(180deg, #d9d3df, #bbb3c2);
+      color: #5f5666;
+      box-shadow: 0 4px 0 #9d94a4;
+      opacity: 0.82;
+      transform: none;
     }
 
     .speak-discovery {
@@ -1403,6 +1470,7 @@
 
     .experiment-zone {
       bottom: 4.5%;
+      z-index: 2;
       height: 190px;
       padding: 10px 14px 12px;
       overflow: hidden;
@@ -1836,6 +1904,424 @@
       animation: leafGrowSecond .8s .72s ease-out both;
     }
 
+    .push-track {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      bottom: 28px;
+      height: 12px;
+      border-radius: 8px;
+      background: #b8d5e5;
+      box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.7);
+    }
+
+    .toy-cart {
+      position: absolute;
+      left: 15%;
+      bottom: 40px;
+      width: 82px;
+      height: 48px;
+      border: 4px solid #7c5b47;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ffd97c, #f0a844);
+      box-shadow: 0 8px 12px rgba(92, 64, 45, 0.18);
+    }
+
+    .toy-cart::before,
+    .toy-cart::after {
+      content: "";
+      position: absolute;
+      bottom: -18px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #62596c;
+      box-shadow: inset 0 0 0 5px #b9b0c1;
+    }
+
+    .toy-cart::before { left: 7px; }
+    .toy-cart::after { right: 7px; }
+
+    .push-arrow {
+      position: absolute;
+      left: 10%;
+      top: 30px;
+      color: #ef775a;
+      font-size: 56px;
+      font-weight: 950;
+      line-height: 1;
+    }
+
+    .is-running .toy-cart {
+      animation: cartMove 1s cubic-bezier(.2, .72, .32, 1) both;
+    }
+
+    .is-running .push-arrow {
+      animation: arrowPush .7s ease-out both;
+    }
+
+    .sound-drum {
+      position: absolute;
+      left: calc(50% - 56px);
+      bottom: 22px;
+      width: 112px;
+      height: 80px;
+      border: 7px solid #8a5d48;
+      border-radius: 50% / 20%;
+      background: repeating-linear-gradient(100deg, #ef8065 0 14px, #ffd18b 14px 28px);
+      box-shadow: 0 9px 14px rgba(91, 55, 44, 0.2);
+    }
+
+    .sound-drum::before {
+      content: "";
+      position: absolute;
+      left: -7px;
+      right: -7px;
+      top: -11px;
+      height: 22px;
+      border: 5px solid #8a5d48;
+      border-radius: 50%;
+      background: #fff1c5;
+    }
+
+    .sound-stick {
+      position: absolute;
+      left: 50%;
+      top: 12px;
+      width: 9px;
+      height: 72px;
+      border-radius: 8px;
+      background: #b47c4f;
+      transform: rotate(28deg);
+      transform-origin: bottom;
+    }
+
+    .sound-wave {
+      position: absolute;
+      top: 38px;
+      width: 36px;
+      height: 72px;
+      border: 5px solid #6db4ca;
+      border-top-color: transparent;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      opacity: 0;
+    }
+
+    .sound-wave.left { left: 17%; }
+    .sound-wave.right { right: 17%; }
+
+    .is-running .sound-drum {
+      animation: drumVibrate .62s ease-in-out 2;
+    }
+
+    .is-running .sound-stick {
+      animation: drumTap .55s ease-in-out both;
+    }
+
+    .is-running .sound-wave {
+      animation: soundSpread 1.1s .2s ease-out both;
+    }
+
+    .flashlight-toy {
+      position: absolute;
+      left: 8%;
+      top: 52px;
+      width: 74px;
+      height: 42px;
+      border: 5px solid #5d6673;
+      border-radius: 12px 24px 24px 12px;
+      background: linear-gradient(180deg, #8bd0dd, #4a9fb2);
+    }
+
+    .light-cone {
+      position: absolute;
+      left: 27%;
+      top: 33px;
+      width: 0;
+      height: 0;
+      border-top: 43px solid transparent;
+      border-bottom: 43px solid transparent;
+      border-left: 150px solid rgba(255, 231, 113, 0.62);
+      opacity: 0.18;
+    }
+
+    .shadow-block {
+      position: absolute;
+      right: 27%;
+      bottom: 24px;
+      width: 48px;
+      height: 92px;
+      border-radius: 24px 24px 8px 8px;
+      background: #f18b70;
+      box-shadow: 0 8px 12px rgba(89, 55, 50, 0.18);
+    }
+
+    .shadow-shape {
+      position: absolute;
+      right: 7%;
+      bottom: 18px;
+      width: 66px;
+      height: 102px;
+      border-radius: 50% 50% 18px 18px;
+      background: rgba(72, 63, 83, 0.58);
+      transform: skewY(-8deg) scaleX(.45);
+      transform-origin: left bottom;
+      opacity: 0.2;
+    }
+
+    .is-running .light-cone {
+      animation: lightOn .55s ease-out both;
+    }
+
+    .is-running .shadow-shape {
+      animation: shadowGrow .8s .22s ease-out both;
+    }
+
+    .energy-pair {
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 18px;
+      padding: 12px 16%;
+    }
+
+    .energy-orb {
+      position: relative;
+      aspect-ratio: 1;
+      border: 6px solid #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 9px 18px rgba(58, 63, 83, 0.18);
+    }
+
+    .energy-orb.red { background: radial-gradient(circle at 35% 30%, #fff5e9 0 9%, #ff7d62 19%, #d94235 76%); }
+    .energy-orb.blue { background: radial-gradient(circle at 35% 30%, #ffffff 0 9%, #76d9ff 19%, #3e65df 76%); }
+
+    .energy-orb::after {
+      content: "";
+      position: absolute;
+      left: 22%;
+      right: 22%;
+      bottom: -14px;
+      height: 8px;
+      border-radius: 8px;
+      background: rgba(58, 50, 70, 0.2);
+    }
+
+    .is-running .energy-orb.red {
+      animation: energyBounceLow .9s ease-in-out both;
+    }
+
+    .is-running .energy-orb.blue {
+      animation: energyBounceHigh .9s ease-in-out both;
+    }
+
+    .quantum-meter {
+      position: absolute;
+      left: calc(50% - 62px);
+      top: 16px;
+      width: 124px;
+      height: 124px;
+      border: 8px solid #6ba7b4;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 0 50%, #dff8fd 51% 100%);
+      box-shadow: 0 9px 18px rgba(57, 101, 111, 0.18);
+    }
+
+    .spin-arrow {
+      position: absolute;
+      left: calc(50% - 5px);
+      top: 24px;
+      width: 10px;
+      height: 76px;
+      border-radius: 8px;
+      background: #f0b23e;
+      transform-origin: center 50px;
+    }
+
+    .spin-arrow::before {
+      content: "";
+      position: absolute;
+      left: -10px;
+      top: -8px;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-bottom: 22px solid #f0b23e;
+    }
+
+    .choice-0 .spin-arrow { animation: spinMeasureUp .9s ease-out both; }
+    .choice-1 .spin-arrow { animation: spinMeasureDown .9s ease-out both; }
+
+    .tunnel-wall {
+      position: absolute;
+      left: calc(50% - 17px);
+      top: 14px;
+      width: 34px;
+      height: 122px;
+      border-radius: 6px;
+      background: repeating-linear-gradient(0deg, #7a8795 0 15px, #aeb8c2 15px 30px);
+      box-shadow: 0 7px 12px rgba(45, 52, 60, 0.18);
+    }
+
+    .tunnel-dot {
+      position: absolute;
+      left: 14%;
+      top: 60px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #ffe06b;
+      box-shadow: 0 0 18px #ffcc3e;
+    }
+
+    .tunnel-target {
+      position: absolute;
+      right: 12%;
+      top: 40px;
+      width: 54px;
+      height: 68px;
+      border: 6px solid #5f9cac;
+      border-radius: 8px;
+      background: #e9fbff;
+    }
+
+    .is-running .tunnel-dot {
+      animation: tunnelAcross 1.15s ease-in-out both;
+    }
+
+    .melt-scene {
+      position: relative;
+      height: 100%;
+    }
+
+    .ice-cube {
+      position: absolute;
+      left: calc(50% - 48px);
+      top: 22px;
+      width: 96px;
+      height: 88px;
+      border: 6px solid rgba(115, 185, 216, 0.64);
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(150, 222, 244, 0.74));
+      box-shadow: 0 10px 18px rgba(61, 124, 151, 0.18), inset 12px 12px 0 rgba(255, 255, 255, 0.45);
+    }
+
+    .melt-puddle {
+      position: absolute;
+      left: calc(50% - 68px);
+      bottom: 10px;
+      width: 136px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(84, 188, 224, 0.62);
+      transform: scale(.2);
+      opacity: 0;
+    }
+
+    .warm-sun {
+      position: absolute;
+      right: 9%;
+      top: 6px;
+      font-size: 48px;
+    }
+
+    .is-running .ice-cube {
+      animation: iceMelt 1.25s ease-in both;
+    }
+
+    .is-running .melt-puddle {
+      animation: puddleGrow 1.25s .25s ease-out both;
+    }
+
+    .dissolve-cup {
+      position: absolute;
+      left: calc(50% - 54px);
+      bottom: 8px;
+      width: 108px;
+      height: 124px;
+      overflow: hidden;
+      border: 7px solid rgba(101, 165, 190, 0.54);
+      border-top-width: 3px;
+      border-radius: 6px 6px 24px 24px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0 24%, rgba(102, 205, 232, 0.6) 25% 100%);
+    }
+
+    .salt-grain {
+      --grain-x: 0px;
+      position: absolute;
+      left: calc(50% + var(--grain-x));
+      top: 22px;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      background: #fff6dc;
+      box-shadow: 0 2px 4px rgba(90, 81, 69, 0.2);
+    }
+
+    .salt-grain:nth-child(2) { --grain-x: -30px; }
+    .salt-grain:nth-child(3) { --grain-x: 26px; }
+    .salt-grain:nth-child(4) { --grain-x: -12px; top: 8px; }
+    .salt-grain:nth-child(5) { --grain-x: 13px; top: 3px; }
+
+    .is-running .salt-grain {
+      animation: grainDissolve 1.2s ease-in both;
+    }
+
+    .pinwheel-stick {
+      position: absolute;
+      left: calc(50% - 5px);
+      top: 70px;
+      width: 10px;
+      height: 78px;
+      border-radius: 8px;
+      background: #8b6b50;
+    }
+
+    .pinwheel {
+      position: absolute;
+      left: calc(50% - 55px);
+      top: 4px;
+      width: 110px;
+      height: 110px;
+      background: conic-gradient(#ff8ca6 0 25%, #ffe178 25% 50%, #70d0bc 50% 75%, #8cbcf2 75% 100%);
+      clip-path: polygon(50% 50%, 50% 0, 78% 28%, 100% 50%, 72% 78%, 50% 100%, 22% 72%, 0 50%, 28% 22%);
+      filter: drop-shadow(0 8px 7px rgba(68, 59, 76, 0.18));
+    }
+
+    .pinwheel::after {
+      content: "";
+      position: absolute;
+      left: calc(50% - 10px);
+      top: calc(50% - 10px);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff7cf;
+      box-shadow: 0 0 0 4px #9d7f63;
+    }
+
+    .wind-line {
+      position: absolute;
+      left: 8%;
+      width: 24%;
+      height: 10px;
+      border-top: 5px solid #80c6d8;
+      border-radius: 50%;
+      opacity: 0;
+    }
+
+    .wind-line.one { top: 42px; }
+    .wind-line.two { top: 82px; width: 31%; }
+
+    .is-running .pinwheel {
+      animation: pinwheelSpin .85s linear 2;
+    }
+
+    .is-running .wind-line {
+      animation: windMove .8s ease-out 2;
+    }
+
     @keyframes ballRoll {
       0% { transform: translate(0, 0) rotate(0deg); }
       72% { transform: translate(205px, 55px) rotate(560deg); }
@@ -1898,6 +2384,95 @@
 
     @keyframes leafGrowSecond {
       to { opacity: 1; transform: rotate(198deg) scale(1); }
+    }
+
+    @keyframes cartMove {
+      to { transform: translateX(190px); }
+    }
+
+    @keyframes arrowPush {
+      0% { opacity: .35; transform: translateX(-10px); }
+      100% { opacity: 1; transform: translateX(46px); }
+    }
+
+    @keyframes drumVibrate {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      25% { transform: translateX(-4px) rotate(-2deg); }
+      75% { transform: translateX(4px) rotate(2deg); }
+    }
+
+    @keyframes drumTap {
+      0% { transform: rotate(28deg); }
+      55% { transform: rotate(8deg) translateY(14px); }
+      100% { transform: rotate(28deg); }
+    }
+
+    @keyframes soundSpread {
+      0% { opacity: 0; transform: scale(.55); }
+      35% { opacity: 1; }
+      100% { opacity: 0; transform: scale(1.45); }
+    }
+
+    @keyframes lightOn {
+      to { opacity: 1; }
+    }
+
+    @keyframes shadowGrow {
+      to { opacity: .72; transform: skewY(-8deg) scaleX(1); }
+    }
+
+    @keyframes energyBounceLow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-13px); }
+    }
+
+    @keyframes energyBounceHigh {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-28px) scale(1.08); }
+    }
+
+    @keyframes spinMeasureUp {
+      0% { transform: rotate(0deg); }
+      75% { transform: rotate(720deg); }
+      100% { transform: rotate(720deg); }
+    }
+
+    @keyframes spinMeasureDown {
+      0% { transform: rotate(0deg); }
+      75% { transform: rotate(900deg); }
+      100% { transform: rotate(900deg); }
+    }
+
+    @keyframes tunnelAcross {
+      0% { opacity: 1; transform: translateX(0) scale(1); }
+      42% { opacity: .15; transform: translateX(112px) scale(.62); }
+      58% { opacity: .15; transform: translateX(156px) scale(.62); }
+      100% { opacity: 1; transform: translateX(250px) scale(1.08); }
+    }
+
+    @keyframes iceMelt {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: translateY(32px) scale(.5, .18); opacity: .18; }
+    }
+
+    @keyframes puddleGrow {
+      to { transform: scale(1); opacity: .86; }
+    }
+
+    @keyframes grainDissolve {
+      0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+      65% { opacity: .62; transform: translateY(74px) rotate(140deg); }
+      100% { opacity: 0; transform: translateY(92px) rotate(200deg) scale(.3); }
+    }
+
+    @keyframes pinwheelSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes windMove {
+      0% { opacity: 0; transform: translateX(-18px); }
+      45% { opacity: 1; }
+      100% { opacity: 0; transform: translateX(82px); }
     }
 
     @keyframes objectBob {
@@ -1972,6 +2547,143 @@
       .lesson-console,
       .experiment-zone {
         width: 44%;
+      }
+    }
+
+    @media (pointer: coarse) {
+      .world-button,
+      .mode-button,
+      .lesson-tab,
+      .prediction-choice,
+      .speak-discovery,
+      .run-experiment,
+      .quiet-button,
+      .parent-summary,
+      .discovery-parent summary {
+        min-height: 52px;
+      }
+
+      .mode-button:hover,
+      .world-button:hover,
+      .big-letter:hover {
+        transform: none;
+      }
+    }
+
+    /* iPad mini portrait: 744 CSS px on current 8.3-inch models. */
+    @media (min-width: 721px) and (max-width: 900px) {
+      .topbar {
+        flex-wrap: wrap;
+        padding: 14px 18px 12px;
+      }
+
+      .brand {
+        flex: 1 1 360px;
+      }
+
+      .status-strip {
+        flex: 1 1 100%;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .pill {
+        justify-content: center;
+      }
+
+      .world-row,
+      .mode-row {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      main,
+      .discovery-main {
+        padding: 16px;
+      }
+
+      .side-panel {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .parent-panel {
+        grid-column: 1 / -1;
+      }
+
+      .storybook-scene {
+        min-height: 540px;
+      }
+
+      .discovery-scene {
+        min-height: 980px;
+        background-position: 64% center;
+      }
+
+      .lesson-console {
+        top: 2.5%;
+        left: 4%;
+        width: 92%;
+        padding: 16px;
+      }
+
+      .lesson-tabs {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .experiment-zone {
+        left: 4%;
+        bottom: 3%;
+        width: 92%;
+        height: 230px;
+      }
+
+      .discovery-feedback {
+        right: 5%;
+        bottom: 28%;
+        max-width: 90%;
+      }
+    }
+
+    /* iPad mini landscape: keep the rabbit scene visible while reducing chrome. */
+    @media (min-width: 901px) and (max-width: 1180px) and (max-height: 820px) {
+      .topbar {
+        padding: 11px 18px 9px;
+      }
+
+      .bunny-mark {
+        width: 62px;
+        height: 62px;
+      }
+
+      .world-row,
+      .mode-row {
+        padding-top: 9px;
+      }
+
+      main,
+      .discovery-main {
+        padding-top: 14px;
+      }
+
+      .stage {
+        min-height: 560px;
+      }
+
+      .storybook-scene {
+        min-height: 470px;
+      }
+
+      .discovery-scene {
+        min-height: 800px;
+      }
+
+      .lesson-console {
+        top: 3%;
+      }
+
+      .experiment-zone,
+      .discovery-feedback {
+        bottom: 3%;
       }
     }
 
@@ -2387,9 +3099,13 @@
             <div class="lesson-tabs" id="lessonTabs" aria-label="選擇小實驗"></div>
             <h2 class="lesson-title" id="lessonTitle">滾下來</h2>
             <p class="lesson-line" id="lessonLine">斜斜的路，會讓球越滾越快。</p>
+            <div class="prediction-block">
+              <div class="prediction-question" id="predictionQuestion">先猜一猜：小球會往哪裡？</div>
+              <div class="prediction-choices" id="predictionChoices" data-count="2" aria-label="選擇你的猜想"></div>
+            </div>
             <div class="lesson-actions">
               <button class="speak-discovery" type="button" id="speakDiscovery" title="聽兔兔說" aria-label="聽兔兔說">🔊</button>
-              <button class="run-experiment" type="button" id="runExperiment">放開小球</button>
+              <button class="run-experiment" type="button" id="runExperiment" disabled>先選一個猜想</button>
             </div>
           </div>
 
@@ -2458,6 +3174,7 @@
             tab: "滾滾球",
             title: "斜坡上的小球",
             line: "斜斜的路，會讓球往下越滾越快。",
+            prediction: { question: "小球會往哪裡滾？", choices: ["⬇️ 往下", "⬆️ 往上"], answer: 0 },
             action: "放開小球",
             voice: "小球在斜坡上，會被地球往下拉，越滾越快。",
             feedback: "小球往下滾了！斜坡越陡，速度通常變快得越快。",
@@ -2469,6 +3186,7 @@
             tab: "上與下",
             title: "誰上去？誰下來？",
             line: "輕氣體氣球往上，石頭被地球拉往下。",
+            prediction: { question: "哪一個會往上？", choices: ["🎈 輕氣體氣球", "🪨 石頭"], answer: 0 },
             action: "一起放手",
             voice: "裝了很輕氣體的氣球會往上，石頭會被地球拉往下。",
             feedback: "一個升高、一個落下。空氣的浮力和重力一起決定方向。",
@@ -2480,11 +3198,48 @@
             tab: "浮或沉",
             title: "小船浮、石頭沉",
             line: "形狀和材料不同，在水裡會有不同結果。",
+            prediction: { question: "小船放進水裡會怎樣？", choices: ["⛵ 浮著", "⬇️ 沉下去"], answer: 0 },
             action: "放進水裡",
             voice: "小船浮在水面，石頭沉到水底。浮力和重量在比賽。",
             feedback: "小船浮著，石頭沉下去。不是只看大小，材料和形狀也很重要。",
             parent: "避免只教「重的沉、輕的浮」。大型鋼船也能浮；是否浮起取決於平均密度、形狀、重力與浮力。",
             visual: `<div class="water-tub"><div class="toy-boat"></div><div class="water-pebble"></div></div>`
+          },
+          {
+            id: "push-pull",
+            tab: "推一推",
+            title: "推力讓小車前進",
+            line: "手推小車，力會改變小車的動作。",
+            prediction: { question: "小車被往前推，會怎麼動？", choices: ["➡️ 往前走", "⬅️ 往後走"], answer: 0 },
+            action: "推動小車",
+            voice: "先猜猜看。小車被往前推，會往哪裡移動？",
+            feedback: "小車往前走了！推得更用力，通常會讓小車的速度改變得更多。",
+            parent: "可用大尺寸玩具車在地面比較輕推與較用力推。只改變推力大小，從同一條起線出發，練習公平比較。",
+            visual: `<div class="push-track"></div><div class="push-arrow">➜</div><div class="toy-cart"></div>`
+          },
+          {
+            id: "sound-vibration",
+            tab: "聲音震動",
+            title: "敲鼓會震動",
+            line: "聲音常常從快速的震動開始。",
+            prediction: { question: "敲鼓時，鼓面會不會振動？", choices: ["〰️ 會振動", "⏸️ 不會動"], answer: 0 },
+            action: "敲一下鼓",
+            voice: "先猜猜看。敲鼓的時候，鼓面會不會快速振動？",
+            feedback: "鼓面快速振動，推動附近的空氣，我們就聽見聲音。",
+            parent: "可把少量米粒放在保鮮膜覆蓋的碗上，輕敲旁邊觀察米粒跳動。全程由成人準備，避免小顆粒誤食。",
+            visual: `<div class="sound-wave left"></div><div class="sound-wave right"></div><div class="sound-stick"></div><div class="sound-drum"></div>`
+          },
+          {
+            id: "light-shadow",
+            tab: "光和影子",
+            title: "擋住光就有影子",
+            line: "不透明的東西擋住光，後面會比較暗。",
+            prediction: { question: "玩具擋住手電筒，後面會出現什麼？", choices: ["🌑 影子", "✨ 更多光"], answer: 0 },
+            action: "打開手電筒",
+            voice: "先猜猜看。玩具擋住手電筒的光，後面會出現什麼？",
+            feedback: "影子出現了！物體擋住部分光線，後面的地方就比較暗。",
+            parent: "用手電筒和大玩偶改變距離，觀察影子大小。避免直射眼睛；透明、半透明與不透明材料會有不同結果。",
+            visual: `<div class="flashlight-toy"></div><div class="light-cone"></div><div class="shadow-block"></div><div class="shadow-shape"></div>`
           }
         ]
       },
@@ -2499,6 +3254,7 @@
             tab: "光的小包",
             title: "一小包一小包的光",
             line: "光被吸收時，可以是一小包一小包。",
+            prediction: { question: "探測器會收到什麼樣的光訊號？", choices: ["✨ 一點一點", "➖ 一條不斷的線"], answer: 0 },
             action: "送出光點",
             voice: "光被物體吸收時，可以是一小包一小包。科學家叫它光子。",
             feedback: "小光點一個一個到達了。每一個亮點代表一次能量交換。",
@@ -2510,6 +3266,7 @@
             tab: "可能在哪",
             title: "小光點會在哪裡？",
             line: "找到以前，我們只能說它可能在哪裡。",
+            prediction: { question: "這次哪一朵可能會亮？", choices: ["① 左邊", "② 中間", "③ 右邊"], answer: null, randomResult: true },
             action: "找找小光點",
             voice: "在很小的世界裡，找到以前，我們用可能性來說它會出現在哪裡。",
             feedback: "這次在其中一個地方找到了！再試一次，結果可能不同。",
@@ -2521,11 +3278,48 @@
             tab: "光的花紋",
             title: "兩條路的明暗花紋",
             line: "許多小光點慢慢排出明暗相間的條紋。",
+            prediction: { question: "累積很多光點後會看到什麼？", choices: ["▥ 明暗條紋", "⬜ 一整片亮"], answer: 0 },
             action: "累積光點",
             voice: "很多光點一個一個通過兩條窄路，最後會排出明暗相間的條紋。",
             feedback: "條紋出現了！光的可能路徑會互相疊加，改變哪裡容易被找到。",
             parent: "這是 double-slit interference 的概念模型。單次偵測是局部亮點；大量事件才逐漸形成干涉分布。不要把畫面說成一顆日常小球同時走兩條肉眼可見的路。",
             visual: `<div class="interference-beam"></div><div class="slit-gate"></div><div class="stripe-screen"></div>`
+          },
+          {
+            id: "photon-energy",
+            tab: "光的顏色",
+            title: "藍光一包能量較多",
+            line: "不同顏色的光，每一包帶的能量不同。",
+            prediction: { question: "紅光和藍光相比，哪一包能量較多？", choices: ["🔴 紅光", "🔵 藍光"], answer: 1 },
+            action: "比較光色",
+            voice: "先猜猜看。紅光和藍光相比，哪一個光子的能量比較多？",
+            feedback: "藍光的一個光子能量比紅光的一個光子多，因為藍光的頻率較高。",
+            parent: "精確比較的是單一 photon energy，E 等於 h 乘以 frequency；不是說看起來更亮的藍燈一定總能量更高。幼兒只需建立「顏色與每包能量有關」的直覺。",
+            visual: `<div class="energy-pair"><div class="energy-orb red"></div><div class="energy-orb blue"></div></div>`
+          },
+          {
+            id: "measurement",
+            tab: "量一量",
+            title: "量測得到一個結果",
+            line: "在量測以前，我們用可能性描述微小系統。",
+            prediction: { question: "這次量測箭頭會指向哪裡？", choices: ["⬆️ 向上", "⬇️ 向下"], answer: null, randomResult: true },
+            action: "開始量測",
+            voice: "先猜猜看。這次量測會得到向上，還是向下？",
+            feedback: "量測得到一個明確方向。重複很多次，才看得出各種結果出現的比例。",
+            parent: "這是 two-state measurement 的概念模型，不代表真正量子系統裡有一支肉眼可見的箭頭。重點是單次量測得到一個結果，多次統計呈現機率。",
+            visual: `<div class="quantum-meter"><div class="spin-arrow"></div></div>`
+          },
+          {
+            id: "tunneling",
+            tab: "穿過障礙",
+            title: "微小世界的穿隧",
+            line: "在量子世界，障礙另一邊有時仍能找到粒子。",
+            prediction: { question: "微小粒子遇到障礙時，有可能在哪裡被找到？", choices: ["🧱 只在牆前", "✨ 有時在牆後"], answer: 1 },
+            action: "看看另一邊",
+            voice: "先猜猜看。微小粒子遇到障礙時，有沒有可能在另一邊被找到？",
+            feedback: "有時能在障礙另一邊找到它，這種量子現象叫做穿隧。",
+            parent: "動畫是 tunneling probability 的示意，不是粒子像小球打洞穿牆。真實說法是波函數在有限障礙內衰減，但另一側可能仍有非零偵測機率。",
+            visual: `<div class="tunnel-dot"></div><div class="tunnel-wall"></div><div class="tunnel-target"></div>`
           }
         ]
       },
@@ -2540,8 +3334,9 @@
             tab: "混顏色",
             title: "紅色加黃色",
             line: "兩種顏色混在一起，會變成新的顏色。",
+            prediction: { question: "紅色顏料加黃色顏料，會變成什麼顏色？", choices: ["🟠 橘色", "🟢 綠色"], answer: 0 },
             action: "混在一起",
-            voice: "紅色加上黃色，混在一起會看起來像橘色。",
+            voice: "先猜猜看。紅色顏料加上黃色顏料，會變成什麼顏色？",
             feedback: "變成橘色了！用顏料再試一次，會更容易看見。",
             parent: "此處是顏料／色料的 subtractive mixing 幼兒示意；螢幕光的 additive mixing 規則不同，之後可另外學。",
             visual: `<div class="mix-cups"><div class="mix-cup" style="--liquid:#ef5a51"></div><span class="mix-plus">＋</span><div class="mix-cup" style="--liquid:#f2cf3d"></div><span class="mix-plus">＝</span><div class="mix-cup mix-result"></div></div>`
@@ -2551,8 +3346,9 @@
             tab: "磁鐵",
             title: "磁鐵把星星拉近",
             line: "磁鐵會吸引鐵或鋼做的東西。",
+            prediction: { question: "磁鐵會把哪一個吸過來？", choices: ["🔩 鐵製物", "🧸 布偶"], answer: 0 },
             action: "靠近磁鐵",
-            voice: "磁鐵會吸引鐵或鋼做的東西，但不是所有金屬都會被吸住。",
+            voice: "先猜猜看。磁鐵會把鐵製物，還是布偶吸過來？",
             feedback: "鐵星星靠過來了！木頭、塑膠和很多金屬不會這樣被吸住。",
             parent: "請使用尺寸大、不會吞食的安全物件實作。精確說法是磁鐵強烈吸引 ferromagnetic materials，例如鐵與多數鋼材；不是所有金屬。",
             visual: `<div class="horseshoe"></div><span class="metal-star">★</span><span class="metal-star">★</span><span class="metal-star">★</span>`
@@ -2562,11 +3358,48 @@
             tab: "小芽找光",
             title: "小芽往亮亮的地方長",
             line: "植物需要光，也會慢慢朝著光生長。",
+            prediction: { question: "小芽比較可能朝哪裡慢慢長？", choices: ["☀️ 有光的地方", "🌑 黑暗角落"], answer: 0 },
             action: "打開陽光",
-            voice: "植物需要光來製造養分，小芽也常常會朝著光慢慢生長。",
+            voice: "先猜猜看。小芽比較可能朝有光的地方，還是黑暗角落生長？",
             feedback: "小芽長高、朝陽光彎過去了。植物也需要水、空氣和適合的溫度。",
             parent: "這是 phototropism 的簡化觀察。可把豆苗放在窗邊，每天同一時間拍照；提醒孩子植物還需要水、空氣、養分與合適溫度。",
             visual: `<div class="plant-pot"></div><div class="plant-stem"></div><div class="plant-leaf"></div><div class="plant-leaf second"></div><div class="sun-toy"></div>`
+          },
+          {
+            id: "melting",
+            tab: "冰融化",
+            title: "冰塊暖了會融化",
+            line: "冰吸收熱，會慢慢變成液態的水。",
+            prediction: { question: "冰塊放在溫暖的地方，會怎麼樣？", choices: ["💧 變成水", "🧊 一直硬硬的"], answer: 0 },
+            action: "讓冰塊變暖",
+            voice: "先猜猜看。冰塊放在溫暖的地方，會變成水嗎？",
+            feedback: "冰塊慢慢融化成水了！它還是水，只是從固態變成液態。",
+            parent: "可把冰塊放在兩個盤子，一個置於室溫、一個放在較涼處，觀察哪個先融化。避免讓孩子接觸熱水或熱源。",
+            visual: `<div class="melt-scene"><div class="warm-sun">☀️</div><div class="ice-cube"></div><div class="melt-puddle"></div></div>`
+          },
+          {
+            id: "dissolving",
+            tab: "鹽不見了",
+            title: "鹽在水裡散開",
+            line: "鹽會在水裡分散，變得很難用眼睛看見。",
+            prediction: { question: "鹽放進水裡攪拌，會怎麼樣？", choices: ["🥄 散開看不清", "☁️ 飛到空氣裡"], answer: 0 },
+            action: "攪一攪",
+            voice: "先猜猜看。鹽放進水裡攪拌，會散開，還是飛到空氣裡？",
+            feedback: "鹽在水裡散開了！它不是消失，嚐起來的水仍然有鹽味。",
+            parent: "溶解不是物質消失，也不是熔化。可由成人準備透明杯，以少量鹽和水觀察；活動材料不可讓幼兒單獨取用或大量食用。",
+            visual: `<div class="dissolve-cup"><i class="salt-grain"></i><i class="salt-grain"></i><i class="salt-grain"></i><i class="salt-grain"></i><i class="salt-grain"></i></div>`
+          },
+          {
+            id: "wind",
+            tab: "風吹轉轉",
+            title: "流動的空氣推動風車",
+            line: "風是流動的空氣，能推動輕輕的東西。",
+            prediction: { question: "風吹向小風車，風車會怎麼樣？", choices: ["🌀 轉起來", "⏸️ 完全不動"], answer: 0 },
+            action: "吹一陣風",
+            voice: "先猜猜看。風吹向小風車，風車會轉起來嗎？",
+            feedback: "小風車轉起來了！流動的空氣推著葉片，讓風車旋轉。",
+            parent: "可用紙風車比較輕吹和較用力吹。提醒孩子只對風車吹氣，不對他人臉部吹氣，也不要使用小型可拆零件。",
+            visual: `<div class="wind-line one"></div><div class="wind-line two"></div><div class="pinwheel-stick"></div><div class="pinwheel"></div>`
           }
         ]
       }
@@ -2582,6 +3415,7 @@
     let lockCards = false;
     let listenTarget = null;
     let lastIncorrectChoice = "";
+    let activePrediction = null;
     let cuteAudioContext = null;
     let friendlyVoice = null;
     let friendlyChineseVoice = null;
@@ -2626,6 +3460,8 @@
       lessonTabs: document.getElementById("lessonTabs"),
       lessonTitle: document.getElementById("lessonTitle"),
       lessonLine: document.getElementById("lessonLine"),
+      predictionQuestion: document.getElementById("predictionQuestion"),
+      predictionChoices: document.getElementById("predictionChoices"),
       speakDiscovery: document.getElementById("speakDiscovery"),
       runExperiment: document.getElementById("runExperiment"),
       experimentZone: document.getElementById("experimentZone"),
@@ -2778,7 +3614,32 @@
       els.lessonKicker.textContent = `${subject.name} · 小實驗 ${activeLessonIndex + 1}`;
       els.lessonTitle.textContent = lesson.title;
       els.lessonLine.textContent = lesson.line;
-      els.runExperiment.textContent = lesson.action;
+      activePrediction = null;
+      els.predictionQuestion.textContent = `先猜一猜：${lesson.prediction.question}`;
+      els.predictionChoices.dataset.count = String(lesson.prediction.choices.length);
+      els.predictionChoices.innerHTML = "";
+      lesson.prediction.choices.forEach((choice, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "prediction-choice";
+        button.textContent = choice;
+        button.setAttribute("aria-pressed", "false");
+        button.addEventListener("click", () => {
+          activePrediction = index;
+          els.predictionChoices.querySelectorAll(".prediction-choice").forEach((item, itemIndex) => {
+            item.setAttribute("aria-pressed", String(itemIndex === index));
+          });
+          Array.from(els.experimentZone.classList)
+            .filter((className) => className === "is-running" || className.startsWith("choice-"))
+            .forEach((className) => els.experimentZone.classList.remove(className));
+          els.runExperiment.disabled = false;
+          els.runExperiment.textContent = lesson.action;
+          els.discoveryFeedback.textContent = "兔兔記住你的猜想了！現在動手試試看。";
+        });
+        els.predictionChoices.appendChild(button);
+      });
+      els.runExperiment.disabled = true;
+      els.runExperiment.textContent = "先選一個猜想";
       els.experimentVisual.innerHTML = lesson.visual;
       els.experimentZone.className = "experiment-zone";
       els.discoveryFeedback.textContent = "先猜猜看，再按下按鈕做實驗。";
@@ -2823,22 +3684,37 @@
     function speakCurrentDiscovery() {
       const lesson = currentDiscoveryLesson();
       if (!lesson) return;
-      sayDiscoveryText(lesson.voice);
-      els.discoveryFeedback.textContent = lesson.line;
+      const prompt = `先猜猜看。${lesson.prediction.question}`;
+      sayDiscoveryText(prompt);
+      els.discoveryFeedback.textContent = prompt;
     }
 
     function runDiscoveryExperiment() {
       const lesson = currentDiscoveryLesson();
       if (!lesson) return;
-
-      els.experimentZone.classList.remove("is-running", "choice-0", "choice-1", "choice-2");
-      void els.experimentZone.offsetWidth;
-      if (lesson.id === "probability") {
-        els.experimentZone.classList.add(`choice-${Math.floor(Math.random() * 3)}`);
+      if (activePrediction === null) {
+        els.discoveryFeedback.textContent = "先選一個猜想，兔兔才知道你在想什麼喔。";
+        return;
       }
+
+      Array.from(els.experimentZone.classList)
+        .filter((className) => className === "is-running" || className.startsWith("choice-"))
+        .forEach((className) => els.experimentZone.classList.remove(className));
+      void els.experimentZone.offsetWidth;
+      const resultIndex = lesson.prediction.randomResult
+        ? Math.floor(Math.random() * lesson.prediction.choices.length)
+        : lesson.prediction.answer;
+      els.experimentZone.classList.add(`choice-${resultIndex}`);
       els.experimentZone.classList.add("is-running");
-      els.discoveryFeedback.textContent = lesson.feedback;
-      sayDiscoveryText(lesson.feedback);
+      const comparison = activePrediction === resultIndex
+        ? "和你的猜想一樣！"
+        : "和你的猜想不一樣，也有新發現！";
+      const randomResult = lesson.prediction.randomResult
+        ? `這次是「${lesson.prediction.choices[resultIndex]}」。`
+        : "";
+      const feedback = `${comparison}${randomResult}${lesson.feedback}`;
+      els.discoveryFeedback.textContent = feedback;
+      sayDiscoveryText(feedback);
       completeDiscoveryLesson(lesson);
     }
 
@@ -2854,7 +3730,13 @@
     }
 
     function completedDiscoveryCount() {
-      return Object.keys(state.discoveryCompleted || {}).filter((key) => /^(physics|quantum|science):/.test(key)).length;
+      return Object.entries(DISCOVERY).reduce((total, [subjectKey, subject]) => {
+        return total + subject.lessons.filter((lesson) => state.discoveryCompleted?.[`${subjectKey}:${lesson.id}`]).length;
+      }, 0);
+    }
+
+    function totalDiscoveryCount() {
+      return Object.values(DISCOVERY).reduce((total, subject) => total + subject.lessons.length, 0);
     }
 
     function sayDiscoveryText(text) {
@@ -3189,7 +4071,7 @@
       els.starPill.textContent = `⭐ 星星 ${state.stars}`;
       els.unlockPill.textContent = activeWorld === "alphabet"
         ? `🔤 字母 ${unlockedCount()}/26`
-        : `🧪 實驗 ${completedDiscoveryCount()}/9`;
+        : `🧪 實驗 ${completedDiscoveryCount()}/${totalDiscoveryCount()}`;
       els.todayPill.textContent = `🌷 今天 ${state.days[TODAY_KEY] || 0}`;
       document.getElementById("toggleSoundStyle").textContent = state.soundStyle === "chimeOnly" ? "聲音：只要鈴聲" : "聲音：自然語音";
       renderFocusLetters();

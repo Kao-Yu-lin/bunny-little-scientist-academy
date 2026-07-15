@@ -1203,7 +1203,7 @@
 
     .world-row {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 10px;
       padding: 12px 18px 4px;
       background: rgba(255, 255, 255, 0.82);
@@ -1255,6 +1255,325 @@
       display: none !important;
     }
 
+    .today-main {
+      width: min(1380px, 100%);
+      padding: 16px 18px 22px;
+    }
+
+    .today-shell {
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+
+    .today-hero {
+      position: relative;
+      isolation: isolate;
+      min-height: 390px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      padding: clamp(26px, 5vw, 68px);
+      border: 4px solid #ffffff;
+      border-radius: 8px;
+      background-image: url("bunny_garden_3d_v1.webp");
+      background-position: center;
+      background-size: cover;
+      box-shadow: 0 18px 45px rgba(72, 55, 84, 0.17), inset 0 0 0 1px rgba(74, 60, 80, 0.08);
+    }
+
+    .today-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(90deg, rgba(255, 252, 239, 0.96) 0%, rgba(255, 250, 236, 0.74) 38%, rgba(255, 255, 255, 0) 66%);
+    }
+
+    .today-copy {
+      width: min(48%, 590px);
+      color: #4c4153;
+    }
+
+    .today-kicker {
+      margin-bottom: 7px;
+      color: #c15f72;
+      font-size: 16px;
+      font-weight: 950;
+    }
+
+    .today-copy h2 {
+      margin: 0;
+      color: #3e3547;
+      font-size: clamp(34px, 4vw, 56px);
+      line-height: 1.08;
+      letter-spacing: 0;
+      text-shadow: 0 2px 0 rgba(255, 255, 255, 0.85);
+    }
+
+    .today-story-line {
+      min-height: 56px;
+      margin: 15px 0 18px;
+      color: #625568;
+      font-size: 19px;
+      font-weight: 820;
+      line-height: 1.5;
+    }
+
+    .today-speak {
+      min-width: 168px;
+      min-height: 56px;
+      border: 2px solid #ffffff;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #f38ca8, #dc6688);
+      color: #ffffff;
+      font-size: 17px;
+      font-weight: 950;
+      box-shadow: 0 5px 0 #b94f70, 0 10px 24px rgba(118, 58, 77, 0.18);
+    }
+
+    .today-speak:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #b94f70;
+    }
+
+    .garden-status {
+      position: absolute;
+      left: clamp(26px, 5vw, 68px);
+      bottom: 20px;
+      min-width: 250px;
+      max-width: 40%;
+    }
+
+    .garden-status-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 7px;
+      color: #4c4153;
+      font-size: 14px;
+      font-weight: 950;
+    }
+
+    .garden-track {
+      height: 14px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.94);
+      border-radius: 7px;
+      background: rgba(96, 79, 104, 0.2);
+      box-shadow: 0 3px 10px rgba(68, 55, 74, 0.12);
+    }
+
+    .garden-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #6dc78f, #f0c74f, #ef87a5);
+      transition: width 500ms ease;
+    }
+
+    .garden-growth {
+      position: absolute;
+      right: 4.5%;
+      bottom: 3.5%;
+      width: min(36%, 410px);
+      height: 160px;
+      pointer-events: none;
+    }
+
+    .growth-item {
+      position: absolute;
+      opacity: 0;
+      transform: translateY(12px) scale(0.7);
+      transition: opacity 420ms ease, transform 520ms cubic-bezier(.2, .8, .2, 1.2);
+      filter: drop-shadow(0 5px 6px rgba(71, 60, 73, 0.18));
+    }
+
+    .growth-seed {
+      left: 9%;
+      bottom: 4px;
+      font-size: 32px;
+    }
+
+    .growth-sprout {
+      left: 28%;
+      bottom: 7px;
+      font-size: 58px;
+    }
+
+    .growth-flower {
+      left: 48%;
+      bottom: 8px;
+      font-size: 67px;
+    }
+
+    .growth-butterfly {
+      right: 11%;
+      top: 25px;
+      font-size: 46px;
+    }
+
+    .growth-rainbow {
+      right: 2%;
+      top: -4px;
+      font-size: 74px;
+    }
+
+    .today-hero[data-garden-level="1"] .growth-seed,
+    .today-hero[data-garden-level="2"] .growth-seed,
+    .today-hero[data-garden-level="2"] .growth-sprout,
+    .today-hero[data-garden-level="3"] .growth-seed,
+    .today-hero[data-garden-level="3"] .growth-sprout,
+    .today-hero[data-garden-level="3"] .growth-flower,
+    .today-hero[data-garden-level="4"] .growth-seed,
+    .today-hero[data-garden-level="4"] .growth-sprout,
+    .today-hero[data-garden-level="4"] .growth-flower,
+    .today-hero[data-garden-level="4"] .growth-butterfly,
+    .today-hero[data-garden-level="5"] .growth-item {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .today-hero[data-garden-level="4"] .growth-butterfly,
+    .today-hero[data-garden-level="5"] .growth-butterfly {
+      animation: butterflyFloat 2.8s ease-in-out infinite;
+    }
+
+    .mission-band {
+      padding: 22px 4px 2px;
+    }
+
+    .mission-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .mission-heading h2 {
+      margin: 0;
+      color: #4a3f54;
+      font-size: 25px;
+    }
+
+    .mission-count {
+      flex: 0 0 auto;
+      padding: 7px 11px;
+      border: 2px solid #e6ddeb;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #65586f;
+      font-weight: 950;
+    }
+
+    .mission-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .mission-button {
+      position: relative;
+      min-width: 0;
+      min-height: 148px;
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      grid-template-rows: auto 1fr auto;
+      gap: 3px 12px;
+      padding: 17px;
+      overflow: hidden;
+      text-align: left;
+      border: 2px solid #e1d8e6;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #4f4359;
+      box-shadow: 0 5px 0 #ddd3e3, 0 11px 24px rgba(72, 55, 84, 0.07);
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+
+    .mission-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 0 #ddd3e3, 0 14px 28px rgba(72, 55, 84, 0.1);
+    }
+
+    .mission-button:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #ddd3e3;
+    }
+
+    .mission-button.is-complete {
+      border-color: #83c9a1;
+      background: #f0fff5;
+      box-shadow: 0 5px 0 #94cda9;
+    }
+
+    .mission-icon {
+      grid-row: 1 / 4;
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #fff2c7;
+      font-size: 29px;
+    }
+
+    .mission-button:nth-child(2) .mission-icon {
+      background: #daf7ed;
+    }
+
+    .mission-button:nth-child(3) .mission-icon {
+      background: #f7e3f1;
+    }
+
+    .mission-type {
+      color: #b65e76;
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .mission-title {
+      align-self: center;
+      font-size: 18px;
+      font-weight: 950;
+      line-height: 1.35;
+    }
+
+    .mission-action {
+      color: #73657c;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .mission-button.is-complete .mission-action {
+      color: #3d8159;
+    }
+
+    .today-parent {
+      margin-top: 14px;
+      border: 1px solid #ded4e5;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.92);
+      color: #5f5368;
+    }
+
+    .today-parent summary {
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      padding: 9px 14px;
+      color: #4f4359;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .today-parent p {
+      margin: 0;
+      padding: 0 14px 14px;
+      line-height: 1.6;
+    }
+
     .discovery-main {
       width: min(1380px, 100%);
       padding: 16px 18px 22px;
@@ -1298,6 +1617,14 @@
       --accent: #55ad78;
       --accent-soft: #e9faef;
       --accent-shadow: #348754;
+    }
+
+    .discovery-scene[data-subject="math"] {
+      --world-image: url("bunny_garden_3d_v1.webp");
+      --accent: #df963b;
+      --accent-soft: #fff5d8;
+      --accent-shadow: #b87324;
+      background-position: 58% center;
     }
 
     .discovery-scene::before {
@@ -2322,10 +2649,274 @@
       animation: windMove .8s ease-out 2;
     }
 
+    .math-count-scene,
+    .subitize-scene,
+    .shape-stage,
+    .pattern-row,
+    .position-scene {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .math-plate {
+      position: absolute;
+      left: 50%;
+      bottom: 12px;
+      width: 230px;
+      height: 108px;
+      border: 8px solid #77b8b4;
+      border-radius: 50%;
+      background: #f5ffff;
+      box-shadow: inset 0 -12px 0 rgba(95, 173, 169, 0.14), 0 9px 15px rgba(62, 91, 92, 0.16);
+      transform: translateX(-50%);
+    }
+
+    .math-seed {
+      position: absolute;
+      width: 32px;
+      height: 23px;
+      border: 3px solid #8d623f;
+      border-radius: 58% 42% 58% 42%;
+      background: linear-gradient(145deg, #e1a765, #b8753e);
+      opacity: .88;
+      transform: rotate(28deg);
+    }
+
+    .math-seed:nth-child(1) { left: 31%; top: 48px; }
+    .math-seed:nth-child(2) { left: 44%; top: 84px; transform: rotate(-17deg); }
+    .math-seed:nth-child(3) { left: 56%; top: 45px; transform: rotate(12deg); }
+    .math-seed:nth-child(4) { left: 66%; top: 83px; transform: rotate(42deg); }
+
+    .is-running .math-seed {
+      animation: seedCount 900ms ease-out both;
+    }
+
+    .is-running .math-seed:nth-child(2) { animation-delay: 130ms; }
+    .is-running .math-seed:nth-child(3) { animation-delay: 260ms; }
+    .is-running .math-seed:nth-child(4) { animation-delay: 390ms; }
+
+    .subitize-scene {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 26px;
+    }
+
+    .math-berry {
+      position: relative;
+      width: 76px;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      border: 4px solid #a83e59;
+      border-radius: 50% 48% 55% 45%;
+      background: radial-gradient(circle at 35% 28%, #ff9aac 0 12%, #ee5876 40%, #c93d5a 100%);
+      color: #fff4bb;
+      font-size: 24px;
+      box-shadow: 0 9px 13px rgba(116, 52, 68, 0.18);
+    }
+
+    .math-berry::before {
+      content: "";
+      position: absolute;
+      top: -17px;
+      width: 42px;
+      height: 23px;
+      background: #5dad68;
+      clip-path: polygon(50% 48%, 0 0, 23% 72%, 0 100%, 50% 75%, 100% 100%, 77% 72%, 100% 0);
+    }
+
+    .is-running .math-berry {
+      animation: berryPop 680ms ease-out both;
+    }
+
+    .is-running .math-berry:nth-child(2) { animation-delay: 120ms; }
+    .is-running .math-berry:nth-child(3) { animation-delay: 240ms; }
+
+    .compare-groups {
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: end;
+      padding: 4px 8%;
+    }
+
+    .compare-group {
+      min-height: 118px;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 15px;
+      border: 4px solid #d7c4e1;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .compare-dot {
+      width: 37px;
+      height: 37px;
+      border: 3px solid #a45771;
+      border-radius: 50%;
+      background: #f17b9b;
+      box-shadow: inset 0 4px 0 rgba(255, 255, 255, .45);
+    }
+
+    .is-running .compare-group:last-child {
+      animation: moreBounce 720ms ease-out both;
+      border-color: #65b98a;
+    }
+
+    .shape-stage {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      gap: 16px;
+    }
+
+    .math-shape {
+      width: 88px;
+      height: 88px;
+      filter: drop-shadow(0 8px 8px rgba(77, 61, 87, .16));
+    }
+
+    .shape-circle {
+      border: 5px solid #bf5370;
+      border-radius: 50%;
+      background: #f88caa;
+    }
+
+    .shape-triangle {
+      background: #f3c956;
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    }
+
+    .shape-square {
+      border: 5px solid #3b8e91;
+      border-radius: 7px;
+      background: #70c5c3;
+    }
+
+    .is-running .shape-triangle {
+      animation: shapeCelebrate 820ms ease-out both;
+    }
+
+    .pattern-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 13px;
+    }
+
+    .pattern-bead {
+      width: 54px;
+      height: 54px;
+      border: 4px solid rgba(103, 69, 77, .32);
+      border-radius: 50%;
+      background: #ef718f;
+      box-shadow: inset 0 5px 0 rgba(255, 255, 255, .38), 0 7px 10px rgba(75, 59, 85, .14);
+    }
+
+    .pattern-bead.yellow {
+      background: #f2cd50;
+    }
+
+    .pattern-next {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border: 4px dashed #9c8ba6;
+      border-radius: 50%;
+      color: #786982;
+      font-size: 30px;
+      font-weight: 950;
+    }
+
+    .is-running .pattern-next {
+      border-style: solid;
+      border-color: #a44861;
+      background: #ef718f;
+      color: #ffffff;
+      animation: patternReveal 700ms ease-out both;
+    }
+
+    .position-box {
+      position: absolute;
+      left: 50%;
+      bottom: 5px;
+      width: 190px;
+      height: 96px;
+      border: 7px solid #a87343;
+      border-top-width: 3px;
+      border-radius: 5px 5px 18px 18px;
+      background: linear-gradient(180deg, #edbe70, #c88d4b);
+      box-shadow: inset 0 6px 0 rgba(255, 255, 255, .26), 0 9px 13px rgba(93, 66, 44, .16);
+      transform: translateX(-50%);
+    }
+
+    .position-bunny {
+      position: absolute;
+      left: calc(50% - 42px);
+      top: 2px;
+      font-size: 80px;
+      line-height: 1;
+      transform: translateY(48px) scale(.86);
+    }
+
+    .is-running .position-bunny {
+      animation: bunnyInside 900ms ease-out both;
+    }
+
     @keyframes ballRoll {
       0% { transform: translate(0, 0) rotate(0deg); }
       72% { transform: translate(205px, 55px) rotate(560deg); }
       100% { transform: translate(235px, 55px) rotate(650deg); }
+    }
+
+    @keyframes butterflyFloat {
+      0%, 100% { transform: translate(0, 0) rotate(-5deg); }
+      50% { transform: translate(-12px, -14px) rotate(7deg); }
+    }
+
+    @keyframes seedCount {
+      0% { opacity: .2; transform: translateY(-28px) rotate(0deg) scale(.55); }
+      70% { opacity: 1; transform: translateY(4px) rotate(28deg) scale(1.1); }
+      100% { opacity: 1; }
+    }
+
+    @keyframes berryPop {
+      0% { opacity: .25; transform: scale(.45) rotate(-12deg); }
+      72% { opacity: 1; transform: scale(1.12) rotate(4deg); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes moreBounce {
+      0%, 100% { transform: translateY(0); }
+      45% { transform: translateY(-12px); }
+      70% { transform: translateY(4px); }
+    }
+
+    @keyframes shapeCelebrate {
+      0% { transform: scale(.7) rotate(-12deg); }
+      65% { transform: scale(1.16) rotate(8deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    @keyframes patternReveal {
+      0% { transform: scale(.55) rotate(-22deg); }
+      70% { transform: scale(1.13) rotate(5deg); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes bunnyInside {
+      0% { transform: translateY(-34px) scale(.82); }
+      62% { transform: translateY(56px) scale(.9); }
+      80% { transform: translateY(42px) scale(.86); }
+      100% { transform: translateY(48px) scale(.86); }
     }
 
     @keyframes balloonRise {
@@ -2557,6 +3148,8 @@
       .prediction-choice,
       .speak-discovery,
       .run-experiment,
+      .today-speak,
+      .mission-button,
       .quiet-button,
       .parent-summary,
       .discovery-parent summary {
@@ -2597,9 +3190,31 @@
         padding-right: 16px;
       }
 
+      .world-button {
+        flex-direction: column;
+        gap: 2px;
+        padding: 6px 3px;
+        font-size: 14px;
+        line-height: 1.1;
+      }
+
       main,
-      .discovery-main {
+      .discovery-main,
+      .today-main {
         padding: 16px;
+      }
+
+      .today-hero {
+        min-height: 440px;
+        background-position: 58% center;
+      }
+
+      .today-copy {
+        width: 53%;
+      }
+
+      .garden-growth {
+        width: 40%;
       }
 
       .side-panel {
@@ -2677,6 +3292,14 @@
         min-height: 800px;
       }
 
+      .today-hero {
+        min-height: 390px;
+      }
+
+      .mission-button {
+        min-height: 132px;
+      }
+
       .lesson-console {
         top: 3%;
       }
@@ -2735,6 +3358,7 @@
       .world-row {
         padding: 9px 12px 3px;
         gap: 7px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
       .world-button {
@@ -2757,6 +3381,79 @@
 
       main {
         padding: 12px;
+      }
+
+      .today-main {
+        padding: 12px;
+      }
+
+      .today-hero {
+        min-height: 500px;
+        align-items: flex-start;
+        padding: 26px 20px;
+        background-position: 63% center;
+      }
+
+      .today-hero::before {
+        background: linear-gradient(180deg, rgba(255, 252, 239, .97) 0%, rgba(255, 250, 236, .78) 38%, rgba(255, 255, 255, 0) 70%);
+      }
+
+      .today-copy {
+        width: 90%;
+      }
+
+      .today-copy h2 {
+        font-size: 32px;
+      }
+
+      .today-story-line {
+        min-height: 48px;
+        margin: 10px 0 13px;
+        font-size: 16px;
+      }
+
+      .today-speak {
+        min-width: 148px;
+        min-height: 52px;
+        font-size: 15px;
+      }
+
+      .garden-status {
+        left: 20px;
+        bottom: 17px;
+        min-width: 0;
+        max-width: none;
+        width: calc(100% - 40px);
+      }
+
+      .garden-growth {
+        right: 6%;
+        bottom: 45px;
+        width: 54%;
+        height: 126px;
+      }
+
+      .growth-seed { font-size: 25px; }
+      .growth-sprout { font-size: 43px; }
+      .growth-flower { font-size: 48px; }
+      .growth-butterfly { font-size: 35px; }
+      .growth-rainbow { font-size: 52px; }
+
+      .mission-band {
+        padding-top: 18px;
+      }
+
+      .mission-heading h2 {
+        font-size: 21px;
+      }
+
+      .mission-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .mission-button {
+        min-height: 124px;
       }
 
       .stage {
@@ -2865,6 +3562,10 @@
         background-position: 67% center;
       }
 
+      .discovery-scene[data-subject="math"] {
+        background-position: 70% center;
+      }
+
       .discovery-scene::before {
         background: linear-gradient(180deg, rgba(255, 252, 247, .45), rgba(255, 255, 255, 0) 72%);
       }
@@ -2915,6 +3616,50 @@
 
       .toy-ramp {
         left: 15%;
+      }
+
+      .math-plate {
+        width: 190px;
+      }
+
+      .math-berry {
+        width: 62px;
+        height: 62px;
+      }
+
+      .subitize-scene {
+        gap: 12px;
+      }
+
+      .compare-groups {
+        gap: 10px;
+        padding: 4px 2%;
+      }
+
+      .compare-group {
+        min-height: 108px;
+        gap: 6px;
+        padding: 9px;
+      }
+
+      .compare-dot {
+        width: 30px;
+        height: 30px;
+      }
+
+      .math-shape {
+        width: 68px;
+        height: 68px;
+      }
+
+      .pattern-row {
+        gap: 7px;
+      }
+
+      .pattern-bead,
+      .pattern-next {
+        width: 44px;
+        height: 44px;
       }
 
       @keyframes ballRoll {
@@ -2980,7 +3725,7 @@
         </svg>
         <div class="title-block">
           <h1 id="appTitle">兔兔小小科學院</h1>
-          <p class="subtitle" id="appSubtitle">今天和兔兔一起認 4 個英文字母。</p>
+          <p class="subtitle" id="appSubtitle">今天有三個剛剛好的小任務。</p>
         </div>
       </div>
       <div class="status-strip" aria-live="polite">
@@ -2991,20 +3736,59 @@
     </header>
 
     <nav class="world-row" aria-label="學習世界">
-      <button class="world-button" type="button" data-world="alphabet" aria-pressed="true"><span class="world-icon" aria-hidden="true">🔤</span><span>ABC</span></button>
+      <button class="world-button" type="button" data-world="today" aria-pressed="true"><span class="world-icon" aria-hidden="true">🐰</span><span>今天</span></button>
+      <button class="world-button" type="button" data-world="alphabet" aria-pressed="false"><span class="world-icon" aria-hidden="true">🔤</span><span>ABC</span></button>
+      <button class="world-button" type="button" data-world="math" aria-pressed="false"><span class="world-icon" aria-hidden="true">🔢</span><span>寶寶數學</span></button>
       <button class="world-button" type="button" data-world="physics" aria-pressed="false"><span class="world-icon" aria-hidden="true">🛝</span><span>寶寶物理</span></button>
       <button class="world-button" type="button" data-world="quantum" aria-pressed="false"><span class="world-icon" aria-hidden="true">✨</span><span>寶寶量子</span></button>
       <button class="world-button" type="button" data-world="science" aria-pressed="false"><span class="world-icon" aria-hidden="true">🔬</span><span>寶寶科學</span></button>
     </nav>
 
-    <nav class="mode-row" id="alphabetModeRow" aria-label="練習模式">
+    <nav class="mode-row" id="alphabetModeRow" aria-label="練習模式" hidden>
       <button class="mode-button" type="button" data-mode="learn" aria-pressed="true">🔤 看字母</button>
       <button class="mode-button" type="button" data-mode="match" aria-pressed="false">🧩 配對</button>
       <button class="mode-button" type="button" data-mode="listen" aria-pressed="false">🔊 聽一聽</button>
       <button class="mode-button" type="button" data-mode="progress" aria-pressed="false">⭐ 進度</button>
     </nav>
 
-    <main id="alphabetWorld">
+    <main class="today-main" id="todayWorld">
+      <div class="today-shell">
+        <section class="today-hero" id="todayHero" data-garden-level="0" aria-live="polite">
+          <div class="today-copy">
+            <div class="today-kicker">兔兔今天的冒險</div>
+            <h2 id="todayStoryTitle">幫兔兔準備小花園</h2>
+            <p class="today-story-line" id="todayStoryLine">先暖身，再發現一件新事情，最後到生活裡找一找。</p>
+            <button class="today-speak" type="button" id="speakToday">🔊 聽兔兔說</button>
+          </div>
+          <div class="garden-status" aria-label="兔兔花園成長進度">
+            <div class="garden-status-line"><span id="gardenStageName">一顆小種子</span><span id="gardenLevelLabel">0 / 5</span></div>
+            <div class="garden-track"><div class="garden-fill" id="gardenFill"></div></div>
+          </div>
+          <div class="garden-growth" aria-hidden="true">
+            <span class="growth-item growth-seed">🌰</span>
+            <span class="growth-item growth-sprout">🌱</span>
+            <span class="growth-item growth-flower">🌻</span>
+            <span class="growth-item growth-butterfly">🦋</span>
+            <span class="growth-item growth-rainbow">🌈</span>
+          </div>
+        </section>
+
+        <section class="mission-band" aria-labelledby="missionHeading">
+          <div class="mission-heading">
+            <h2 id="missionHeading">今天三件小任務</h2>
+            <span class="mission-count" id="todayMissionCount">0 / 3</span>
+          </div>
+          <div class="mission-grid" id="todayMissions"></div>
+        </section>
+
+        <details class="today-parent">
+          <summary>給家長的陪玩小提醒</summary>
+          <p id="todayParentNote">每次約 8 到 12 分鐘就好。孩子想重玩可以重玩，不需要一次做完，也不必追求答對速度。</p>
+        </details>
+      </div>
+    </main>
+
+    <main id="alphabetWorld" hidden>
       <div class="dashboard">
         <section class="stage" aria-live="polite">
           <div class="stage-header">
@@ -3110,7 +3894,7 @@
           </div>
 
           <div class="experiment-zone" id="experimentZone">
-            <div class="experiment-label">摸摸看，會發生什麼？</div>
+            <div class="experiment-label" id="experimentLabel">摸摸看，會發生什麼？</div>
             <div class="experiment-visual" id="experimentVisual"></div>
           </div>
 
@@ -3118,7 +3902,7 @@
         </section>
 
         <details class="discovery-parent">
-          <summary>給家長的科學小提醒</summary>
+          <summary id="discoveryParentSummary">給家長的科學小提醒</summary>
           <p id="parentScienceNote">先讓孩子猜球會往哪裡走，再按下按鈕。重點是觀察「斜坡讓球往下加速」，不需要背公式。</p>
         </details>
       </div>
@@ -3163,6 +3947,87 @@
     ];
 
     const DISCOVERY = {
+      math: {
+        name: "寶寶數學",
+        title: "兔兔數學花園",
+        subtitle: "數一數、比一比，幫兔兔整理小花園。",
+        activityLabel: "小任務",
+        image: "bunny_garden_3d_v1.webp",
+        lessons: [
+          {
+            id: "count-seeds",
+            tab: "數種子",
+            title: "盤子裡有幾顆？",
+            line: "用手指一顆一顆點，每顆只數一次。",
+            prediction: { question: "盤子裡有幾顆種子？", choices: ["3 顆", "4 顆", "5 顆"], answer: 1 },
+            action: "一起數數",
+            voice: "小手指慢慢點。 一、二、三、四。盤子裡有四顆種子。",
+            feedback: "一、二、三、四！最後說到的數字，就是種子的總數。",
+            parent: "請孩子一邊指、一邊數，觀察是否每個物件只點一次。熟悉後可換成 1 到 5 個大型安全物件。",
+            visual: `<div class="math-count-scene"><div class="math-plate"></div><i class="math-seed"></i><i class="math-seed"></i><i class="math-seed"></i><i class="math-seed"></i></div>`
+          },
+          {
+            id: "subitize-berries",
+            tab: "一眼看數量",
+            title: "一眼看見三顆",
+            line: "少少的東西，有時不用一顆一顆數。",
+            prediction: { question: "這裡有幾顆草莓？", choices: ["2 顆", "3 顆", "4 顆"], answer: 1 },
+            action: "亮出答案",
+            voice: "看一眼。這裡有三顆草莓。少少的數量，可以練習一眼看出來。",
+            feedback: "三顆草莓一起跳出來！這叫做一眼看出少量的數量。",
+            parent: "subitizing 適合先從 1 到 3 開始。快速展示少量積木約一秒，再遮起來問孩子看見幾個，不必要求心算。",
+            visual: `<div class="subitize-scene"><div class="math-berry">•</div><div class="math-berry">•</div><div class="math-berry">•</div></div>`
+          },
+          {
+            id: "compare-more",
+            tab: "多和少",
+            title: "哪一邊比較多？",
+            line: "把兩群放在一起看，找出比較多的一邊。",
+            prediction: { question: "哪一邊的粉紅果子比較多？", choices: ["左邊 2 顆", "右邊 4 顆"], answer: 1 },
+            action: "比一比",
+            voice: "左邊有兩顆，右邊有四顆。右邊比較多。",
+            feedback: "右邊有四顆，比左邊的兩顆多。也可以一顆對一顆排排看。",
+            parent: "先用一對一配對建立多與少，不急著教大於、小於符號。可問：怎麼知道？讓孩子用排列或點數說明。",
+            visual: `<div class="compare-groups"><div class="compare-group"><i class="compare-dot"></i><i class="compare-dot"></i></div><div class="compare-group"><i class="compare-dot"></i><i class="compare-dot"></i><i class="compare-dot"></i><i class="compare-dot"></i></div></div>`
+          },
+          {
+            id: "find-triangle",
+            tab: "找形狀",
+            title: "找到三角形",
+            line: "三角形有三條邊，也有三個角。",
+            prediction: { question: "哪一個是三角形？", choices: ["圓形", "三角形", "正方形"], answer: 1 },
+            action: "讓它跳跳",
+            voice: "三角形有三條直直的邊，還有三個角。",
+            feedback: "三角形跳起來了！轉一個方向，它還是三角形。",
+            parent: "讓孩子摸大型形狀的邊與角，並把圖形旋轉，避免只認得尖端朝上的標準樣子。",
+            visual: `<div class="shape-stage"><div class="math-shape shape-circle"></div><div class="math-shape shape-triangle"></div><div class="math-shape shape-square"></div></div>`
+          },
+          {
+            id: "color-pattern",
+            tab: "接規律",
+            title: "紅、黃、紅、黃",
+            line: "找找看，一樣的順序正在重複。",
+            prediction: { question: "下一顆應該是什麼顏色？", choices: ["紅色", "黃色"], answer: 0 },
+            action: "接下一顆",
+            voice: "紅色、黃色、紅色、黃色。下一顆是紅色。",
+            feedback: "接上紅色了！紅、黃這一小段一直重複，就是規律。",
+            parent: "從 AB 規律開始，用積木、拍手與跺腳都可以。先請孩子接下一個，再邀請他自己排一組。",
+            visual: `<div class="pattern-row"><i class="pattern-bead"></i><i class="pattern-bead yellow"></i><i class="pattern-bead"></i><i class="pattern-bead yellow"></i><div class="pattern-next">?</div></div>`
+          },
+          {
+            id: "inside-box",
+            tab: "裡面外面",
+            title: "兔兔在盒子裡",
+            line: "位置詞可以告訴我們東西在哪裡。",
+            prediction: { question: "小兔現在在哪裡？", choices: ["盒子裡", "盒子外"], answer: 0 },
+            action: "兔兔躲好",
+            voice: "小兔跳進盒子裡。它現在在盒子的裡面。",
+            feedback: "兔兔躲在盒子裡！也可以玩上面、下面、前面和後面。",
+            parent: "用玩偶和盒子輪流說與做：放在裡面、外面、上面、下面。請孩子也出題給成人做，能增加語言與空間理解。",
+            visual: `<div class="position-scene"><div class="position-box"></div><div class="position-bunny">🐰</div></div>`
+          }
+        ]
+      },
       physics: {
         name: "寶寶物理",
         title: "兔兔物理遊樂園",
@@ -3405,10 +4270,28 @@
       }
     };
 
+    const OFFLINE_MISSIONS = [
+      { icon: "⭕", title: "找 3 個圓圓的東西", voice: "和大人一起，在家裡找三個圓圓的東西。找到了，再回來點任務。" },
+      { icon: "🧦", title: "把襪子按顏色分一分", voice: "和大人一起，把幾雙襪子按顏色分成小堆。分好了，再回來點任務。" },
+      { icon: "🧸", title: "找一個軟軟和硬硬的東西", voice: "和大人一起，找一個摸起來軟軟的東西，再找一個硬硬的東西。" },
+      { icon: "🔴", title: "排出紅、黃、紅、黃", voice: "用安全的大積木或玩具，排出紅色、黃色、紅色、黃色。" },
+      { icon: "⚽", title: "讓球滾近一點、遠一點", voice: "和大人一起輕輕推球，再多用一點力，看看哪一次滾得比較遠。" }
+    ];
+
+    const GARDEN_STAGES = [
+      "種子在等你",
+      "種子種下了",
+      "小芽探頭了",
+      "花兒開了",
+      "蝴蝶來作客",
+      "彩虹花園"
+    ];
+
     const state = loadState();
-    let activeWorld = "alphabet";
+    let activeWorld = "today";
     let activeMode = "learn";
     let activeLessonIndex = 0;
+    let activeAdventureMission = null;
     let learnIndex = 0;
     let focusLetters = getFocusLetters();
     let firstPick = null;
@@ -3453,6 +4336,16 @@
       appSubtitle: document.getElementById("appSubtitle"),
       bunnyMark: document.getElementById("bunnyMark"),
       alphabetModeRow: document.getElementById("alphabetModeRow"),
+      todayWorld: document.getElementById("todayWorld"),
+      todayHero: document.getElementById("todayHero"),
+      todayStoryTitle: document.getElementById("todayStoryTitle"),
+      todayStoryLine: document.getElementById("todayStoryLine"),
+      speakToday: document.getElementById("speakToday"),
+      gardenStageName: document.getElementById("gardenStageName"),
+      gardenLevelLabel: document.getElementById("gardenLevelLabel"),
+      gardenFill: document.getElementById("gardenFill"),
+      todayMissionCount: document.getElementById("todayMissionCount"),
+      todayMissions: document.getElementById("todayMissions"),
       alphabetWorld: document.getElementById("alphabetWorld"),
       discoveryWorld: document.getElementById("discoveryWorld"),
       discoveryScene: document.getElementById("discoveryScene"),
@@ -3465,13 +4358,18 @@
       speakDiscovery: document.getElementById("speakDiscovery"),
       runExperiment: document.getElementById("runExperiment"),
       experimentZone: document.getElementById("experimentZone"),
+      experimentLabel: document.getElementById("experimentLabel"),
       experimentVisual: document.getElementById("experimentVisual"),
       discoveryFeedback: document.getElementById("discoveryFeedback"),
+      discoveryParentSummary: document.getElementById("discoveryParentSummary"),
       parentScienceNote: document.getElementById("parentScienceNote")
     });
 
     document.querySelectorAll(".world-button").forEach((button) => {
-      button.addEventListener("click", () => setWorld(button.dataset.world));
+      button.addEventListener("click", () => {
+        activeAdventureMission = null;
+        setWorld(button.dataset.world);
+      });
     });
 
     document.querySelectorAll(".mode-button").forEach((button) => {
@@ -3500,6 +4398,7 @@
     document.getElementById("playPrompt").addEventListener("click", () => sayLetter(listenTarget, { includeWord: false }));
     els.speakDiscovery.addEventListener("click", speakCurrentDiscovery);
     els.runExperiment.addEventListener("click", runDiscoveryExperiment);
+    els.speakToday.addEventListener("click", speakTodayAdventure);
 
     if ("speechSynthesis" in window) {
       window.speechSynthesis.onvoiceschanged = () => {
@@ -3514,7 +4413,7 @@
     buildMatchBoard();
     buildListenRound();
     preloadDiscoveryImages();
-    refreshAll();
+    setWorld("today");
 
     function loadState() {
       const blankStats = Object.fromEntries(LETTERS.map((letter) => [
@@ -3524,15 +4423,35 @@
 
       try {
         const parsed = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
+        const adventureDays = parsed.adventureDays && typeof parsed.adventureDays === "object"
+          ? parsed.adventureDays
+          : {};
+        const recordedMissions = Object.values(adventureDays).reduce((total, day) => {
+          if (!day || typeof day !== "object") return total;
+          return total + ["warmup", "discover", "offline"].filter((type) => day[type] === true).length;
+        }, 0);
+        const storedGardenLevel = Number.isFinite(Number(parsed.gardenLevel))
+          ? Number(parsed.gardenLevel)
+          : 0;
         return {
           stars: Number(parsed.stars || 0),
           days: parsed.days || {},
           soundStyle: parsed.soundStyle === "chimeOnly" ? "chimeOnly" : "softVoice",
           discoveryCompleted: parsed.discoveryCompleted || {},
+          adventureDays,
+          gardenLevel: Math.min(5, Math.max(0, storedGardenLevel, Math.min(5, recordedMissions))),
           stats: { ...blankStats, ...(parsed.stats || {}) }
         };
       } catch {
-        return { stars: 0, days: {}, soundStyle: "softVoice", discoveryCompleted: {}, stats: blankStats };
+        return {
+          stars: 0,
+          days: {},
+          soundStyle: "softVoice",
+          discoveryCompleted: {},
+          adventureDays: {},
+          gardenLevel: 0,
+          stats: blankStats
+        };
       }
     }
 
@@ -3564,6 +4483,174 @@
         .slice(0, 4);
     }
 
+    function getTodayAdventure() {
+      const saved = state.adventureDays?.[TODAY_KEY];
+      return {
+        warmup: saved?.warmup === true,
+        discover: saved?.discover === true,
+        offline: saved?.offline === true
+      };
+    }
+
+    function completedTodayMissionCount() {
+      return Object.values(getTodayAdventure()).filter(Boolean).length;
+    }
+
+    function nextDiscoveryTarget() {
+      const preferredOrder = ["math", "physics", "science", "quantum"];
+      for (const subjectKey of preferredOrder) {
+        const subject = DISCOVERY[subjectKey];
+        const lessonIndex = subject.lessons.findIndex((lesson) => !state.discoveryCompleted?.[`${subjectKey}:${lesson.id}`]);
+        if (lessonIndex >= 0) return { subjectKey, lessonIndex, lesson: subject.lessons[lessonIndex] };
+      }
+
+      const lessonIndex = new Date(TODAY_KEY).getUTCDate() % DISCOVERY.math.lessons.length;
+      return { subjectKey: "math", lessonIndex, lesson: DISCOVERY.math.lessons[lessonIndex] };
+    }
+
+    function todayOfflineMission() {
+      const dayNumber = Number(TODAY_KEY.replaceAll("-", ""));
+      return OFFLINE_MISSIONS[dayNumber % OFFLINE_MISSIONS.length];
+    }
+
+    function getTodayMissionCards() {
+      const weakLetter = getWeakLetters()[0] || LETTERS[0];
+      const discovery = nextDiscoveryTarget();
+      const offline = todayOfflineMission();
+      return [
+        {
+          type: "warmup",
+          icon: "🔤",
+          label: "暖身複習",
+          title: `和 ${weakLetter.upper} ${weakLetter.word} 打個招呼`,
+          action: "完成一次「會了」，替花園澆水"
+        },
+        {
+          type: "discover",
+          icon: discovery.subjectKey === "math" ? "🔢" : "🔎",
+          label: "今天的新發現",
+          title: discovery.lesson.title,
+          action: `到${DISCOVERY[discovery.subjectKey].name}猜一猜、做一做`
+        },
+        {
+          type: "offline",
+          icon: offline.icon,
+          label: "生活裡找一找",
+          title: offline.title,
+          action: "和大人完成後，點這裡告訴兔兔"
+        }
+      ];
+    }
+
+    function renderTodayWorld() {
+      const progress = getTodayAdventure();
+      const completedCount = completedTodayMissionCount();
+      const gardenLevel = Math.min(5, Math.max(0, Number(state.gardenLevel || 0)));
+      const allDone = completedCount === 3;
+
+      els.todayHero.dataset.gardenLevel = String(gardenLevel);
+      els.gardenStageName.textContent = GARDEN_STAGES[gardenLevel];
+      els.gardenLevelLabel.textContent = `${gardenLevel} / 5`;
+      els.gardenFill.style.width = `${gardenLevel * 20}%`;
+      els.todayMissionCount.textContent = `${completedCount} / 3`;
+      els.todayStoryTitle.textContent = allDone ? "花園今天喝飽水了" : "幫兔兔準備小花園";
+      els.todayStoryLine.textContent = allDone
+        ? "今天的三件事都完成了。可以重玩喜歡的活動，明天再長大一點。"
+        : `還有 ${3 - completedCount} 件小任務。慢慢來，一次做一件就好。`;
+
+      els.todayMissions.innerHTML = "";
+      getTodayMissionCards().forEach((mission) => {
+        const complete = progress[mission.type];
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `mission-button${complete ? " is-complete" : ""}`;
+        button.setAttribute("aria-label", `${mission.label}：${mission.title}。${complete ? "已完成，可再玩一次" : mission.action}`);
+        button.addEventListener("click", () => startTodayMission(mission.type));
+
+        const icon = document.createElement("span");
+        icon.className = "mission-icon";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = complete ? "✓" : mission.icon;
+
+        const type = document.createElement("span");
+        type.className = "mission-type";
+        type.textContent = complete ? `${mission.label} · 完成` : mission.label;
+
+        const title = document.createElement("span");
+        title.className = "mission-title";
+        title.textContent = mission.title;
+
+        const action = document.createElement("span");
+        action.className = "mission-action";
+        action.textContent = complete ? "完成了，可以再玩一次" : mission.action;
+
+        button.append(icon, type, title, action);
+        els.todayMissions.appendChild(button);
+      });
+    }
+
+    function startTodayMission(type) {
+      if (type === "warmup") {
+        focusLetters = getWeakLetters();
+        learnIndex = 0;
+        setWorld("alphabet");
+        activeAdventureMission = "warmup";
+        setMode("learn");
+        renderLearnLetter();
+        sayCurrentLetter();
+        return;
+      }
+
+      if (type === "discover") {
+        const target = nextDiscoveryTarget();
+        setWorld(target.subjectKey);
+        activeLessonIndex = target.lessonIndex;
+        activeAdventureMission = "discover";
+        renderDiscoveryLesson();
+        speakCurrentDiscovery();
+        return;
+      }
+
+      if (type === "offline") {
+        const completed = completeAdventureMission("offline", { awardStar: true, countActivity: true });
+        sayDiscoveryText(completed
+          ? "太好了！你把生活裡的發現帶回來了。兔兔花園又長大一點。"
+          : "今天的生活任務已經完成了。想再找一次也可以喔。");
+      }
+    }
+
+    function completeAdventureMission(type, options = {}) {
+      const progress = getTodayAdventure();
+      if (progress[type]) {
+        renderTodayWorld();
+        return false;
+      }
+
+      progress[type] = true;
+      state.adventureDays[TODAY_KEY] = progress;
+      state.gardenLevel = Math.min(5, Number(state.gardenLevel || 0) + 1);
+      if (options.countActivity) {
+        state.days[TODAY_KEY] = (state.days[TODAY_KEY] || 0) + 1;
+      }
+      if (options.awardStar) {
+        state.stars += 1;
+      }
+      saveState();
+      if (options.awardStar) popStars();
+      renderTodayWorld();
+      refreshAll();
+      return true;
+    }
+
+    function speakTodayAdventure() {
+      const completedCount = completedTodayMissionCount();
+      const text = completedCount === 3
+        ? "今天的三件小任務都完成了。兔兔謝謝你照顧小花園。"
+        : `今天和兔兔做三件小事。先暖身，再發現一件新事情，最後到生活裡找一找。慢慢來就好。`;
+      sayDiscoveryText(text);
+      els.todayStoryLine.textContent = text;
+    }
+
     function touch(letter, field, star = false) {
       const stat = state.stats[letter.upper];
       stat[field] += 1;
@@ -3573,13 +4660,17 @@
         state.stars += 1;
         popStars();
       }
+      if (star && activeAdventureMission === "warmup") {
+        completeAdventureMission("warmup");
+        activeAdventureMission = null;
+      }
       saveState();
       focusLetters = getFocusLetters();
       refreshAll();
     }
 
     function setWorld(world) {
-      if (world !== "alphabet" && !DISCOVERY[world]) return;
+      if (world !== "today" && world !== "alphabet" && !DISCOVERY[world]) return;
       activeWorld = world;
       activeLessonIndex = 0;
       window.speechSynthesis?.cancel();
@@ -3588,12 +4679,18 @@
         button.setAttribute("aria-pressed", String(button.dataset.world === world));
       });
 
+      const showToday = world === "today";
       const showAlphabet = world === "alphabet";
       els.alphabetModeRow.hidden = !showAlphabet;
       els.alphabetWorld.hidden = !showAlphabet;
-      els.discoveryWorld.hidden = showAlphabet;
+      els.todayWorld.hidden = !showToday;
+      els.discoveryWorld.hidden = showToday || showAlphabet;
 
-      if (showAlphabet) {
+      if (showToday) {
+        els.appTitle.textContent = "兔兔小小科學院";
+        els.appSubtitle.textContent = "今天有三個剛剛好的小任務。";
+        renderTodayWorld();
+      } else if (showAlphabet) {
         els.appTitle.textContent = "兔兔小小科學院";
         els.appSubtitle.textContent = "今天和兔兔一起認 4 個英文字母。";
         setMode(activeMode);
@@ -3611,7 +4708,9 @@
       els.discoveryScene.dataset.subject = subjectKey;
       els.appTitle.textContent = subject.title;
       els.appSubtitle.textContent = subject.subtitle;
-      els.lessonKicker.textContent = `${subject.name} · 小實驗 ${activeLessonIndex + 1}`;
+      els.lessonKicker.textContent = `${subject.name} · ${subject.activityLabel || "小實驗"} ${activeLessonIndex + 1}`;
+      els.experimentLabel.textContent = subjectKey === "math" ? "動手看一看答案" : "摸摸看，會發生什麼？";
+      els.discoveryParentSummary.textContent = subjectKey === "math" ? "給家長的數學陪玩提醒" : "給家長的科學小提醒";
       els.lessonTitle.textContent = lesson.title;
       els.lessonLine.textContent = lesson.line;
       activePrediction = null;
@@ -3720,12 +4819,21 @@
 
     function completeDiscoveryLesson(lesson) {
       const key = `${activeWorld}:${lesson.id}`;
-      if (state.discoveryCompleted[key]) return;
-      state.discoveryCompleted[key] = TODAY_KEY;
-      state.stars += 1;
-      state.days[TODAY_KEY] = (state.days[TODAY_KEY] || 0) + 1;
-      saveState();
-      popStars();
+      const firstCompletion = !state.discoveryCompleted[key];
+      if (firstCompletion) {
+        state.discoveryCompleted[key] = TODAY_KEY;
+        state.stars += 1;
+        state.days[TODAY_KEY] = (state.days[TODAY_KEY] || 0) + 1;
+      }
+
+      if (activeAdventureMission === "discover") {
+        activeAdventureMission = null;
+        completeAdventureMission("discover");
+      } else if (firstCompletion) {
+        saveState();
+      }
+
+      if (firstCompletion) popStars();
       refreshAll();
     }
 
@@ -3783,7 +4891,7 @@
     }
 
     function playDiscoveryChime() {
-      const offset = activeWorld === "quantum" ? 8 : activeWorld === "science" ? 16 : 0;
+      const offset = activeWorld === "math" ? 4 : activeWorld === "quantum" ? 8 : activeWorld === "science" ? 16 : 0;
       playCuteChime(LETTERS[(offset + activeLessonIndex) % LETTERS.length]);
     }
 
@@ -4069,11 +5177,16 @@
 
     function refreshAll() {
       els.starPill.textContent = `⭐ 星星 ${state.stars}`;
-      els.unlockPill.textContent = activeWorld === "alphabet"
-        ? `🔤 字母 ${unlockedCount()}/26`
-        : `🧪 實驗 ${completedDiscoveryCount()}/${totalDiscoveryCount()}`;
-      els.todayPill.textContent = `🌷 今天 ${state.days[TODAY_KEY] || 0}`;
+      els.unlockPill.textContent = activeWorld === "today"
+        ? `🌱 花園 ${state.gardenLevel}/5`
+        : activeWorld === "alphabet"
+          ? `🔤 字母 ${unlockedCount()}/26`
+          : `🧭 活動 ${completedDiscoveryCount()}/${totalDiscoveryCount()}`;
+      els.todayPill.textContent = activeWorld === "today"
+        ? `🧭 任務 ${completedTodayMissionCount()}/3`
+        : `🌷 今天 ${state.days[TODAY_KEY] || 0}`;
       document.getElementById("toggleSoundStyle").textContent = state.soundStyle === "chimeOnly" ? "聲音：只要鈴聲" : "聲音：自然語音";
+      if (activeWorld === "today") renderTodayWorld();
       renderFocusLetters();
       renderProgressList(els.miniProgressList, LETTERS.slice(0, unlockedCount()), true);
       renderProgressList(els.fullProgressList, LETTERS, false);

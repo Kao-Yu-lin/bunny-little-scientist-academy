@@ -1203,7 +1203,7 @@
 
     .world-row {
       display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-columns: repeat(7, minmax(0, 1fr));
       gap: 10px;
       padding: 12px 18px 4px;
       background: rgba(255, 255, 255, 0.82);
@@ -1624,6 +1624,14 @@
       --accent: #df963b;
       --accent-soft: #fff5d8;
       --accent-shadow: #b87324;
+      background-position: 58% center;
+    }
+
+    .discovery-scene[data-subject="story"] {
+      --world-image: url("bunny_garden_3d_v1.webp");
+      --accent: #cf6689;
+      --accent-soft: #fff0f6;
+      --accent-shadow: #a84769;
       background-position: 58% center;
     }
 
@@ -2871,6 +2879,257 @@
       animation: bunnyInside 900ms ease-out both;
     }
 
+    .story-mini-stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .story-mini-stage::after {
+      content: "";
+      position: absolute;
+      left: 4%;
+      right: 4%;
+      bottom: 10px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(106, 168, 105, .34);
+      box-shadow: 0 5px 0 rgba(82, 126, 82, .12);
+    }
+
+    .story-emoji {
+      position: absolute;
+      z-index: 2;
+      display: block;
+      line-height: 1;
+      filter: drop-shadow(0 7px 6px rgba(64, 51, 69, .16));
+    }
+
+    .picnic-story .story-tree {
+      left: 12%;
+      bottom: 14px;
+      font-size: 104px;
+    }
+
+    .picnic-story .story-rabbit {
+      left: 54%;
+      bottom: 17px;
+      font-size: 76px;
+    }
+
+    .picnic-story .story-basket {
+      right: 11%;
+      bottom: 15px;
+      font-size: 52px;
+    }
+
+    .picnic-story .story-carrot {
+      right: 15%;
+      bottom: 52px;
+      font-size: 29px;
+      transform: rotate(-14deg);
+    }
+
+    .is-running .picnic-story .story-rabbit {
+      animation: storyHop 900ms ease-out both;
+    }
+
+    .is-running .picnic-story .story-basket {
+      animation: basketBounce 820ms 180ms ease-out both;
+    }
+
+    .rain-story .story-cloud {
+      left: 12%;
+      top: 2px;
+      font-size: 78px;
+    }
+
+    .rain-story .story-rabbit {
+      left: 46%;
+      bottom: 13px;
+      font-size: 78px;
+    }
+
+    .rain-story .story-umbrella {
+      right: 12%;
+      top: 16px;
+      font-size: 90px;
+      transform: scale(.58) rotate(-18deg);
+      transform-origin: bottom left;
+    }
+
+    .rain-drop {
+      position: absolute;
+      z-index: 1;
+      color: #55a9d2;
+      font-size: 28px;
+      opacity: .75;
+    }
+
+    .rain-drop.one { left: 24%; top: 58px; }
+    .rain-drop.two { left: 35%; top: 32px; }
+    .rain-drop.three { left: 44%; top: 68px; }
+
+    .is-running .rain-story .story-umbrella {
+      animation: umbrellaOpen 950ms ease-out both;
+    }
+
+    .is-running .rain-story .rain-drop {
+      animation: rainFall 650ms linear 2;
+    }
+
+    .scarf-story .story-rabbit {
+      left: 18%;
+      bottom: 14px;
+      font-size: 82px;
+    }
+
+    .scarf-story .story-friend {
+      right: 15%;
+      bottom: 14px;
+      font-size: 76px;
+    }
+
+    .scarf-story .story-scarf {
+      right: 23%;
+      top: 28px;
+      font-size: 52px;
+    }
+
+    .scarf-story .story-question-mark {
+      left: 33%;
+      top: 12px;
+      color: #bd5a7c;
+      font-size: 46px;
+      font-weight: 950;
+    }
+
+    .is-running .scarf-story .story-scarf {
+      animation: scarfReturn 1.05s ease-in-out both;
+    }
+
+    .is-running .scarf-story .story-question-mark {
+      animation: questionFade 620ms ease-out both;
+    }
+
+    .seed-story {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 13px;
+      padding-bottom: 12px;
+    }
+
+    .story-step {
+      position: relative;
+      z-index: 2;
+      width: 92px;
+      height: 102px;
+      display: grid;
+      place-items: center;
+      border: 3px solid rgba(104, 154, 103, .35);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .78);
+      font-size: 58px;
+      opacity: .52;
+      box-shadow: 0 6px 11px rgba(68, 57, 75, .1);
+    }
+
+    .story-arrow {
+      position: relative;
+      z-index: 2;
+      color: #7e9876;
+      font-size: 34px;
+      font-weight: 950;
+    }
+
+    .is-running .seed-story .story-step {
+      animation: storyStepReveal 720ms ease-out both;
+    }
+
+    .is-running .seed-story .story-step:nth-child(3) { animation-delay: 180ms; }
+    .is-running .seed-story .story-step:nth-child(5) { animation-delay: 360ms; }
+
+    .help-story .story-rabbit {
+      left: 19%;
+      bottom: 14px;
+      font-size: 78px;
+    }
+
+    .help-story .story-friend {
+      right: 16%;
+      bottom: 14px;
+      font-size: 73px;
+    }
+
+    .story-block {
+      position: absolute;
+      z-index: 3;
+      width: 34px;
+      height: 34px;
+      border: 3px solid rgba(80, 67, 87, .3);
+      border-radius: 5px;
+      box-shadow: inset 0 4px 0 rgba(255, 255, 255, .35);
+    }
+
+    .story-block.one { left: 46%; bottom: 18px; background: #ef7894; transform: rotate(17deg); }
+    .story-block.two { left: 54%; bottom: 21px; background: #f0c94f; transform: rotate(-22deg); }
+    .story-block.three { left: 50%; bottom: 57px; background: #69c1b5; transform: rotate(11deg); }
+
+    .is-running .help-story .story-block {
+      animation: blockStack 900ms ease-out both;
+    }
+
+    .is-running .help-story .story-rabbit {
+      animation: helperNod 800ms ease-out both;
+    }
+
+    .kite-story .story-rabbit {
+      left: 18%;
+      bottom: 14px;
+      font-size: 78px;
+    }
+
+    .kite-story .story-kite {
+      right: 14%;
+      bottom: 18px;
+      font-size: 66px;
+      transform: rotate(-10deg);
+    }
+
+    .kite-story .story-wind {
+      left: 43%;
+      top: 40px;
+      color: #5aa8b8;
+      font-size: 48px;
+    }
+
+    .kite-string {
+      position: absolute;
+      left: 44%;
+      bottom: 43px;
+      z-index: 1;
+      width: 39%;
+      height: 68px;
+      border-top: 3px solid #8f7c89;
+      border-radius: 50%;
+      transform: rotate(-19deg);
+      transform-origin: left;
+    }
+
+    .is-running .kite-story .story-kite {
+      animation: kiteFly 1.2s ease-out both;
+    }
+
+    .is-running .kite-story .story-wind {
+      animation: windPuff 720ms ease-out 2;
+    }
+
+    .is-running .kite-story .kite-string {
+      animation: stringLift 1.2s ease-out both;
+    }
+
     @keyframes ballRoll {
       0% { transform: translate(0, 0) rotate(0deg); }
       72% { transform: translate(205px, 55px) rotate(560deg); }
@@ -2917,6 +3176,74 @@
       62% { transform: translateY(56px) scale(.9); }
       80% { transform: translateY(42px) scale(.86); }
       100% { transform: translateY(48px) scale(.86); }
+    }
+
+    @keyframes storyHop {
+      0% { transform: translateX(-42px) translateY(0) rotate(-7deg); }
+      48% { transform: translateX(-18px) translateY(-24px) rotate(5deg); }
+      100% { transform: translateX(0) translateY(0) rotate(0deg); }
+    }
+
+    @keyframes basketBounce {
+      0% { transform: translateY(18px) scale(.75); opacity: .4; }
+      70% { transform: translateY(-7px) scale(1.06); opacity: 1; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    @keyframes umbrellaOpen {
+      0% { transform: scale(.34) rotate(-34deg); opacity: .5; }
+      68% { transform: scale(1.08) rotate(5deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes rainFall {
+      from { transform: translateY(-18px); opacity: 0; }
+      40% { opacity: .9; }
+      to { transform: translateY(40px); opacity: 0; }
+    }
+
+    @keyframes scarfReturn {
+      0% { transform: translate(0, 0) rotate(15deg) scale(.82); }
+      58% { transform: translate(-92px, 18px) rotate(-12deg) scale(1.06); }
+      100% { transform: translate(-116px, 37px) rotate(-5deg) scale(1); }
+    }
+
+    @keyframes questionFade {
+      to { transform: translateY(-12px) scale(.7); opacity: 0; }
+    }
+
+    @keyframes storyStepReveal {
+      0% { transform: translateY(18px) scale(.76); opacity: .3; }
+      72% { transform: translateY(-5px) scale(1.06); opacity: 1; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    @keyframes blockStack {
+      0% { transform: translateY(-25px) rotate(24deg); }
+      70% { transform: translateY(5px) rotate(-4deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    @keyframes helperNod {
+      0%, 100% { transform: rotate(0deg); }
+      45% { transform: rotate(8deg) translateX(8px); }
+    }
+
+    @keyframes kiteFly {
+      0% { transform: translate(-18px, 42px) rotate(-18deg) scale(.74); }
+      65% { transform: translate(8px, -38px) rotate(7deg) scale(1.08); }
+      100% { transform: translate(0, -28px) rotate(0deg) scale(1); }
+    }
+
+    @keyframes windPuff {
+      0% { transform: translateX(-22px) scale(.7); opacity: 0; }
+      55% { opacity: 1; }
+      100% { transform: translateX(32px) scale(1.08); opacity: 0; }
+    }
+
+    @keyframes stringLift {
+      from { transform: rotate(-4deg) scaleX(.65); }
+      to { transform: rotate(-24deg) scaleX(1); }
     }
 
     @keyframes balloonRise {
@@ -3358,7 +3685,7 @@
       .world-row {
         padding: 9px 12px 3px;
         gap: 7px;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
       }
 
       .world-button {
@@ -3566,6 +3893,10 @@
         background-position: 70% center;
       }
 
+      .discovery-scene[data-subject="story"] {
+        background-position: 70% center;
+      }
+
       .discovery-scene::before {
         background: linear-gradient(180deg, rgba(255, 252, 247, .45), rgba(255, 255, 255, 0) 72%);
       }
@@ -3662,6 +3993,38 @@
         height: 44px;
       }
 
+      .seed-story {
+        gap: 4px;
+      }
+
+      .story-step {
+        width: 66px;
+        height: 88px;
+        font-size: 45px;
+      }
+
+      .story-arrow {
+        font-size: 22px;
+      }
+
+      .picnic-story .story-tree {
+        left: 7%;
+        font-size: 88px;
+      }
+
+      .picnic-story .story-rabbit,
+      .rain-story .story-rabbit,
+      .scarf-story .story-rabbit,
+      .help-story .story-rabbit,
+      .kite-story .story-rabbit {
+        font-size: 68px;
+      }
+
+      .rain-story .story-umbrella {
+        right: 6%;
+        font-size: 76px;
+      }
+
       @keyframes ballRoll {
         0% { transform: translate(0, 0) rotate(0deg); }
         72% { transform: translate(190px, 51px) rotate(540deg); }
@@ -3738,6 +4101,7 @@
     <nav class="world-row" aria-label="學習世界">
       <button class="world-button" type="button" data-world="today" aria-pressed="true"><span class="world-icon" aria-hidden="true">🐰</span><span>今天</span></button>
       <button class="world-button" type="button" data-world="alphabet" aria-pressed="false"><span class="world-icon" aria-hidden="true">🔤</span><span>ABC</span></button>
+      <button class="world-button" type="button" data-world="story" aria-pressed="false"><span class="world-icon" aria-hidden="true">📖</span><span>兔兔故事</span></button>
       <button class="world-button" type="button" data-world="math" aria-pressed="false"><span class="world-icon" aria-hidden="true">🔢</span><span>寶寶數學</span></button>
       <button class="world-button" type="button" data-world="physics" aria-pressed="false"><span class="world-icon" aria-hidden="true">🛝</span><span>寶寶物理</span></button>
       <button class="world-button" type="button" data-world="quantum" aria-pressed="false"><span class="world-icon" aria-hidden="true">✨</span><span>寶寶量子</span></button>
@@ -3947,6 +4311,136 @@
     ];
 
     const DISCOVERY = {
+      story: {
+        name: "兔兔故事屋",
+        title: "兔兔故事屋",
+        subtitle: "看線索、回答問題，再把故事說給兔兔聽。",
+        activityLabel: "小故事",
+        interaction: "story",
+        image: "bunny_garden_3d_v1.webp",
+        lessons: [
+          {
+            id: "picnic-tree",
+            tab: "樹下野餐",
+            title: "樹下的野餐",
+            line: "兔兔提著籃子，走到大樹下鋪好小毯子。",
+            prediction: { question: "兔兔要在哪裡野餐？", choices: ["🌳 大樹下", "🌊 池塘裡"], answer: 0 },
+            followUp: {
+              question: "籃子裡帶了什麼？",
+              choices: ["🥕 紅蘿蔔", "🐱 小貓咪"],
+              answer: 0,
+              action: "回答兔兔",
+              feedback: "籃子裡有紅蘿蔔，這是畫面裡的重要線索。"
+            },
+            action: "翻開故事",
+            voice: "兔兔提著籃子，走到大樹下野餐。",
+            feedback: "兔兔在大樹下停下來，打開了野餐籃。",
+            retell: "兔兔在大樹下吃紅蘿蔔。",
+            parent: "先問誰、在哪裡，再請孩子用完整一點的短句回答。孩子只說「樹下」時，可示範擴句：「兔兔在大樹下野餐。」",
+            visual: `<div class="story-mini-stage picnic-story"><span class="story-emoji story-tree">🌳</span><span class="story-emoji story-rabbit">🐰</span><span class="story-emoji story-basket">🧺</span><span class="story-emoji story-carrot">🥕</span></div>`
+          },
+          {
+            id: "rain-umbrella",
+            tab: "下雨了",
+            title: "雨點來了",
+            line: "天空滴答滴答下起雨，兔兔想繼續走回家。",
+            prediction: { question: "兔兔先拿起什麼？", choices: ["☂️ 雨傘", "📘 故事書"], answer: 0 },
+            followUp: {
+              question: "兔兔為什麼撐雨傘？",
+              choices: ["讓身體少淋雨", "讓雨下得更大"],
+              answer: 0,
+              action: "說出原因",
+              feedback: "雨傘能擋住一部分雨水，兔兔就比較不會淋濕。"
+            },
+            action: "看看兔兔",
+            voice: "下雨了，兔兔打開雨傘，繼續往家裡走。",
+            feedback: "兔兔把雨傘撐開了，雨點落在傘面上。",
+            retell: "因為下雨了，所以兔兔撐起雨傘。",
+            parent: "用「因為……所以……」把原因和結果連起來。不要要求背句型；成人先示範，再讓孩子補最後一個詞也可以。",
+            visual: `<div class="story-mini-stage rain-story"><span class="story-emoji story-cloud">🌧️</span><i class="rain-drop one">●</i><i class="rain-drop two">●</i><i class="rain-drop three">●</i><span class="story-emoji story-rabbit">🐰</span><span class="story-emoji story-umbrella">☂️</span></div>`
+          },
+          {
+            id: "found-scarf",
+            tab: "找到圍巾",
+            title: "圍巾回來了",
+            line: "兔兔找不到最喜歡的圍巾，朋友抱著圍巾走過來。",
+            prediction: { question: "找不到圍巾時，兔兔可能覺得？", choices: ["😟 擔心", "😄 很開心"], answer: 0 },
+            followUp: {
+              question: "朋友把圍巾還回來後，兔兔可能覺得？",
+              choices: ["😊 放心又開心", "😠 更生氣"],
+              answer: 0,
+              action: "看看心情",
+              feedback: "東西找回來了，兔兔從擔心變成放心又開心。"
+            },
+            action: "朋友走過來",
+            voice: "兔兔找不到圍巾有點擔心。朋友送回圍巾，兔兔放心了。",
+            feedback: "朋友看見兔兔在找東西，把圍巾送了回來。",
+            retell: "兔兔先很擔心，找到圍巾後就放心了。",
+            parent: "問孩子「你從哪裡看出來？」可指表情、動作或情境。接受孩子使用自己的情緒詞，不必只有一個標準答案。",
+            visual: `<div class="story-mini-stage scarf-story"><span class="story-emoji story-rabbit">🐰</span><span class="story-emoji story-question-mark">?</span><span class="story-emoji story-friend">🧸</span><span class="story-emoji story-scarf">🧣</span></div>`
+          },
+          {
+            id: "seed-sequence",
+            tab: "種子長大",
+            title: "先種下，再開花",
+            line: "兔兔把種子放進土裡，小芽慢慢長高，最後開出花。",
+            prediction: { question: "故事一開始是哪一個？", choices: ["🌰 小種子", "🌻 大花朵"], answer: 0 },
+            followUp: {
+              question: "故事最後是哪一個？",
+              choices: ["🌻 開出花", "🌰 回到種子"],
+              answer: 0,
+              action: "排好故事",
+              feedback: "最後花開了。故事有開始、接著發生的事和最後結果。"
+            },
+            action: "讓故事前進",
+            voice: "先有一顆種子，接著長出小芽，最後開出花。",
+            feedback: "小種子先發芽，再一點一點長成花。",
+            retell: "先種種子，接著長出小芽，最後開花。",
+            parent: "拿三張自畫小圖或三個實物排「先、接著、最後」。順序說對比說得很長更重要，成人可幫孩子補詞。",
+            visual: `<div class="story-mini-stage seed-story"><div class="story-step">🌰</div><span class="story-arrow">›</span><div class="story-step">🌱</div><span class="story-arrow">›</span><div class="story-step">🌻</div></div>`
+          },
+          {
+            id: "help-blocks",
+            tab: "一起蓋好",
+            title: "積木倒下來了",
+            line: "朋友的積木塔倒了，兔兔看見朋友坐在旁邊。",
+            prediction: { question: "誰現在需要幫忙？", choices: ["🧸 積木旁的朋友", "🌳 遠遠的大樹"], answer: 0 },
+            followUp: {
+              question: "兔兔可以怎麼說？",
+              choices: ["我來幫你一起蓋", "這不關我的事"],
+              answer: 0,
+              action: "一起蓋好",
+              feedback: "兔兔先問，再和朋友一起把積木疊回去。"
+            },
+            action: "走近朋友",
+            voice: "朋友的積木倒了。兔兔問，我可以幫忙嗎？",
+            feedback: "兔兔走到朋友旁邊，先看看發生了什麼事。",
+            retell: "朋友的積木倒了，兔兔和朋友一起蓋好。",
+            parent: "把同理拆成可做的步驟：看見、詢問、一起做。可用玩偶輪流演兩個角色，不強迫孩子立即分享自己的玩具。",
+            visual: `<div class="story-mini-stage help-story"><span class="story-emoji story-rabbit">🐰</span><i class="story-block one"></i><i class="story-block two"></i><i class="story-block three"></i><span class="story-emoji story-friend">🧸</span></div>`
+          },
+          {
+            id: "windy-kite",
+            tab: "風箏飛了",
+            title: "風來了，接下來呢？",
+            line: "風吹動樹葉，兔兔拉著風箏往前跑。",
+            prediction: { question: "接下來最可能發生什麼？", choices: ["🪁 風箏飛上天空", "🐟 風箏游進水裡"], answer: 0 },
+            followUp: {
+              question: "哪個線索幫你這樣猜？",
+              choices: ["風和樹葉正在動", "盒子蓋起來了"],
+              answer: 0,
+              action: "找出線索",
+              feedback: "風正在吹就是線索，它能推著風箏升高。"
+            },
+            action: "看看下一幕",
+            voice: "風吹起來了，兔兔向前跑，風箏慢慢飛上天空。",
+            feedback: "風箏真的飛高了！你可以用前面的線索猜下一步。",
+            retell: "風吹動樹葉，兔兔一跑，風箏就飛上天空。",
+            parent: "預測沒有要孩子猜成人心中的答案，而是練習用線索說理由。可在共讀時停在翻頁前問：你看到什麼？接著可能怎樣？",
+            visual: `<div class="story-mini-stage kite-story"><span class="story-emoji story-rabbit">🐰</span><span class="story-emoji story-wind">〰</span><span class="kite-string"></span><span class="story-emoji story-kite">🪁</span></div>`
+          }
+        ]
+      },
       math: {
         name: "寶寶數學",
         title: "兔兔數學花園",
@@ -4299,6 +4793,7 @@
     let listenTarget = null;
     let lastIncorrectChoice = "";
     let activePrediction = null;
+    let activeQuestionStage = 0;
     let cuteAudioContext = null;
     let friendlyVoice = null;
     let friendlyChineseVoice = null;
@@ -4497,15 +4992,33 @@
     }
 
     function nextDiscoveryTarget() {
-      const preferredOrder = ["math", "physics", "science", "quantum"];
+      const preferredOrder = ["story", "math", "physics", "science", "quantum"];
       for (const subjectKey of preferredOrder) {
         const subject = DISCOVERY[subjectKey];
         const lessonIndex = subject.lessons.findIndex((lesson) => !state.discoveryCompleted?.[`${subjectKey}:${lesson.id}`]);
         if (lessonIndex >= 0) return { subjectKey, lessonIndex, lesson: subject.lessons[lessonIndex] };
       }
 
-      const lessonIndex = new Date(TODAY_KEY).getUTCDate() % DISCOVERY.math.lessons.length;
-      return { subjectKey: "math", lessonIndex, lesson: DISCOVERY.math.lessons[lessonIndex] };
+      const lessonIndex = new Date(TODAY_KEY).getUTCDate() % DISCOVERY.story.lessons.length;
+      return { subjectKey: "story", lessonIndex, lesson: DISCOVERY.story.lessons[lessonIndex] };
+    }
+
+    function todayDiscoveryTarget() {
+      const savedTarget = state.adventureDays?.[TODAY_KEY]?.discoveryTarget;
+      if (typeof savedTarget === "string") {
+        const [subjectKey, lessonId] = savedTarget.split(":");
+        const subject = DISCOVERY[subjectKey];
+        const lessonIndex = subject?.lessons.findIndex((lesson) => lesson.id === lessonId) ?? -1;
+        if (lessonIndex >= 0) return { subjectKey, lessonIndex, lesson: subject.lessons[lessonIndex] };
+      }
+
+      const target = nextDiscoveryTarget();
+      state.adventureDays[TODAY_KEY] = {
+        ...(state.adventureDays[TODAY_KEY] || {}),
+        discoveryTarget: `${target.subjectKey}:${target.lesson.id}`
+      };
+      saveState();
+      return target;
     }
 
     function todayOfflineMission() {
@@ -4515,7 +5028,7 @@
 
     function getTodayMissionCards() {
       const weakLetter = getWeakLetters()[0] || LETTERS[0];
-      const discovery = nextDiscoveryTarget();
+      const discovery = todayDiscoveryTarget();
       const offline = todayOfflineMission();
       return [
         {
@@ -4527,10 +5040,12 @@
         },
         {
           type: "discover",
-          icon: discovery.subjectKey === "math" ? "🔢" : "🔎",
+          icon: discovery.subjectKey === "story" ? "📖" : discovery.subjectKey === "math" ? "🔢" : "🔎",
           label: "今天的新發現",
           title: discovery.lesson.title,
-          action: `到${DISCOVERY[discovery.subjectKey].name}猜一猜、做一做`
+          action: discovery.subjectKey === "story"
+            ? "到兔兔故事屋看線索、回答問題"
+            : `到${DISCOVERY[discovery.subjectKey].name}猜一猜、做一做`
         },
         {
           type: "offline",
@@ -4602,7 +5117,7 @@
       }
 
       if (type === "discover") {
-        const target = nextDiscoveryTarget();
+        const target = todayDiscoveryTarget();
         setWorld(target.subjectKey);
         activeLessonIndex = target.lessonIndex;
         activeAdventureMission = "discover";
@@ -4627,7 +5142,10 @@
       }
 
       progress[type] = true;
-      state.adventureDays[TODAY_KEY] = progress;
+      state.adventureDays[TODAY_KEY] = {
+        ...(state.adventureDays[TODAY_KEY] || {}),
+        ...progress
+      };
       state.gardenLevel = Math.min(5, Number(state.gardenLevel || 0) + 1);
       if (options.countActivity) {
         state.days[TODAY_KEY] = (state.days[TODAY_KEY] || 0) + 1;
@@ -4709,40 +5227,26 @@
       els.appTitle.textContent = subject.title;
       els.appSubtitle.textContent = subject.subtitle;
       els.lessonKicker.textContent = `${subject.name} · ${subject.activityLabel || "小實驗"} ${activeLessonIndex + 1}`;
-      els.experimentLabel.textContent = subjectKey === "math" ? "動手看一看答案" : "摸摸看，會發生什麼？";
-      els.discoveryParentSummary.textContent = subjectKey === "math" ? "給家長的數學陪玩提醒" : "給家長的科學小提醒";
+      els.experimentLabel.textContent = subjectKey === "story"
+        ? "故事動起來"
+        : subjectKey === "math"
+          ? "動手看一看答案"
+          : "摸摸看，會發生什麼？";
+      els.discoveryParentSummary.textContent = subjectKey === "story"
+        ? "給家長的故事對話提醒"
+        : subjectKey === "math"
+          ? "給家長的數學陪玩提醒"
+          : "給家長的科學小提醒";
       els.lessonTitle.textContent = lesson.title;
       els.lessonLine.textContent = lesson.line;
-      activePrediction = null;
-      els.predictionQuestion.textContent = `先猜一猜：${lesson.prediction.question}`;
-      els.predictionChoices.dataset.count = String(lesson.prediction.choices.length);
-      els.predictionChoices.innerHTML = "";
-      lesson.prediction.choices.forEach((choice, index) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "prediction-choice";
-        button.textContent = choice;
-        button.setAttribute("aria-pressed", "false");
-        button.addEventListener("click", () => {
-          activePrediction = index;
-          els.predictionChoices.querySelectorAll(".prediction-choice").forEach((item, itemIndex) => {
-            item.setAttribute("aria-pressed", String(itemIndex === index));
-          });
-          Array.from(els.experimentZone.classList)
-            .filter((className) => className === "is-running" || className.startsWith("choice-"))
-            .forEach((className) => els.experimentZone.classList.remove(className));
-          els.runExperiment.disabled = false;
-          els.runExperiment.textContent = lesson.action;
-          els.discoveryFeedback.textContent = "兔兔記住你的猜想了！現在動手試試看。";
-        });
-        els.predictionChoices.appendChild(button);
-      });
-      els.runExperiment.disabled = true;
-      els.runExperiment.textContent = "先選一個猜想";
+      activeQuestionStage = 0;
       els.experimentVisual.innerHTML = lesson.visual;
       els.experimentZone.className = "experiment-zone";
-      els.discoveryFeedback.textContent = "先猜猜看，再按下按鈕做實驗。";
+      els.discoveryFeedback.textContent = subject.interaction === "story"
+        ? "先看圖找線索，再回答兔兔的第一個問題。"
+        : "先猜猜看，再按下按鈕做實驗。";
       els.parentScienceNote.textContent = lesson.parent;
+      renderDiscoveryQuestion(lesson.prediction, lesson.action, subject, 0);
 
       els.lessonTabs.innerHTML = "";
       subject.lessons.forEach((item, index) => {
@@ -4758,6 +5262,43 @@
         });
         els.lessonTabs.appendChild(button);
       });
+    }
+
+    function renderDiscoveryQuestion(question, actionLabel, subject, stage) {
+      const storyMode = subject.interaction === "story";
+      activePrediction = null;
+      const promptPrefix = storyMode ? (stage === 0 ? "看一看：" : "再想一想：") : "先猜一猜：";
+      els.predictionQuestion.textContent = `${promptPrefix}${question.question}`;
+      els.predictionChoices.dataset.count = String(question.choices.length);
+      els.predictionChoices.innerHTML = "";
+
+      question.choices.forEach((choice, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "prediction-choice";
+        button.textContent = choice;
+        button.setAttribute("aria-pressed", "false");
+        button.addEventListener("click", () => {
+          activePrediction = index;
+          els.predictionChoices.querySelectorAll(".prediction-choice").forEach((item, itemIndex) => {
+            item.setAttribute("aria-pressed", String(itemIndex === index));
+          });
+          if (!(storyMode && stage === 1)) {
+            Array.from(els.experimentZone.classList)
+              .filter((className) => className === "is-running" || className.startsWith("choice-"))
+              .forEach((className) => els.experimentZone.classList.remove(className));
+          }
+          els.runExperiment.disabled = false;
+          els.runExperiment.textContent = actionLabel;
+          els.discoveryFeedback.textContent = storyMode
+            ? (stage === 0 ? "兔兔聽見你的答案了！一起看下一幕。" : "兔兔聽見了！按下按鈕找出故事線索。")
+            : "兔兔記住你的猜想了！現在動手試試看。";
+        });
+        els.predictionChoices.appendChild(button);
+      });
+
+      els.runExperiment.disabled = true;
+      els.runExperiment.textContent = storyMode ? "先選一個答案" : "先選一個猜想";
     }
 
     function preloadDiscoveryImages() {
@@ -4780,19 +5321,32 @@
       return subject?.lessons[activeLessonIndex % subject.lessons.length] || null;
     }
 
+    function currentDiscoverySubject() {
+      return DISCOVERY[activeWorld] || null;
+    }
+
     function speakCurrentDiscovery() {
       const lesson = currentDiscoveryLesson();
-      if (!lesson) return;
-      const prompt = `先猜猜看。${lesson.prediction.question}`;
+      const subject = currentDiscoverySubject();
+      if (!lesson || !subject) return;
+      const question = activeQuestionStage === 1 && lesson.followUp ? lesson.followUp : lesson.prediction;
+      const prompt = subject.interaction === "story"
+        ? `${activeQuestionStage === 0 ? "看看故事。" : "再想一想。"}${question.question}`
+        : `先猜猜看。${question.question}`;
       sayDiscoveryText(prompt);
       els.discoveryFeedback.textContent = prompt;
     }
 
     function runDiscoveryExperiment() {
       const lesson = currentDiscoveryLesson();
-      if (!lesson) return;
+      const subject = currentDiscoverySubject();
+      if (!lesson || !subject) return;
+      const storyMode = subject.interaction === "story";
+      const question = activeQuestionStage === 1 && lesson.followUp ? lesson.followUp : lesson.prediction;
       if (activePrediction === null) {
-        els.discoveryFeedback.textContent = "先選一個猜想，兔兔才知道你在想什麼喔。";
+        els.discoveryFeedback.textContent = storyMode
+          ? "先選一個答案，兔兔才知道你看見哪個線索。"
+          : "先選一個猜想，兔兔才知道你在想什麼喔。";
         return;
       }
 
@@ -4800,18 +5354,33 @@
         .filter((className) => className === "is-running" || className.startsWith("choice-"))
         .forEach((className) => els.experimentZone.classList.remove(className));
       void els.experimentZone.offsetWidth;
-      const resultIndex = lesson.prediction.randomResult
-        ? Math.floor(Math.random() * lesson.prediction.choices.length)
-        : lesson.prediction.answer;
+      const resultIndex = question.randomResult
+        ? Math.floor(Math.random() * question.choices.length)
+        : question.answer;
       els.experimentZone.classList.add(`choice-${resultIndex}`);
       els.experimentZone.classList.add("is-running");
-      const comparison = activePrediction === resultIndex
-        ? "和你的猜想一樣！"
-        : "和你的猜想不一樣，也有新發現！";
-      const randomResult = lesson.prediction.randomResult
-        ? `這次是「${lesson.prediction.choices[resultIndex]}」。`
+      const comparison = storyMode
+        ? (activePrediction === resultIndex ? "你找到故事線索了！" : "再看一次線索，也有新發現！")
+        : (activePrediction === resultIndex ? "和你的猜想一樣！" : "和你的猜想不一樣，也有新發現！");
+      const randomResult = question.randomResult
+        ? `這次是「${question.choices[resultIndex]}」。`
         : "";
-      const feedback = `${comparison}${randomResult}${lesson.feedback}`;
+      const stageFeedback = activeQuestionStage === 1 && lesson.followUp
+        ? lesson.followUp.feedback
+        : lesson.feedback;
+      let feedback = `${comparison}${randomResult}${stageFeedback}`;
+
+      if (storyMode && activeQuestionStage === 0 && lesson.followUp) {
+        els.discoveryFeedback.textContent = feedback;
+        sayDiscoveryText(feedback);
+        activeQuestionStage = 1;
+        renderDiscoveryQuestion(lesson.followUp, lesson.followUp.action || "回答兔兔", subject, 1);
+        return;
+      }
+
+      if (storyMode && lesson.retell) {
+        feedback += ` 試著說給兔兔聽：${lesson.retell}`;
+      }
       els.discoveryFeedback.textContent = feedback;
       sayDiscoveryText(feedback);
       completeDiscoveryLesson(lesson);
@@ -4891,7 +5460,7 @@
     }
 
     function playDiscoveryChime() {
-      const offset = activeWorld === "math" ? 4 : activeWorld === "quantum" ? 8 : activeWorld === "science" ? 16 : 0;
+      const offset = activeWorld === "story" ? 2 : activeWorld === "math" ? 4 : activeWorld === "quantum" ? 8 : activeWorld === "science" ? 16 : 0;
       playCuteChime(LETTERS[(offset + activeLessonIndex) % LETTERS.length]);
     }
 

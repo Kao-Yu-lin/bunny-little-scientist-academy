@@ -1319,21 +1319,130 @@
       line-height: 1.5;
     }
 
+    .today-hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .today-start,
     .today-speak {
       min-width: 168px;
       min-height: 56px;
       border: 2px solid #ffffff;
       border-radius: 8px;
-      background: linear-gradient(180deg, #f38ca8, #dc6688);
       color: #ffffff;
       font-size: 17px;
       font-weight: 950;
+    }
+
+    .today-start {
+      background: linear-gradient(180deg, #79d5a3, #4fb67b);
+      box-shadow: 0 5px 0 #348d5b, 0 10px 24px rgba(52, 141, 91, 0.2);
+    }
+
+    .today-speak {
+      background: linear-gradient(180deg, #f38ca8, #dc6688);
       box-shadow: 0 5px 0 #b94f70, 0 10px 24px rgba(118, 58, 77, 0.18);
+    }
+
+    .today-start:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #348d5b;
     }
 
     .today-speak:active {
       transform: translateY(4px);
       box-shadow: 0 1px 0 #b94f70;
+    }
+
+    .journey-dock {
+      position: fixed;
+      left: 50%;
+      bottom: max(12px, env(safe-area-inset-bottom));
+      z-index: 40;
+      width: min(620px, calc(100% - 24px));
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      border: 2px solid rgba(255, 255, 255, 0.96);
+      border-radius: 8px;
+      background: rgba(255, 252, 247, 0.96);
+      box-shadow: 0 16px 38px rgba(61, 46, 72, 0.22), inset 0 1px 0 #ffffff;
+      backdrop-filter: blur(16px) saturate(1.1);
+      -webkit-backdrop-filter: blur(16px) saturate(1.1);
+      transform: translateX(-50%);
+    }
+
+    .journey-dock[hidden] {
+      display: none !important;
+    }
+
+    .app.has-journey-dock {
+      padding-bottom: 92px;
+    }
+
+    .app.has-journey-focus .mode-row,
+    .app.has-journey-focus .lesson-tabs {
+      display: none;
+    }
+
+    .journey-home,
+    .journey-next {
+      min-height: 54px;
+      padding: 8px 14px;
+      border: 2px solid #ffffff;
+      border-radius: 8px;
+      color: #3f4050;
+      font-size: 15px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .journey-home {
+      background: linear-gradient(180deg, #dff8ee, #aee7ce);
+      box-shadow: 0 4px 0 #78bea5;
+    }
+
+    .journey-home.is-complete {
+      background: linear-gradient(180deg, #fff4bd, #ffda72);
+      box-shadow: 0 4px 0 #d7a946;
+    }
+
+    .journey-next {
+      background: linear-gradient(180deg, #ffe8b5, #ffc85f);
+      box-shadow: 0 4px 0 #d59a34;
+    }
+
+    .journey-home:active,
+    .journey-next:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 rgba(75, 62, 82, 0.25);
+    }
+
+    .journey-copy {
+      min-width: 0;
+      display: grid;
+      gap: 2px;
+      color: #51445c;
+      text-align: left;
+    }
+
+    .journey-kicker {
+      color: #8c718e;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .journey-label {
+      overflow: hidden;
+      font-size: 15px;
+      line-height: 1.25;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .garden-status {
@@ -3964,9 +4073,12 @@
       .speak-discovery,
       .run-experiment,
       .today-speak,
+      .today-start,
       .mood-choice,
       .mood-speak,
       .mission-button,
+      .journey-home,
+      .journey-next,
       .quiet-button,
       .parent-summary,
       .discovery-parent summary {
@@ -4227,9 +4339,9 @@
       }
 
       .today-hero {
-        min-height: 500px;
+        min-height: 410px;
         align-items: flex-start;
-        padding: 26px 20px;
+        padding: 22px 18px;
         background-position: 63% center;
       }
 
@@ -4251,10 +4363,34 @@
         font-size: 16px;
       }
 
-      .today-speak {
-        min-width: 148px;
+      .today-hero-actions {
+        gap: 8px;
+      }
+
+      .today-start {
+        min-width: 0;
+        flex: 1 1 auto;
         min-height: 52px;
+        padding: 8px 12px;
         font-size: 15px;
+      }
+
+      .today-speak {
+        min-width: 52px;
+        width: 52px;
+        min-height: 52px;
+        padding: 0;
+        font-size: 15px;
+      }
+
+      .today-speak-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
       }
 
       .garden-status {
@@ -4611,6 +4747,29 @@
         font-size: 90px;
       }
 
+      .journey-dock {
+        bottom: max(8px, env(safe-area-inset-bottom));
+        width: calc(100% - 16px);
+        min-height: 68px;
+        gap: 7px;
+        padding: 7px;
+      }
+
+      .journey-home,
+      .journey-next {
+        min-height: 52px;
+        padding: 7px 10px;
+        font-size: 14px;
+      }
+
+      .journey-kicker {
+        display: none;
+      }
+
+      .journey-label {
+        font-size: 13px;
+      }
+
       @keyframes ballRoll {
         0% { transform: translate(0, 0) rotate(0deg); }
         72% { transform: translate(190px, 51px) rotate(540deg); }
@@ -4630,7 +4789,7 @@
   </style>
 </head>
 <body>
-  <div class="app">
+  <div class="app" id="appShell">
     <header class="topbar">
       <div class="brand">
         <svg class="bunny-mark" id="bunnyMark" viewBox="0 0 120 120" role="img" aria-label="兔兔小老師">
@@ -4709,7 +4868,10 @@
             <div class="today-kicker">兔兔今天的冒險</div>
             <h2 id="todayStoryTitle">幫兔兔準備小花園</h2>
             <p class="today-story-line" id="todayStoryLine">先暖身，再發現一件新事情，最後到生活裡找一找。</p>
-            <button class="today-speak" type="button" id="speakToday">🔊 聽兔兔說</button>
+            <div class="today-hero-actions">
+              <button class="today-start" type="button" id="startNextMission"><span aria-hidden="true">▶</span> <span id="startNextMissionLabel">開始第一件</span></button>
+              <button class="today-speak" type="button" id="speakToday" aria-label="聽兔兔說" title="聽兔兔說"><span aria-hidden="true">🔊</span> <span class="today-speak-label">聽兔兔說</span></button>
+            </div>
           </div>
           <div class="garden-status" aria-label="兔兔花園成長進度">
             <div class="garden-status-line"><span id="gardenStageName">一顆小種子</span><span id="gardenLevelLabel">0 / 5</span></div>
@@ -4881,6 +5043,15 @@
         </details>
       </div>
     </main>
+
+    <div class="journey-dock" id="journeyDock" role="region" aria-label="學習導引" aria-live="polite" hidden>
+      <button class="journey-home" type="button" id="journeyHome"><span aria-hidden="true">🐰</span> <span id="journeyHomeLabel">回今天</span></button>
+      <div class="journey-copy">
+        <span class="journey-kicker" id="journeyKicker">兔兔陪你不迷路</span>
+        <strong class="journey-label" id="journeyLabel">正在自由探索</strong>
+      </div>
+      <button class="journey-next" type="button" id="journeyNext" hidden><span>下一題</span> <span aria-hidden="true">›</span></button>
+    </div>
 
     <footer>所有學習紀錄只存在這台裝置，不會上傳小孩資料。</footer>
   </div>
@@ -5559,6 +5730,8 @@
     let activeMode = "learn";
     let activeLessonIndex = 0;
     let activeAdventureMission = null;
+    let journeyContext = null;
+    let lessonJustCompleted = false;
     let learnIndex = 0;
     let focusLetters = getFocusLetters();
     let firstPick = null;
@@ -5600,6 +5773,7 @@
     };
 
     Object.assign(els, {
+      appShell: document.getElementById("appShell"),
       appTitle: document.getElementById("appTitle"),
       appSubtitle: document.getElementById("appSubtitle"),
       bunnyMark: document.getElementById("bunnyMark"),
@@ -5608,6 +5782,8 @@
       todayHero: document.getElementById("todayHero"),
       todayStoryTitle: document.getElementById("todayStoryTitle"),
       todayStoryLine: document.getElementById("todayStoryLine"),
+      startNextMission: document.getElementById("startNextMission"),
+      startNextMissionLabel: document.getElementById("startNextMissionLabel"),
       speakToday: document.getElementById("speakToday"),
       moodBand: document.getElementById("moodBand"),
       moodChoices: document.getElementById("moodChoices"),
@@ -5636,18 +5812,28 @@
       experimentVisual: document.getElementById("experimentVisual"),
       discoveryFeedback: document.getElementById("discoveryFeedback"),
       discoveryParentSummary: document.getElementById("discoveryParentSummary"),
-      parentScienceNote: document.getElementById("parentScienceNote")
+      parentScienceNote: document.getElementById("parentScienceNote"),
+      journeyDock: document.getElementById("journeyDock"),
+      journeyHome: document.getElementById("journeyHome"),
+      journeyHomeLabel: document.getElementById("journeyHomeLabel"),
+      journeyKicker: document.getElementById("journeyKicker"),
+      journeyLabel: document.getElementById("journeyLabel"),
+      journeyNext: document.getElementById("journeyNext")
     });
 
     document.querySelectorAll(".world-button").forEach((button) => {
       button.addEventListener("click", () => {
         activeAdventureMission = null;
-        setWorld(button.dataset.world);
+        journeyContext = null;
+        setWorld(button.dataset.world, { focusContent: true });
       });
     });
 
     document.querySelectorAll(".mode-button").forEach((button) => {
-      button.addEventListener("click", () => setMode(button.dataset.mode));
+      button.addEventListener("click", () => {
+        setMode(button.dataset.mode);
+        focusActiveContent("alphabet");
+      });
     });
 
     document.getElementById("prevLetter").addEventListener("click", () => moveLearn(-1));
@@ -5672,7 +5858,10 @@
     document.getElementById("playPrompt").addEventListener("click", () => sayLetter(listenTarget, { includeWord: false }));
     els.speakDiscovery.addEventListener("click", speakCurrentDiscovery);
     els.runExperiment.addEventListener("click", runDiscoveryExperiment);
+    els.startNextMission.addEventListener("click", startNextTodayMission);
     els.speakToday.addEventListener("click", speakTodayAdventure);
+    els.journeyHome.addEventListener("click", returnToToday);
+    els.journeyNext.addEventListener("click", goToNextDiscoveryLesson);
     els.speakMood.addEventListener("click", speakTodayMood);
     els.moodChoices.querySelectorAll(".mood-choice").forEach((button) => {
       button.addEventListener("click", () => chooseTodayMood(button.dataset.mood));
@@ -5909,6 +6098,16 @@
       els.todayStoryLine.textContent = allDone
         ? "今天的三件事都完成了。可以重玩喜歡的活動，明天再長大一點。"
         : `還有 ${3 - completedCount} 件小任務。慢慢來，一次做一件就好。`;
+      els.startNextMissionLabel.textContent = allDone
+        ? "挑一個再玩"
+        : completedCount === 0
+          ? "開始第一件"
+          : "繼續下一件";
+      els.startNextMission.setAttribute("aria-label", allDone
+        ? "挑一個喜歡的任務再玩一次"
+        : completedCount === 0
+          ? "開始今天第一件小任務"
+          : "繼續今天下一件小任務");
       renderMoodCheckin();
 
       els.todayMissions.innerHTML = "";
@@ -5942,12 +6141,28 @@
       });
     }
 
+    function startNextTodayMission() {
+      const progress = getTodayAdventure();
+      const nextType = ["warmup", "discover", "offline"].find((type) => !progress[type]);
+      if (nextType) {
+        startTodayMission(nextType);
+        return;
+      }
+
+      document.querySelector(".mission-band")?.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "start"
+      });
+    }
+
     function startTodayMission(type) {
+      const alreadyComplete = getTodayAdventure()[type] === true;
       if (type === "warmup") {
+        activeAdventureMission = "warmup";
+        journeyContext = { type: "warmup", status: alreadyComplete ? "complete" : "active" };
         focusLetters = getWeakLetters();
         learnIndex = 0;
-        setWorld("alphabet");
-        activeAdventureMission = "warmup";
+        setWorld("alphabet", { focusContent: true });
         setMode("learn");
         renderLearnLetter();
         sayCurrentLetter();
@@ -5956,15 +6171,16 @@
 
       if (type === "discover") {
         const target = todayDiscoveryTarget();
-        setWorld(target.subjectKey);
-        activeLessonIndex = target.lessonIndex;
         activeAdventureMission = "discover";
-        renderDiscoveryLesson();
+        journeyContext = { type: "discover", status: alreadyComplete ? "complete" : "active" };
+        activeLessonIndex = target.lessonIndex;
+        setWorld(target.subjectKey, { focusContent: true, preserveLesson: true });
         speakCurrentDiscovery();
         return;
       }
 
       if (type === "offline") {
+        journeyContext = null;
         const completed = completeAdventureMission("offline", { awardStar: true, countActivity: true });
         sayDiscoveryText(completed
           ? "太好了！你把生活裡的發現帶回來了。兔兔花園又長大一點。"
@@ -5975,7 +6191,9 @@
     function completeAdventureMission(type, options = {}) {
       const progress = getTodayAdventure();
       if (progress[type]) {
+        if (journeyContext?.type === type) journeyContext.status = "complete";
         renderTodayWorld();
+        updateJourneyDock();
         return false;
       }
 
@@ -5985,6 +6203,7 @@
         ...progress
       };
       state.gardenLevel = Math.min(5, Number(state.gardenLevel || 0) + 1);
+      if (journeyContext?.type === type) journeyContext.status = "complete";
       if (options.countActivity) {
         state.days[TODAY_KEY] = (state.days[TODAY_KEY] || 0) + 1;
       }
@@ -6025,10 +6244,11 @@
       refreshAll();
     }
 
-    function setWorld(world) {
+    function setWorld(world, options = {}) {
       if (world !== "today" && world !== "alphabet" && !DISCOVERY[world]) return;
       activeWorld = world;
-      activeLessonIndex = 0;
+      if (!options.preserveLesson) activeLessonIndex = 0;
+      lessonJustCompleted = false;
       window.speechSynthesis?.cancel();
 
       document.querySelectorAll(".world-button").forEach((button) => {
@@ -6054,9 +6274,11 @@
         renderDiscoveryLesson();
       }
       refreshAll();
+      if (options.focusContent) focusActiveContent(world);
     }
 
     function renderDiscoveryLesson() {
+      lessonJustCompleted = false;
       const subjectKey = activeWorld === "alphabet" ? "physics" : activeWorld;
       const subject = DISCOVERY[subjectKey];
       const lesson = subject.lessons[activeLessonIndex % subject.lessons.length];
@@ -6102,10 +6324,81 @@
         button.addEventListener("click", () => {
           window.speechSynthesis?.cancel();
           activeLessonIndex = index;
+          activeAdventureMission = null;
+          journeyContext = null;
           renderDiscoveryLesson();
         });
         els.lessonTabs.appendChild(button);
       });
+      updateJourneyDock();
+    }
+
+    function focusActiveContent(world = activeWorld) {
+      const target = world === "today"
+        ? els.todayWorld
+        : world === "alphabet"
+          ? els.alphabetWorld
+          : els.discoveryWorld;
+      window.requestAnimationFrame(() => target.scrollIntoView({
+        behavior: "auto",
+        block: "start"
+      }));
+    }
+
+    function updateJourneyDock() {
+      const showDock = activeWorld !== "today";
+      const journeyComplete = journeyContext?.status === "complete";
+      const activityComplete = lessonJustCompleted || journeyComplete;
+      els.journeyDock.hidden = !showDock;
+      els.appShell.classList.toggle("has-journey-dock", showDock);
+      els.appShell.classList.toggle("has-journey-focus", showDock && Boolean(journeyContext));
+      if (!showDock) return;
+
+      els.journeyHome.classList.toggle("is-complete", activityComplete);
+      els.journeyHomeLabel.textContent = journeyComplete ? "完成，回今天" : "回今天";
+
+      if (journeyComplete) {
+        els.journeyKicker.textContent = "今天這一件完成了";
+        els.journeyLabel.textContent = "回去看看兔兔花園";
+      } else if (journeyContext?.type === "warmup") {
+        els.journeyKicker.textContent = "今天的小任務";
+        els.journeyLabel.textContent = "和一個字母打招呼";
+      } else if (journeyContext?.type === "discover") {
+        els.journeyKicker.textContent = "今天的新發現";
+        els.journeyLabel.textContent = currentDiscoveryLesson()?.title || "跟兔兔一起找答案";
+      } else if (lessonJustCompleted) {
+        els.journeyKicker.textContent = "這一題完成了";
+        els.journeyLabel.textContent = "回今天，或繼續下一題";
+      } else {
+        els.journeyKicker.textContent = "自由探索";
+        els.journeyLabel.textContent = activeWorld === "alphabet"
+          ? "ABC 字母世界"
+          : `${currentDiscoverySubject()?.name || "兔兔學習世界"}`;
+      }
+
+      const canGoNext = activeWorld !== "alphabet" && lessonJustCompleted;
+      els.journeyNext.hidden = !canGoNext;
+      els.journeyNext.setAttribute("aria-label", canGoNext ? "前往下一個活動" : "下一個活動");
+    }
+
+    function returnToToday() {
+      activeAdventureMission = null;
+      journeyContext = null;
+      lessonJustCompleted = false;
+      setWorld("today", { focusContent: true });
+    }
+
+    function goToNextDiscoveryLesson() {
+      const subject = currentDiscoverySubject();
+      if (!subject) return;
+      activeAdventureMission = null;
+      journeyContext = null;
+      lessonJustCompleted = false;
+      activeLessonIndex = (activeLessonIndex + 1) % subject.lessons.length;
+      renderDiscoveryLesson();
+      refreshAll();
+      focusActiveContent(activeWorld);
+      speakCurrentDiscovery();
     }
 
     function renderDiscoveryQuestion(question, actionLabel, subject, stage) {
@@ -6253,6 +6546,7 @@
     function completeDiscoveryLesson(lesson) {
       const key = `${activeWorld}:${lesson.id}`;
       const firstCompletion = !state.discoveryCompleted[key];
+      lessonJustCompleted = true;
       if (firstCompletion) {
         state.discoveryCompleted[key] = TODAY_KEY;
         state.stars += 1;
@@ -6623,6 +6917,7 @@
       renderFocusLetters();
       renderProgressList(els.miniProgressList, LETTERS.slice(0, unlockedCount()), true);
       renderProgressList(els.fullProgressList, LETTERS, false);
+      updateJourneyDock();
     }
 
     function renderFocusLetters() {

@@ -1343,6 +1343,10 @@
       gap: 12px;
     }
 
+    .world-map-grid.is-five {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
     .world-map-grid.is-pair {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -5833,7 +5837,8 @@
         scroll-snap-align: none;
       }
 
-      .world-map-grid {
+      .world-map-grid,
+      .world-map-grid.is-five {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
@@ -5892,6 +5897,7 @@
       }
 
       .world-map-grid,
+      .world-map-grid.is-five,
       .world-map-grid.is-pair {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 9px;
@@ -6096,7 +6102,7 @@
         <div class="world-map-sections">
           <section class="world-map-section" aria-labelledby="worldMapThreeTitle">
             <h3 class="world-map-heading" id="worldMapThreeTitle"><span aria-hidden="true">🪄</span>動手玩 3D</h3>
-            <div class="world-map-grid">
+            <div class="world-map-grid is-five">
               <button class="world-map-button world-launch-button" type="button" data-map-world="playroom" data-map-group="three">
                 <span class="world-map-icon" aria-hidden="true">🟢</span><span class="world-map-name">3D 遊樂場</span><span class="world-map-progress" data-map-progress="playroom">今天可以玩</span>
               </button>
@@ -6108,6 +6114,9 @@
               </button>
               <button class="world-map-button world-launch-button" type="button" data-map-world="life3d" data-map-group="three">
                 <span class="world-map-icon" aria-hidden="true">🏠</span><span class="world-map-name">3D 生活</span><span class="world-map-progress" data-map-progress="life3d">0 回合</span>
+              </button>
+              <button class="world-map-button world-launch-button" type="button" data-map-world="nature3d" data-map-group="three">
+                <span class="world-map-icon" aria-hidden="true">🌻</span><span class="world-map-name">3D 自然</span><span class="world-map-progress" data-map-progress="nature3d">0 / 4 看過</span>
               </button>
             </div>
           </section>
@@ -6267,6 +6276,11 @@
                 <strong>🏠 3D 生活小屋</strong>
                 <span id="parentLifeHouseConcept">下一次：洗手泡泡</span>
                 <small id="parentLifeHouseProgress">尚未開始 · 0 回合</small>
+              </div>
+              <div class="parent-math-garden parent-nature-garden" aria-label="3D 自然花園探索摘要">
+                <strong>🌻 3D 自然花園</strong>
+                <span id="parentNatureGardenConcept">還沒看過自然變化</span>
+                <small id="parentNatureGardenProgress">0 / 4 看過 · 0 回合</small>
               </div>
             </section>
 
@@ -6471,6 +6485,43 @@
       </section>
     </main>
 
+    <main class="playroom-main nature-garden-main" id="natureGardenWorld" hidden>
+      <section class="playroom-stage nature-garden-stage" id="natureGardenStage" aria-labelledby="natureGardenPrompt">
+        <div class="playroom-canvas-host" id="natureGardenCanvasHost"></div>
+        <div class="playroom-fallback nature-garden-fallback" id="natureGardenFallback" hidden>
+          <p>這台裝置暫時不能顯示 3D。可以和大人到窗邊看看陽光、雲和植物。</p>
+        </div>
+
+        <div class="playroom-hud">
+          <button class="playroom-home" type="button" id="natureGardenHome" aria-label="回今天">
+            <span aria-hidden="true">🐰</span> 回今天
+          </button>
+          <div class="playroom-guide" role="status" aria-live="polite">
+            <span class="playroom-step" id="natureGardenStep">自由探索 · 0 / 4 個變化</span>
+            <strong class="playroom-prompt" id="natureGardenPrompt">花園裡，誰會先動起來？</strong>
+          </div>
+          <button class="playroom-speak" type="button" id="natureGardenSpeak" title="再聽一次" aria-label="再聽一次">🔊</button>
+        </div>
+
+        <div class="playroom-bottom">
+          <div class="playroom-hint" id="natureGardenHint" role="status" aria-live="polite">
+            <span class="playroom-touch" aria-hidden="true">☝️</span>
+            <span id="natureGardenHintText">太陽、雲朵、花和風車，想先看哪一個就碰哪一個</span>
+          </div>
+          <div class="playroom-progress" id="natureGardenProgress" aria-label="3D 自然探索進度">
+            <span class="playroom-progress-dot"></span>
+            <span class="playroom-progress-dot"></span>
+            <span class="playroom-progress-dot"></span>
+            <span class="playroom-progress-dot"></span>
+          </div>
+          <div class="playroom-complete-actions" id="natureGardenCompleteActions" hidden>
+            <button class="playroom-replay" type="button" id="natureGardenReplay"><span aria-hidden="true">↻</span> 再逛一圈</button>
+            <button class="playroom-finish-home" type="button" id="natureGardenFinishHome"><span aria-hidden="true">🐰</span> 回今天</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
     <main id="alphabetWorld" hidden>
       <div class="dashboard">
         <section class="stage" aria-live="polite">
@@ -6610,6 +6661,7 @@
   <script src="three-math-garden.js"></script>
   <script src="three-science-lab.js"></script>
   <script src="three-life-house.js"></script>
+  <script src="three-nature-garden.js"></script>
   <script>
     const STORE_KEY = "bunnyAlphabetMemoryV1";
     const TODAY_KEY = new Date().toISOString().slice(0, 10);
@@ -7316,7 +7368,8 @@
       playroom: Object.freeze({ first: "球球遊樂場準備好了。", returning: "球球又在等我們了。" }),
       math3d: Object.freeze({ first: "胡蘿蔔今天長得真好。", returning: "胡蘿蔔又長出來了。" }),
       science3d: Object.freeze({ first: "小小實驗桌亮起來了。", returning: "實驗桌又有新變化了。" }),
-      life3d: Object.freeze({ first: "小屋裡有一件小事等我們。", returning: "我們又回到兔兔小屋了。" })
+      life3d: Object.freeze({ first: "小屋裡有一件小事等我們。", returning: "我們又回到兔兔小屋了。" }),
+      nature3d: Object.freeze({ first: "自然花園醒來了。", returning: "花園裡又有小變化了。" })
     });
 
     const state = loadState();
@@ -7347,15 +7400,18 @@
     let scienceLabCourseOverride = null;
     let lifeHouseController = null;
     let lifeHouseRoutineOverride = null;
+    let natureGardenController = null;
     const discoveryImagePreloads = [];
     let currentPlayroomSpeech = ["我在找一顆紅色球。", "你看見它了嗎？輕輕指給我看。"];
     let currentMathGardenSpeech = ["我們一起整理胡蘿蔔。", "請一根一根放進籃子。"];
     let currentScienceLabSpeech = ["小球停在高高的地方。", "你猜放開後，它會往哪裡走？"];
     let currentLifeHouseSpeech = ["水龍頭在這裡。", "洗手的第一步，是先把手弄濕。"];
+    let currentNatureGardenSpeech = ["花園裡有幾個小變化。", "太陽、雲朵、花和風車，你想先看看哪一個？"];
     let currentPlayroomContext = { world: "playroom", kind: "prompt", stage: 0 };
     let currentMathGardenContext = { world: "math3d", kind: "prompt", stage: 0 };
     let currentScienceLabContext = { world: "science3d", kind: "prompt", stage: 0 };
     let currentLifeHouseContext = { world: "life3d", kind: "prompt", stage: 0 };
+    let currentNatureGardenContext = { world: "nature3d", kind: "prompt", stage: 0 };
     let bunnyDialogueSession = { world: "", introduced: false };
 
     const els = {
@@ -7452,6 +7508,20 @@
       lifeHouseCompleteActions: document.getElementById("lifeHouseCompleteActions"),
       lifeHouseNext: document.getElementById("lifeHouseNext"),
       lifeHouseFinishHome: document.getElementById("lifeHouseFinishHome"),
+      natureGardenWorld: document.getElementById("natureGardenWorld"),
+      natureGardenStage: document.getElementById("natureGardenStage"),
+      natureGardenCanvasHost: document.getElementById("natureGardenCanvasHost"),
+      natureGardenFallback: document.getElementById("natureGardenFallback"),
+      natureGardenHome: document.getElementById("natureGardenHome"),
+      natureGardenSpeak: document.getElementById("natureGardenSpeak"),
+      natureGardenStep: document.getElementById("natureGardenStep"),
+      natureGardenPrompt: document.getElementById("natureGardenPrompt"),
+      natureGardenHint: document.getElementById("natureGardenHint"),
+      natureGardenHintText: document.getElementById("natureGardenHintText"),
+      natureGardenProgress: document.getElementById("natureGardenProgress"),
+      natureGardenCompleteActions: document.getElementById("natureGardenCompleteActions"),
+      natureGardenReplay: document.getElementById("natureGardenReplay"),
+      natureGardenFinishHome: document.getElementById("natureGardenFinishHome"),
       todayHero: document.getElementById("todayHero"),
       todayStoryTitle: document.getElementById("todayStoryTitle"),
       todayStoryLine: document.getElementById("todayStoryLine"),
@@ -7488,6 +7558,8 @@
       parentScienceLabProgress: document.getElementById("parentScienceLabProgress"),
       parentLifeHouseConcept: document.getElementById("parentLifeHouseConcept"),
       parentLifeHouseProgress: document.getElementById("parentLifeHouseProgress"),
+      parentNatureGardenConcept: document.getElementById("parentNatureGardenConcept"),
+      parentNatureGardenProgress: document.getElementById("parentNatureGardenProgress"),
       toggleSoundStyle: document.getElementById("toggleSoundStyle"),
       chineseVoicePosition: document.getElementById("chineseVoicePosition"),
       chineseVoiceName: document.getElementById("chineseVoiceName"),
@@ -7606,6 +7678,10 @@
       lifeHouseRoutineOverride = null;
       lifeHouseController?.reset({ routine: nextLifeHouseRoutine() });
     });
+    els.natureGardenHome.addEventListener("click", returnToToday);
+    els.natureGardenFinishHome.addEventListener("click", returnToToday);
+    els.natureGardenSpeak.addEventListener("click", () => speakBunnyTurn(currentNatureGardenSpeech, { ...currentNatureGardenContext, repeat: true }));
+    els.natureGardenReplay.addEventListener("click", () => natureGardenController?.reset());
     els.startNextMission.addEventListener("click", startNextTodayMission);
     els.speakToday.addEventListener("click", speakTodayAdventure);
     els.journeyHome.addEventListener("click", returnToToday);
@@ -7660,6 +7736,7 @@
           mathGarden: normalizeMathGardenState(parsed.mathGarden),
           scienceLab: normalizeScienceLabState(parsed.scienceLab),
           lifeHouse: normalizeLifeHouseState(parsed.lifeHouse),
+          natureGarden: normalizeNatureGardenState(parsed.natureGarden),
           adventureDays,
           gardenLevel: Math.min(5, Math.max(0, storedGardenLevel, Math.min(5, recordedMissions))),
           stats: { ...blankStats, ...(parsed.stats || {}) }
@@ -7676,6 +7753,7 @@
           mathGarden: normalizeMathGardenState(),
           scienceLab: normalizeScienceLabState(),
           lifeHouse: normalizeLifeHouseState(),
+          natureGarden: normalizeNatureGardenState(),
           adventureDays: {},
           gardenLevel: 0,
           stats: blankStats
@@ -7764,6 +7842,27 @@
 
     function lifeHouseRoutineForToday(dayKey = TODAY_KEY) {
       return window.BunnyLifeHouse3D?.routineForDay(dayKey) || "wash";
+    }
+
+    function normalizeNatureGardenState(raw = {}) {
+      const source = raw && typeof raw === "object" ? raw : {};
+      const discoveryIds = window.BunnyNatureGarden3D?.discoveryIds || ["sun", "rain", "flower", "wind"];
+      const sourceCounts = source.discoveryCounts && typeof source.discoveryCounts === "object"
+        ? source.discoveryCounts
+        : {};
+      return {
+        rounds: Math.max(0, Math.floor(Number(source.rounds) || 0)),
+        discoveryCounts: Object.fromEntries(discoveryIds.map((id) => [
+          id,
+          Math.max(0, Math.floor(Number(sourceCounts[id]) || 0))
+        ])),
+        seenDiscoveries: Array.isArray(source.seenDiscoveries)
+          ? [...new Set(source.seenDiscoveries.filter((id) => discoveryIds.includes(id)))]
+          : [],
+        lastDiscovery: discoveryIds.includes(source.lastDiscovery) ? source.lastDiscovery : "",
+        lastPlayed: typeof source.lastPlayed === "string" ? source.lastPlayed : "",
+        days: source.days && typeof source.days === "object" ? source.days : {}
+      };
     }
 
     function saveState() {
@@ -7973,6 +8072,17 @@
         ? `洗手 ${lifeCounts.wash} · 收拾 ${lifeCounts.tidy} · 出門 ${lifeCounts.outing} · 共 ${state.lifeHouse.rounds} 回合`
         : "尚未開始 · 0 回合";
       els.parentLifeHouseConcept.title = "網站只記錄看過的生活示範，不代表孩子已能獨立完成；請成人全程陪同。";
+
+      const natureItems = window.BunnyNatureGarden3D?.discoveries || [];
+      const natureSeen = state.natureGarden.seenDiscoveries.length;
+      const natureFavorite = [...natureItems]
+        .sort((a, b) => (state.natureGarden.discoveryCounts[b.id] || 0) - (state.natureGarden.discoveryCounts[a.id] || 0))[0];
+      const favoriteCount = natureFavorite ? state.natureGarden.discoveryCounts[natureFavorite.id] || 0 : 0;
+      els.parentNatureGardenConcept.textContent = favoriteCount > 0
+        ? `最近最常回看：${natureFavorite.label} · ${favoriteCount} 次`
+        : "還沒看過自然變化";
+      els.parentNatureGardenProgress.textContent = `${natureSeen} / ${natureItems.length || 4} 看過 · ${state.natureGarden.rounds} 回合`;
+      els.parentNatureGardenConcept.title = "這只是孩子在網站裡主動回看的次數，不代表自然科學能力、偏好標籤或發展判定。";
     }
 
     function preferredDiscoveryOrder(dayKey = TODAY_KEY) {
@@ -8087,6 +8197,7 @@
         math3d: `${state.mathGarden.rounds} 回合`,
         science3d: `${state.scienceLab.rounds} 回合`,
         life3d: `${state.lifeHouse.rounds} 回合`,
+        nature3d: `${state.natureGarden.seenDiscoveries.length} / 4 看過`,
         alphabet: `${unlockedCount()} 個已開啟`
       };
       Object.keys(DISCOVERY).forEach((subjectKey) => {
@@ -8292,7 +8403,7 @@
     }
 
     function setWorld(world, options = {}) {
-      if (world !== "map" && world !== "today" && world !== "playroom" && world !== "math3d" && world !== "science3d" && world !== "life3d" && world !== "alphabet" && !DISCOVERY[world]) return;
+      if (world !== "map" && world !== "today" && world !== "playroom" && world !== "math3d" && world !== "science3d" && world !== "life3d" && world !== "nature3d" && world !== "alphabet" && !DISCOVERY[world]) return;
       if (bunnyDialogueSession.world !== world) {
         bunnyDialogueSession = { world, introduced: false };
       }
@@ -8316,6 +8427,7 @@
       const showMathGarden = world === "math3d";
       const showScienceLab = world === "science3d";
       const showLifeHouse = world === "life3d";
+      const showNatureGarden = world === "nature3d";
       const showAlphabet = world === "alphabet";
       els.alphabetModeRow.hidden = !showAlphabet;
       els.worldMapWorld.hidden = !showMap;
@@ -8325,11 +8437,13 @@
       els.mathGardenWorld.hidden = !showMathGarden;
       els.scienceLabWorld.hidden = !showScienceLab;
       els.lifeHouseWorld.hidden = !showLifeHouse;
-      els.discoveryWorld.hidden = showMap || showToday || showPlayroom || showMathGarden || showScienceLab || showLifeHouse || showAlphabet;
+      els.natureGardenWorld.hidden = !showNatureGarden;
+      els.discoveryWorld.hidden = showMap || showToday || showPlayroom || showMathGarden || showScienceLab || showLifeHouse || showNatureGarden || showAlphabet;
       if (!showPlayroom) playroomController?.pause();
       if (!showMathGarden) mathGardenController?.pause();
       if (!showScienceLab) scienceLabController?.pause();
       if (!showLifeHouse) lifeHouseController?.pause();
+      if (!showNatureGarden) natureGardenController?.pause();
 
       if (showMap) {
         els.appTitle.textContent = "兔兔世界地圖";
@@ -8371,6 +8485,12 @@
         } else {
           controller.start({ routine, announce: true });
         }
+      } else if (showNatureGarden) {
+        els.appTitle.textContent = "兔兔 3D 自然花園";
+        els.appSubtitle.textContent = "想看哪一個變化，就直接碰哪一個。";
+        const controller = ensureNatureGarden();
+        if (controller.getSnapshot().complete) controller.reset();
+        else controller.start({ announce: true });
       } else if (showAlphabet) {
         els.appTitle.textContent = "兔兔小小科學院";
         els.appSubtitle.textContent = "今天和兔兔一起認 4 個英文字母。";
@@ -8725,6 +8845,96 @@
       };
     }
 
+    function ensureNatureGarden() {
+      if (natureGardenController) return natureGardenController;
+      natureGardenController = window.BunnyNatureGarden3D.create({
+        host: els.natureGardenCanvasHost,
+        fallback: els.natureGardenFallback,
+        speak: (parts, context = {}) => speakBunnyTurn(parts, { world: "nature3d", ...context }),
+        onReady: renderNatureGardenReady,
+        onDiscovery: recordNatureGardenDiscovery,
+        onStatus: (message, status) => {
+          els.natureGardenHint.dataset.status = status;
+          els.natureGardenHintText.textContent = message;
+        },
+        onCompleteUi: renderNatureGardenComplete,
+        onComplete: completeNatureGarden
+      });
+      window.bunnyNatureGarden = natureGardenController;
+      return natureGardenController;
+    }
+
+    function renderNatureGardenReady(payload) {
+      currentNatureGardenSpeech = payload.speech;
+      currentNatureGardenContext = { world: "nature3d", kind: "prompt", stage: 0, taskId: "open" };
+      els.natureGardenStep.textContent = `自由探索 · ${payload.count} / ${payload.total} 個變化`;
+      els.natureGardenPrompt.textContent = payload.prompt;
+      els.natureGardenHint.dataset.status = "ready";
+      els.natureGardenHintText.textContent = payload.hint;
+      els.natureGardenCompleteActions.hidden = true;
+      renderNatureGardenDots(payload.discovered);
+      if (payload.announce) speakBunnyTurn(payload.speech, currentNatureGardenContext);
+    }
+
+    function recordNatureGardenDiscovery(payload) {
+      currentNatureGardenSpeech = payload.speech;
+      currentNatureGardenContext = { world: "nature3d", kind: "result", stage: payload.count - 1, taskId: payload.id };
+      els.natureGardenStep.textContent = `自由探索 · ${payload.count} / ${payload.total} 個變化`;
+      els.natureGardenPrompt.textContent = payload.result;
+      els.natureGardenHint.dataset.status = "discovering";
+      els.natureGardenHintText.textContent = payload.remaining > 0
+        ? `還有 ${payload.remaining} 個小變化；也可以再看剛才這一個`
+        : "四個變化都看見了，先聽兔兔說完";
+      renderNatureGardenDots(payload.discovered);
+
+      const profile = state.natureGarden;
+      profile.discoveryCounts[payload.id] = Math.max(0, Number(profile.discoveryCounts[payload.id]) || 0) + 1;
+      profile.seenDiscoveries = [...new Set([...profile.seenDiscoveries, payload.id])];
+      profile.lastDiscovery = payload.id;
+      profile.lastPlayed = TODAY_KEY;
+      saveState();
+      refreshAll();
+    }
+
+    function renderNatureGardenDots(discoveredIds = []) {
+      const orderedIds = window.BunnyNatureGarden3D?.discoveryIds || ["sun", "rain", "flower", "wind"];
+      const seen = new Set(discoveredIds);
+      els.natureGardenProgress.querySelectorAll(".playroom-progress-dot").forEach((dot, index) => {
+        dot.classList.toggle("is-done", seen.has(orderedIds[index]));
+        dot.classList.remove("is-current");
+      });
+    }
+
+    function renderNatureGardenComplete() {
+      currentNatureGardenSpeech = ["陽光、雨點、蜜蜂和風車都動起來了。", "你想再逛一圈，還是回今天？"];
+      currentNatureGardenContext = { world: "nature3d", kind: "complete", stage: 4 };
+      els.natureGardenStep.textContent = "自由探索 · 四個自然變化都看見了";
+      els.natureGardenPrompt.textContent = "自然花園今天有好多變化";
+      els.natureGardenHint.dataset.status = "complete";
+      els.natureGardenHintText.textContent = "看見陽光、雨點、蜜蜂和風留下的線索";
+      renderNatureGardenDots(window.BunnyNatureGarden3D?.discoveryIds || ["sun", "rain", "flower", "wind"]);
+      els.natureGardenCompleteActions.hidden = false;
+      speakBunnyTurn(currentNatureGardenSpeech, currentNatureGardenContext);
+    }
+
+    function completeNatureGarden(summary) {
+      const profile = state.natureGarden;
+      const roundsToday = Math.max(0, Number(profile.days[TODAY_KEY]) || 0);
+      const firstToday = roundsToday === 0;
+      profile.days[TODAY_KEY] = roundsToday + 1;
+      profile.rounds += 1;
+      profile.seenDiscoveries = [...new Set([...profile.seenDiscoveries, ...summary.discoveries])];
+      profile.lastPlayed = TODAY_KEY;
+      if (firstToday) {
+        state.stars += 1;
+        state.days[TODAY_KEY] = (state.days[TODAY_KEY] || 0) + 1;
+      }
+      saveState();
+      refreshAll();
+      if (firstToday) popStars();
+      return { rounds: profile.rounds, firstToday };
+    }
+
     function renderDiscoveryLesson() {
       lessonJustCompleted = false;
       pendingDiscoveryAction = null;
@@ -8799,6 +9009,8 @@
           ? els.scienceLabWorld
         : world === "life3d"
           ? els.lifeHouseWorld
+        : world === "nature3d"
+          ? els.natureGardenWorld
         : world === "alphabet"
           ? els.alphabetWorld
           : els.discoveryWorld;
@@ -8809,7 +9021,7 @@
     }
 
     function updateJourneyDock() {
-      const showDock = activeWorld !== "map" && activeWorld !== "today" && activeWorld !== "playroom" && activeWorld !== "math3d" && activeWorld !== "science3d" && activeWorld !== "life3d";
+      const showDock = activeWorld !== "map" && activeWorld !== "today" && activeWorld !== "playroom" && activeWorld !== "math3d" && activeWorld !== "science3d" && activeWorld !== "life3d" && activeWorld !== "nature3d";
       const journeyComplete = journeyContext?.status === "complete";
       const activityComplete = lessonJustCompleted || journeyComplete;
       els.journeyDock.hidden = !showDock;
@@ -9084,6 +9296,7 @@
       if (world === "math3d") return Number(state.mathGarden?.rounds || 0) > 0;
       if (world === "science3d") return Number(state.scienceLab?.rounds || 0) > 0;
       if (world === "life3d") return Number(state.lifeHouse?.rounds || 0) > 0;
+      if (world === "nature3d") return Number(state.natureGarden?.rounds || 0) > 0;
       return false;
     }
 
@@ -9694,7 +9907,7 @@
       els.unlockPill.textContent = activeWorld === "today"
         ? `🌱 花園 ${state.gardenLevel}/5`
         : activeWorld === "map"
-          ? `🗺️ 世界 11`
+          ? `🗺️ 世界 12`
         : activeWorld === "playroom"
           ? `🟢 3D ${state.playroomDays[TODAY_KEY] ? "完成" : "準備玩"}`
         : activeWorld === "math3d"
@@ -9703,6 +9916,8 @@
           ? `🧪 ${window.BunnyScienceLab3D.courses[scienceLabController?.getSnapshot().course || nextScienceLabCourse()].label}`
         : activeWorld === "life3d"
           ? `🏠 ${window.BunnyLifeHouse3D.routines[lifeHouseController?.getSnapshot().routine || nextLifeHouseRoutine()].label}`
+        : activeWorld === "nature3d"
+          ? `🌻 看過 ${state.natureGarden.seenDiscoveries.length}/4`
         : activeWorld === "alphabet"
           ? `🔤 字母 ${unlockedCount()}/26`
           : `🧭 活動 ${completedDiscoveryCount()}/${totalDiscoveryCount()}`;

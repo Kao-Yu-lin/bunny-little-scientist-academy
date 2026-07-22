@@ -1203,7 +1203,7 @@
 
     .world-row {
       display: grid;
-      grid-template-columns: repeat(9, minmax(0, 1fr));
+      grid-template-columns: repeat(10, minmax(0, 1fr));
       gap: 10px;
       padding: 12px 18px 4px;
       background: rgba(255, 255, 255, 0.82);
@@ -2111,6 +2111,40 @@
       color: #746879;
       font-size: 13px;
       font-weight: 900;
+      text-align: right;
+    }
+
+    .parent-math-garden {
+      display: grid;
+      grid-template-columns: minmax(170px, auto) minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      padding: 14px 0 0;
+      border-top: 1px solid #e1d9e6;
+    }
+
+    .parent-math-garden strong,
+    .parent-math-garden span,
+    .parent-math-garden small {
+      min-width: 0;
+    }
+
+    .parent-math-garden strong {
+      color: #4f4560;
+      font-size: 15px;
+    }
+
+    .parent-math-garden span {
+      color: #675b70;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .parent-math-garden small {
+      color: #827589;
+      font-size: 12px;
+      line-height: 1.4;
       text-align: right;
     }
 
@@ -5373,6 +5407,15 @@
       text-align: center;
     }
 
+    .math-garden-stage,
+    .math-garden-main {
+      background: #d4f1f7;
+    }
+
+    .math-garden-fallback {
+      background-image: url("bunny_garden_3d_v1.webp");
+    }
+
     .prediction-block {
       position: relative;
     }
@@ -5523,6 +5566,15 @@
         width: 100%;
       }
 
+      .parent-math-garden {
+        grid-template-columns: 1fr auto;
+      }
+
+      .parent-math-garden span {
+        grid-column: 1 / -1;
+        grid-row: 2;
+      }
+
       .lesson-actions.is-single-action {
         grid-template-columns: 58px minmax(0, 1fr);
       }
@@ -5601,6 +5653,7 @@
     <nav class="world-row" aria-label="學習世界">
       <button class="world-button" type="button" data-world="today" aria-pressed="true"><span class="world-icon" aria-hidden="true">🐰</span><span>今天</span></button>
       <button class="world-button" type="button" data-world="playroom" aria-pressed="false"><span class="world-icon" aria-hidden="true">🟢</span><span>3D 遊樂場</span></button>
+      <button class="world-button" type="button" data-world="math3d" aria-pressed="false"><span class="world-icon" aria-hidden="true">🥕</span><span>3D 數學</span></button>
       <button class="world-button" type="button" data-world="alphabet" aria-pressed="false"><span class="world-icon" aria-hidden="true">🔤</span><span>ABC</span></button>
       <button class="world-button" type="button" data-world="story" aria-pressed="false"><span class="world-icon" aria-hidden="true">📖</span><span>兔兔故事</span></button>
       <button class="world-button" type="button" data-world="emotion" aria-pressed="false"><span class="world-icon" aria-hidden="true">💗</span><span>兔兔心情</span></button>
@@ -5716,6 +5769,11 @@
             <section class="parent-world-progress" aria-labelledby="parentWorldHeading">
               <h3 id="parentWorldHeading">六個學習世界的探索地圖</h3>
               <div class="parent-world-list" id="parentWorldProgress"></div>
+              <div class="parent-math-garden" aria-label="3D 數學花園練習摘要">
+                <strong>🥕 3D 數學花園</strong>
+                <span id="parentMathGardenConcept">一一點數、比較多少、加一</span>
+                <small id="parentMathGardenProgress">數量 1–3 · 0 回合</small>
+              </div>
             </section>
 
             <div class="parent-station-controls">
@@ -5759,6 +5817,43 @@
           <div class="playroom-complete-actions" id="playroomCompleteActions" hidden>
             <button class="playroom-replay" type="button" id="playroomReplay"><span aria-hidden="true">↻</span> 再玩一次</button>
             <button class="playroom-finish-home" type="button" id="playroomFinishHome"><span aria-hidden="true">🐰</span> 回今天</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <main class="playroom-main math-garden-main" id="mathGardenWorld" hidden>
+      <section class="playroom-stage math-garden-stage" id="mathGardenStage" aria-labelledby="mathGardenPrompt">
+        <div class="playroom-canvas-host" id="mathGardenCanvasHost"></div>
+        <div class="playroom-fallback math-garden-fallback" id="mathGardenFallback" hidden>
+          <p>這台裝置暫時不能顯示 3D。可以回到寶寶數學，用圖卡陪兔兔數一數。</p>
+        </div>
+
+        <div class="playroom-hud">
+          <button class="playroom-home" type="button" id="mathGardenHome" aria-label="回今天">
+            <span aria-hidden="true">🐰</span> 回今天
+          </button>
+          <div class="playroom-guide" role="status" aria-live="polite">
+            <span class="playroom-step" id="mathGardenStep">第 1 個小任務 · 數量 1–3</span>
+            <strong class="playroom-prompt" id="mathGardenPrompt">幫兔兔摘 2 根胡蘿蔔</strong>
+          </div>
+          <button class="playroom-speak" type="button" id="mathGardenSpeak" title="再聽一次" aria-label="再聽一次">🔊</button>
+        </div>
+
+        <div class="playroom-bottom">
+          <div class="playroom-hint" id="mathGardenHint" role="status" aria-live="polite">
+            <span class="playroom-touch" aria-hidden="true">☝️</span>
+            <span id="mathGardenHintText">一根一根碰，摘 2 根</span>
+          </div>
+          <div class="playroom-progress" id="mathGardenProgress" aria-label="3D 數學小任務進度">
+            <span class="playroom-progress-dot is-current"></span>
+            <span class="playroom-progress-dot"></span>
+            <span class="playroom-progress-dot"></span>
+            <span class="playroom-progress-dot"></span>
+          </div>
+          <div class="playroom-complete-actions" id="mathGardenCompleteActions" hidden>
+            <button class="playroom-replay" type="button" id="mathGardenReplay"><span aria-hidden="true">↻</span> 再玩一次</button>
+            <button class="playroom-finish-home" type="button" id="mathGardenFinishHome"><span aria-hidden="true">🐰</span> 回今天</button>
           </div>
         </div>
       </section>
@@ -5900,6 +5995,7 @@
 
   <script src="vendor/three-global.js"></script>
   <script src="three-playroom.js"></script>
+  <script src="three-math-garden.js"></script>
   <script>
     const STORE_KEY = "bunnyAlphabetMemoryV1";
     const TODAY_KEY = new Date().toISOString().slice(0, 10);
@@ -6619,7 +6715,9 @@
     let friendlyChineseVoice = null;
     let speechSequenceToken = 0;
     let playroomController = null;
+    let mathGardenController = null;
     let currentPlayroomSpeech = ["兔兔想找紅色球。", "小手碰一碰！"];
+    let currentMathGardenSpeech = ["幫兔兔摘兩根胡蘿蔔。", "一根一根碰。"];
 
     const els = {
       starPill: document.getElementById("starPill"),
@@ -6670,6 +6768,20 @@
       playroomCompleteActions: document.getElementById("playroomCompleteActions"),
       playroomReplay: document.getElementById("playroomReplay"),
       playroomFinishHome: document.getElementById("playroomFinishHome"),
+      mathGardenWorld: document.getElementById("mathGardenWorld"),
+      mathGardenStage: document.getElementById("mathGardenStage"),
+      mathGardenCanvasHost: document.getElementById("mathGardenCanvasHost"),
+      mathGardenFallback: document.getElementById("mathGardenFallback"),
+      mathGardenHome: document.getElementById("mathGardenHome"),
+      mathGardenSpeak: document.getElementById("mathGardenSpeak"),
+      mathGardenStep: document.getElementById("mathGardenStep"),
+      mathGardenPrompt: document.getElementById("mathGardenPrompt"),
+      mathGardenHint: document.getElementById("mathGardenHint"),
+      mathGardenHintText: document.getElementById("mathGardenHintText"),
+      mathGardenProgress: document.getElementById("mathGardenProgress"),
+      mathGardenCompleteActions: document.getElementById("mathGardenCompleteActions"),
+      mathGardenReplay: document.getElementById("mathGardenReplay"),
+      mathGardenFinishHome: document.getElementById("mathGardenFinishHome"),
       todayHero: document.getElementById("todayHero"),
       todayStoryTitle: document.getElementById("todayStoryTitle"),
       todayStoryLine: document.getElementById("todayStoryLine"),
@@ -6700,6 +6812,8 @@
       parentOfflineTip: document.getElementById("parentOfflineTip"),
       parentOfflineGoal: document.getElementById("parentOfflineGoal"),
       parentWorldProgress: document.getElementById("parentWorldProgress"),
+      parentMathGardenConcept: document.getElementById("parentMathGardenConcept"),
+      parentMathGardenProgress: document.getElementById("parentMathGardenProgress"),
       toggleSoundStyle: document.getElementById("toggleSoundStyle"),
       alphabetWorld: document.getElementById("alphabetWorld"),
       discoveryWorld: document.getElementById("discoveryWorld"),
@@ -6769,6 +6883,10 @@
     els.playroomFinishHome.addEventListener("click", returnToToday);
     els.playroomSpeak.addEventListener("click", () => sayDiscoveryText(currentPlayroomSpeech));
     els.playroomReplay.addEventListener("click", () => playroomController?.reset());
+    els.mathGardenHome.addEventListener("click", returnToToday);
+    els.mathGardenFinishHome.addEventListener("click", returnToToday);
+    els.mathGardenSpeak.addEventListener("click", () => sayDiscoveryText(currentMathGardenSpeech));
+    els.mathGardenReplay.addEventListener("click", () => mathGardenController?.reset());
     els.startNextMission.addEventListener("click", startNextTodayMission);
     els.speakToday.addEventListener("click", speakTodayAdventure);
     els.journeyHome.addEventListener("click", returnToToday);
@@ -6817,6 +6935,7 @@
           soundStyle: parsed.soundStyle === "chimeOnly" ? "chimeOnly" : "softVoice",
           discoveryCompleted: parsed.discoveryCompleted || {},
           playroomDays: parsed.playroomDays && typeof parsed.playroomDays === "object" ? parsed.playroomDays : {},
+          mathGarden: normalizeMathGardenState(parsed.mathGarden),
           adventureDays,
           gardenLevel: Math.min(5, Math.max(0, storedGardenLevel, Math.min(5, recordedMissions))),
           stats: { ...blankStats, ...(parsed.stats || {}) }
@@ -6828,11 +6947,25 @@
           soundStyle: "softVoice",
           discoveryCompleted: {},
           playroomDays: {},
+          mathGarden: normalizeMathGardenState(),
           adventureDays: {},
           gardenLevel: 0,
           stats: blankStats
         };
       }
+    }
+
+    function normalizeMathGardenState(raw = {}) {
+      const source = raw && typeof raw === "object" ? raw : {};
+      return {
+        level: Math.max(1, Math.min(3, Number(source.level) || 1)),
+        rounds: Math.max(0, Math.floor(Number(source.rounds) || 0)),
+        stableStreak: Math.max(0, Math.min(2, Math.floor(Number(source.stableStreak) || 0))),
+        firstTryCorrect: Math.max(0, Math.floor(Number(source.firstTryCorrect) || 0)),
+        scoredTasks: Math.max(0, Math.floor(Number(source.scoredTasks) || 0)),
+        lastPlayed: typeof source.lastPlayed === "string" ? source.lastPlayed : "",
+        days: source.days && typeof source.days === "object" ? source.days : {}
+      };
     }
 
     function saveState() {
@@ -7009,6 +7142,15 @@
         row.append(name, track, count);
         els.parentWorldProgress.appendChild(row);
       });
+
+      const mathMax = state.mathGarden.level + 2;
+      els.parentMathGardenProgress.textContent = `數量 1–${mathMax} · ${state.mathGarden.rounds} 回合`;
+      els.parentMathGardenConcept.textContent = state.mathGarden.level === 1
+        ? "現在練：一一點數、比較多少、加一"
+        : state.mathGarden.level === 2
+          ? "現在練：數到四、辨認數量、比較與加一"
+          : "現在練：數到五、接近數量的比較與加一";
+      els.parentMathGardenConcept.title = "這只是網站目前提供的練習範圍，不是孩子能力判定";
     }
 
     function preferredDiscoveryOrder(dayKey = TODAY_KEY) {
@@ -7063,6 +7205,7 @@
       const weakLetter = getWeakLetters()[0] || LETTERS[0];
       const discovery = todayDiscoveryTarget();
       const offline = todayOfflineMission();
+      const useMathGarden = discovery.subjectKey === "math";
       return [
         {
           type: "warmup",
@@ -7073,10 +7216,12 @@
         },
         {
           type: "discover",
-          icon: discovery.subjectKey === "story" ? "📖" : discovery.subjectKey === "emotion" ? "💗" : discovery.subjectKey === "math" ? "🔢" : "🔎",
+          icon: discovery.subjectKey === "story" ? "📖" : discovery.subjectKey === "emotion" ? "💗" : useMathGarden ? "🥕" : "🔎",
           label: "今天的新發現",
-          title: discovery.lesson.title,
-          action: discovery.subjectKey === "story"
+          title: useMathGarden ? "到 3D 數學花園數胡蘿蔔" : discovery.lesson.title,
+          action: useMathGarden
+            ? "碰胡蘿蔔、比多少，再放一根"
+            : discovery.subjectKey === "story"
             ? "到兔兔故事屋看線索、回答問題"
             : discovery.subjectKey === "emotion"
               ? "到兔兔心情屋認感受、想辦法"
@@ -7183,6 +7328,11 @@
       if (type === "discover") {
         const target = todayDiscoveryTarget();
         activeAdventureMission = "discover";
+        if (target.subjectKey === "math") {
+          journeyContext = null;
+          setWorld("math3d", { focusContent: true, resetMath: true });
+          return;
+        }
         journeyContext = { type: "discover", status: alreadyComplete ? "complete" : "active" };
         activeLessonIndex = target.lessonIndex;
         setWorld(target.subjectKey, { focusContent: true, preserveLesson: true });
@@ -7256,7 +7406,7 @@
     }
 
     function setWorld(world, options = {}) {
-      if (world !== "today" && world !== "playroom" && world !== "alphabet" && !DISCOVERY[world]) return;
+      if (world !== "today" && world !== "playroom" && world !== "math3d" && world !== "alphabet" && !DISCOVERY[world]) return;
       activeWorld = world;
       if (!options.preserveLesson) activeLessonIndex = 0;
       lessonJustCompleted = false;
@@ -7268,13 +7418,16 @@
 
       const showToday = world === "today";
       const showPlayroom = world === "playroom";
+      const showMathGarden = world === "math3d";
       const showAlphabet = world === "alphabet";
       els.alphabetModeRow.hidden = !showAlphabet;
       els.alphabetWorld.hidden = !showAlphabet;
       els.todayWorld.hidden = !showToday;
       els.playroomWorld.hidden = !showPlayroom;
-      els.discoveryWorld.hidden = showToday || showPlayroom || showAlphabet;
+      els.mathGardenWorld.hidden = !showMathGarden;
+      els.discoveryWorld.hidden = showToday || showPlayroom || showMathGarden || showAlphabet;
       if (!showPlayroom) playroomController?.pause();
+      if (!showMathGarden) mathGardenController?.pause();
 
       if (showToday) {
         els.appTitle.textContent = "兔兔小小科學院";
@@ -7284,6 +7437,12 @@
         els.appTitle.textContent = "兔兔 3D 遊樂場";
         els.appSubtitle.textContent = "找顏色、比大小，再看小球滾下來。";
         ensurePlayroom().start({ announce: true });
+      } else if (showMathGarden) {
+        els.appTitle.textContent = "兔兔 3D 數學花園";
+        els.appSubtitle.textContent = "碰胡蘿蔔、慢慢數，再看看哪邊比較多。";
+        const controller = ensureMathGarden();
+        if (options.resetMath || controller.getSnapshot().complete) controller.reset();
+        else controller.start({ announce: true });
       } else if (showAlphabet) {
         els.appTitle.textContent = "兔兔小小科學院";
         els.appSubtitle.textContent = "今天和兔兔一起認 4 個英文字母。";
@@ -7352,6 +7511,96 @@
       refreshAll();
     }
 
+    function ensureMathGarden() {
+      if (mathGardenController) return mathGardenController;
+      mathGardenController = window.BunnyMathGarden3D.create({
+        host: els.mathGardenCanvasHost,
+        fallback: els.mathGardenFallback,
+        getLevel: () => state.mathGarden.level,
+        getRound: () => state.mathGarden.rounds,
+        speak: (parts) => sayDiscoveryText(parts),
+        onTask: renderMathGardenTask,
+        onStatus: (message, status) => {
+          els.mathGardenHint.dataset.status = status;
+          els.mathGardenHintText.textContent = message;
+        },
+        onComplete: completeMathGarden,
+        onCompleteUi: renderMathGardenComplete
+      });
+      window.bunnyMathGarden = mathGardenController;
+      return mathGardenController;
+    }
+
+    function renderMathGardenTask(task) {
+      currentMathGardenSpeech = task.speech;
+      els.mathGardenStep.textContent = `第 ${task.stage + 1} 個小任務 · 數量 1–${task.max}`;
+      els.mathGardenPrompt.textContent = task.prompt;
+      els.mathGardenHint.dataset.status = "ready";
+      els.mathGardenHintText.textContent = task.hint;
+      els.mathGardenCompleteActions.hidden = true;
+      els.mathGardenProgress.querySelectorAll(".playroom-progress-dot").forEach((dot, index) => {
+        dot.classList.toggle("is-done", index < task.stage);
+        dot.classList.toggle("is-current", index === task.stage);
+      });
+      if (task.announce) sayDiscoveryText(task.speech);
+    }
+
+    function renderMathGardenComplete(result) {
+      const max = (result.level || state.mathGarden.level) + 2;
+      currentMathGardenSpeech = result.upgraded
+        ? ["四個小任務都完成了！", `下次一起慢慢數到${max}。`]
+        : ["四個小任務都完成了！", "兔兔謝謝你整理胡蘿蔔。"];
+      els.mathGardenStep.textContent = "四個數學小任務都完成了";
+      els.mathGardenPrompt.textContent = "你幫兔兔把胡蘿蔔整理好了！";
+      els.mathGardenHint.dataset.status = "complete";
+      els.mathGardenHintText.textContent = result.upgraded
+        ? `下一次會慢慢看到 1–${max}`
+        : `練習了數到 ${max}、比較多少和加一`;
+      els.mathGardenProgress.querySelectorAll(".playroom-progress-dot").forEach((dot) => {
+        dot.classList.add("is-done");
+        dot.classList.remove("is-current");
+      });
+      els.mathGardenCompleteActions.hidden = false;
+    }
+
+    function completeMathGarden(summary) {
+      const profile = state.mathGarden;
+      const roundsToday = Math.max(0, Number(profile.days[TODAY_KEY]) || 0);
+      const firstToday = roundsToday === 0;
+      const previousLevel = profile.level;
+      profile.days[TODAY_KEY] = roundsToday + 1;
+      profile.rounds += 1;
+      profile.firstTryCorrect += Number(summary.firstTryCorrect) || 0;
+      profile.scoredTasks += Number(summary.scoredTasks) || 0;
+      profile.lastPlayed = TODAY_KEY;
+      profile.stableStreak = summary.stable ? profile.stableStreak + 1 : 0;
+      if (profile.stableStreak >= 2 && profile.level < 3) {
+        profile.level += 1;
+        profile.stableStreak = 0;
+      }
+
+      if (firstToday) {
+        state.stars += 1;
+        state.days[TODAY_KEY] = (state.days[TODAY_KEY] || 0) + 1;
+      }
+
+      saveState();
+      if (activeAdventureMission === "discover") {
+        activeAdventureMission = null;
+        completeAdventureMission("discover");
+      } else {
+        refreshAll();
+      }
+      if (firstToday) popStars();
+      return {
+        level: profile.level,
+        max: profile.level + 2,
+        upgraded: profile.level > previousLevel,
+        rounds: profile.rounds,
+        firstToday
+      };
+    }
+
     function renderDiscoveryLesson() {
       lessonJustCompleted = false;
       pendingDiscoveryAction = null;
@@ -7418,6 +7667,8 @@
         ? els.todayWorld
         : world === "playroom"
           ? els.playroomWorld
+        : world === "math3d"
+          ? els.mathGardenWorld
         : world === "alphabet"
           ? els.alphabetWorld
           : els.discoveryWorld;
@@ -7428,7 +7679,7 @@
     }
 
     function updateJourneyDock() {
-      const showDock = activeWorld !== "today" && activeWorld !== "playroom";
+      const showDock = activeWorld !== "today" && activeWorld !== "playroom" && activeWorld !== "math3d";
       const journeyComplete = journeyContext?.status === "complete";
       const activityComplete = lessonJustCompleted || journeyComplete;
       els.journeyDock.hidden = !showDock;
@@ -8076,6 +8327,8 @@
         ? `🌱 花園 ${state.gardenLevel}/5`
         : activeWorld === "playroom"
           ? `🟢 3D ${state.playroomDays[TODAY_KEY] ? "完成" : "準備玩"}`
+        : activeWorld === "math3d"
+          ? `🥕 數量 1–${state.mathGarden.level + 2}`
         : activeWorld === "alphabet"
           ? `🔤 字母 ${unlockedCount()}/26`
           : `🧭 活動 ${completedDiscoveryCount()}/${totalDiscoveryCount()}`;

@@ -1203,7 +1203,7 @@
 
     .world-row {
       display: grid;
-      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
       padding: 12px 18px 4px;
       background: rgba(255, 255, 255, 0.82);
@@ -1247,6 +1247,192 @@
     .world-icon {
       font-size: 25px;
       line-height: 1;
+    }
+
+    .world-map-main {
+      width: min(1380px, 100%);
+      padding: 16px 18px 34px;
+    }
+
+    .world-map-shell {
+      display: grid;
+      gap: 28px;
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+
+    .world-map-hero {
+      position: relative;
+      isolation: isolate;
+      min-height: 250px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      padding: 32px 38px;
+      border: 4px solid #ffffff;
+      border-radius: 8px;
+      background-image: url("bunny_garden_3d_v1.webp");
+      background-position: 58% 48%;
+      background-size: cover;
+      box-shadow: 0 16px 38px rgba(72, 55, 84, 0.15);
+    }
+
+    .world-map-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(90deg, rgba(47, 46, 57, 0.82) 0%, rgba(47, 46, 57, 0.48) 44%, rgba(47, 46, 57, 0.04) 74%);
+    }
+
+    .world-map-copy {
+      width: min(540px, 76%);
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(31, 27, 37, 0.42);
+    }
+
+    .world-map-kicker {
+      margin-bottom: 7px;
+      color: #ffe89f;
+      font-size: 15px;
+      font-weight: 950;
+    }
+
+    .world-map-copy h2 {
+      margin: 0;
+      font-size: 44px;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .world-map-status {
+      margin: 11px 0 0;
+      font-size: 18px;
+      font-weight: 850;
+    }
+
+    .world-map-sections {
+      display: grid;
+      gap: 30px;
+    }
+
+    .world-map-section {
+      display: grid;
+      gap: 12px;
+    }
+
+    .world-map-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      color: #493c5a;
+      font-size: 22px;
+      font-weight: 950;
+      letter-spacing: 0;
+    }
+
+    .world-map-heading span {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .world-map-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .world-map-grid.is-pair {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .world-map-grid.is-single {
+      grid-template-columns: minmax(220px, 340px);
+    }
+
+    .world-map-button {
+      min-width: 0;
+      min-height: 112px;
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr);
+      grid-template-rows: auto auto;
+      align-content: center;
+      align-items: center;
+      column-gap: 12px;
+      padding: 16px;
+      border: 2px solid #e4dce9;
+      border-radius: 8px;
+      color: #493c5a;
+      text-align: left;
+      box-shadow: 0 5px 0 rgba(72, 55, 84, 0.16), inset 0 2px 0 rgba(255, 255, 255, 0.9);
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+
+    .world-map-button[data-map-group="three"] {
+      background: linear-gradient(180deg, #f4fff9, #d4f3e7);
+      border-color: #9bd8c5;
+    }
+
+    .world-map-button[data-map-group="heart"] {
+      background: linear-gradient(180deg, #fff8fb, #f9dfe9);
+      border-color: #eab6c9;
+    }
+
+    .world-map-button[data-map-group="study"] {
+      background: linear-gradient(180deg, #fbfbff, #e6eafa);
+      border-color: #bac6e6;
+    }
+
+    .world-map-button[data-map-group="language"] {
+      background: linear-gradient(180deg, #fffcec, #ffe9a8);
+      border-color: #e8c85f;
+    }
+
+    .world-map-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 0 rgba(72, 55, 84, 0.14), 0 12px 22px rgba(72, 55, 84, 0.1);
+    }
+
+    .world-map-button:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 rgba(72, 55, 84, 0.15);
+    }
+
+    .world-map-icon {
+      grid-row: 1 / 3;
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.88);
+      font-size: 31px;
+      line-height: 1;
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.95), 0 3px 8px rgba(72, 55, 84, 0.1);
+    }
+
+    .world-map-name {
+      min-width: 0;
+      align-self: end;
+      font-size: 19px;
+      font-weight: 950;
+      line-height: 1.2;
+    }
+
+    .world-map-progress {
+      min-width: 0;
+      align-self: start;
+      margin-top: 4px;
+      color: #6b5e73;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .app.has-daily-focus .world-row,
+    .app.has-journey-focus .world-row {
+      display: none;
     }
 
     .discovery-main[hidden],
@@ -4368,6 +4554,7 @@
 
     @media (pointer: coarse) {
       .world-button,
+      .world-map-button,
       .mode-button,
       .lesson-tab,
       .prediction-choice,
@@ -4388,6 +4575,7 @@
 
       .mode-button:hover,
       .world-button:hover,
+      .world-map-button:hover,
       .big-letter:hover {
         transform: none;
       }
@@ -5494,21 +5682,22 @@
 
     @media (max-width: 900px) {
       .world-row {
-        grid-template-columns: none;
-        grid-auto-flow: column;
-        grid-auto-columns: minmax(88px, 23vw);
-        overflow-x: auto;
-        overscroll-behavior-inline: contain;
-        scroll-snap-type: inline proximity;
-        scrollbar-width: none;
-      }
-
-      .world-row::-webkit-scrollbar {
-        display: none;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-auto-flow: row;
+        grid-auto-columns: auto;
+        overflow: visible;
       }
 
       .world-button {
-        scroll-snap-align: start;
+        scroll-snap-align: none;
+      }
+
+      .world-map-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .world-map-grid.is-pair {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .playroom-stage {
@@ -5518,6 +5707,80 @@
     }
 
     @media (max-width: 720px) {
+      .world-map-main {
+        padding: 12px 12px 28px;
+      }
+
+      .world-map-shell {
+        gap: 22px;
+      }
+
+      .world-map-hero {
+        min-height: 220px;
+        align-items: flex-start;
+        padding: 24px 20px;
+        background-position: 64% center;
+      }
+
+      .world-map-hero::before {
+        background: linear-gradient(180deg, rgba(47, 46, 57, 0.84) 0%, rgba(47, 46, 57, 0.52) 50%, rgba(47, 46, 57, 0.06) 82%);
+      }
+
+      .world-map-copy {
+        width: 96%;
+      }
+
+      .world-map-copy h2 {
+        font-size: 30px;
+      }
+
+      .world-map-status {
+        font-size: 15px;
+      }
+
+      .world-map-sections {
+        gap: 24px;
+      }
+
+      .world-map-heading {
+        font-size: 19px;
+      }
+
+      .world-map-heading span {
+        font-size: 25px;
+      }
+
+      .world-map-grid,
+      .world-map-grid.is-pair {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+      }
+
+      .world-map-grid.is-single {
+        grid-template-columns: 1fr;
+      }
+
+      .world-map-button {
+        min-height: 104px;
+        grid-template-columns: 42px minmax(0, 1fr);
+        column-gap: 8px;
+        padding: 12px 10px;
+      }
+
+      .world-map-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 25px;
+      }
+
+      .world-map-name {
+        font-size: 16px;
+      }
+
+      .world-map-progress {
+        font-size: 11px;
+      }
+
       .playroom-hud {
         inset: 10px 10px auto;
         grid-template-columns: 54px minmax(0, 1fr) 54px;
@@ -5665,19 +5928,11 @@
       </div>
     </header>
 
-    <nav class="world-row" aria-label="學習世界">
-      <button class="world-button" type="button" data-world="today" aria-pressed="true"><span class="world-icon" aria-hidden="true">🐰</span><span>今天</span></button>
-      <button class="world-button" type="button" data-world="playroom" aria-pressed="false"><span class="world-icon" aria-hidden="true">🟢</span><span>3D 遊樂場</span></button>
-      <button class="world-button" type="button" data-world="math3d" aria-pressed="false"><span class="world-icon" aria-hidden="true">🥕</span><span>3D 數學</span></button>
-      <button class="world-button" type="button" data-world="science3d" aria-pressed="false"><span class="world-icon" aria-hidden="true">🧪</span><span>3D 科學</span></button>
-      <button class="world-button" type="button" data-world="life3d" aria-pressed="false"><span class="world-icon" aria-hidden="true">🏠</span><span>3D 生活</span></button>
-      <button class="world-button" type="button" data-world="alphabet" aria-pressed="false"><span class="world-icon" aria-hidden="true">🔤</span><span>ABC</span></button>
-      <button class="world-button" type="button" data-world="story" aria-pressed="false"><span class="world-icon" aria-hidden="true">📖</span><span>兔兔故事</span></button>
-      <button class="world-button" type="button" data-world="emotion" aria-pressed="false"><span class="world-icon" aria-hidden="true">💗</span><span>兔兔心情</span></button>
-      <button class="world-button" type="button" data-world="math" aria-pressed="false"><span class="world-icon" aria-hidden="true">🔢</span><span>寶寶數學</span></button>
-      <button class="world-button" type="button" data-world="physics" aria-pressed="false"><span class="world-icon" aria-hidden="true">🛝</span><span>寶寶物理</span></button>
-      <button class="world-button" type="button" data-world="quantum" aria-pressed="false"><span class="world-icon" aria-hidden="true">✨</span><span>寶寶量子</span></button>
-      <button class="world-button" type="button" data-world="science" aria-pressed="false"><span class="world-icon" aria-hidden="true">🔬</span><span>寶寶科學</span></button>
+    <nav class="world-row" id="quickNavigation" aria-label="主要入口">
+      <button class="world-button world-launch-button" type="button" data-world="today" aria-pressed="true"><span class="world-icon" aria-hidden="true">🐰</span><span>今天</span></button>
+      <button class="world-button world-launch-button" type="button" data-world="playroom" aria-pressed="false"><span class="world-icon" aria-hidden="true">🟢</span><span>3D 玩</span></button>
+      <button class="world-button world-launch-button" type="button" data-world="alphabet" aria-pressed="false"><span class="world-icon" aria-hidden="true">🔤</span><span>ABC</span></button>
+      <button class="world-button world-launch-button" type="button" data-world="map" aria-pressed="false"><span class="world-icon" aria-hidden="true">🗺️</span><span>世界地圖</span></button>
     </nav>
 
     <nav class="mode-row" id="alphabetModeRow" aria-label="練習模式" hidden>
@@ -5686,6 +5941,77 @@
       <button class="mode-button" type="button" data-mode="listen" aria-pressed="false">🔊 聽一聽</button>
       <button class="mode-button" type="button" data-mode="progress" aria-pressed="false">⭐ 進度</button>
     </nav>
+
+    <main class="world-map-main" id="worldMapWorld" hidden>
+      <div class="world-map-shell">
+        <section class="world-map-hero" aria-labelledby="worldMapTitle">
+          <div class="world-map-copy">
+            <div class="world-map-kicker">兔兔世界地圖</div>
+            <h2 id="worldMapTitle">今天想去哪裡？</h2>
+            <p class="world-map-status" id="worldMapStatus">今天完成 0 / 3 件</p>
+          </div>
+        </section>
+
+        <div class="world-map-sections">
+          <section class="world-map-section" aria-labelledby="worldMapThreeTitle">
+            <h3 class="world-map-heading" id="worldMapThreeTitle"><span aria-hidden="true">🪄</span>動手玩 3D</h3>
+            <div class="world-map-grid">
+              <button class="world-map-button world-launch-button" type="button" data-map-world="playroom" data-map-group="three">
+                <span class="world-map-icon" aria-hidden="true">🟢</span><span class="world-map-name">3D 遊樂場</span><span class="world-map-progress" data-map-progress="playroom">今天可以玩</span>
+              </button>
+              <button class="world-map-button world-launch-button" type="button" data-map-world="math3d" data-map-group="three">
+                <span class="world-map-icon" aria-hidden="true">🥕</span><span class="world-map-name">3D 數學</span><span class="world-map-progress" data-map-progress="math3d">0 回合</span>
+              </button>
+              <button class="world-map-button world-launch-button" type="button" data-map-world="science3d" data-map-group="three">
+                <span class="world-map-icon" aria-hidden="true">🧪</span><span class="world-map-name">3D 科學</span><span class="world-map-progress" data-map-progress="science3d">0 回合</span>
+              </button>
+              <button class="world-map-button world-launch-button" type="button" data-map-world="life3d" data-map-group="three">
+                <span class="world-map-icon" aria-hidden="true">🏠</span><span class="world-map-name">3D 生活</span><span class="world-map-progress" data-map-progress="life3d">0 回合</span>
+              </button>
+            </div>
+          </section>
+
+          <section class="world-map-section" aria-labelledby="worldMapHeartTitle">
+            <h3 class="world-map-heading" id="worldMapHeartTitle"><span aria-hidden="true">💞</span>故事與心情</h3>
+            <div class="world-map-grid is-pair">
+              <button class="world-map-button world-launch-button" type="button" data-map-world="story" data-map-group="heart">
+                <span class="world-map-icon" aria-hidden="true">📖</span><span class="world-map-name">兔兔故事</span><span class="world-map-progress" data-map-progress="story">0 / 6</span>
+              </button>
+              <button class="world-map-button world-launch-button" type="button" data-map-world="emotion" data-map-group="heart">
+                <span class="world-map-icon" aria-hidden="true">💗</span><span class="world-map-name">兔兔心情</span><span class="world-map-progress" data-map-progress="emotion">0 / 6</span>
+              </button>
+            </div>
+          </section>
+
+          <section class="world-map-section" aria-labelledby="worldMapStudyTitle">
+            <h3 class="world-map-heading" id="worldMapStudyTitle"><span aria-hidden="true">🔎</span>小小學科</h3>
+            <div class="world-map-grid">
+              <button class="world-map-button world-launch-button" type="button" data-map-world="math" data-map-group="study">
+                <span class="world-map-icon" aria-hidden="true">🔢</span><span class="world-map-name">寶寶數學</span><span class="world-map-progress" data-map-progress="math">0 / 6</span>
+              </button>
+              <button class="world-map-button world-launch-button" type="button" data-map-world="physics" data-map-group="study">
+                <span class="world-map-icon" aria-hidden="true">🛝</span><span class="world-map-name">寶寶物理</span><span class="world-map-progress" data-map-progress="physics">0 / 6</span>
+              </button>
+              <button class="world-map-button world-launch-button" type="button" data-map-world="quantum" data-map-group="study">
+                <span class="world-map-icon" aria-hidden="true">✨</span><span class="world-map-name">寶寶量子</span><span class="world-map-progress" data-map-progress="quantum">0 / 6</span>
+              </button>
+              <button class="world-map-button world-launch-button" type="button" data-map-world="science" data-map-group="study">
+                <span class="world-map-icon" aria-hidden="true">🔬</span><span class="world-map-name">寶寶科學</span><span class="world-map-progress" data-map-progress="science">0 / 6</span>
+              </button>
+            </div>
+          </section>
+
+          <section class="world-map-section" aria-labelledby="worldMapLanguageTitle">
+            <h3 class="world-map-heading" id="worldMapLanguageTitle"><span aria-hidden="true">💬</span>語言</h3>
+            <div class="world-map-grid is-single">
+              <button class="world-map-button world-launch-button" type="button" data-map-world="alphabet" data-map-group="language">
+                <span class="world-map-icon" aria-hidden="true">🔤</span><span class="world-map-name">ABC 字母</span><span class="world-map-progress" data-map-progress="alphabet">4 個已開啟</span>
+              </button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
 
     <main class="today-main" id="todayWorld">
       <div class="today-shell">
@@ -6861,6 +7187,9 @@
       appTitle: document.getElementById("appTitle"),
       appSubtitle: document.getElementById("appSubtitle"),
       bunnyMark: document.getElementById("bunnyMark"),
+      quickNavigation: document.getElementById("quickNavigation"),
+      worldMapWorld: document.getElementById("worldMapWorld"),
+      worldMapStatus: document.getElementById("worldMapStatus"),
       alphabetModeRow: document.getElementById("alphabetModeRow"),
       todayWorld: document.getElementById("todayWorld"),
       playroomWorld: document.getElementById("playroomWorld"),
@@ -6983,16 +7312,17 @@
       journeyNext: document.getElementById("journeyNext")
     });
 
-    document.querySelectorAll(".world-button").forEach((button) => {
+    document.querySelectorAll(".world-launch-button").forEach((button) => {
       button.addEventListener("click", () => {
+        const world = button.dataset.world || button.dataset.mapWorld;
         activeAdventureMission = null;
         journeyContext = null;
-        if (button.dataset.world === "science3d") scienceLabCourseOverride = null;
-        if (button.dataset.world === "life3d") lifeHouseRoutineOverride = null;
-        setWorld(button.dataset.world, {
+        if (world === "science3d") scienceLabCourseOverride = null;
+        if (world === "life3d") lifeHouseRoutineOverride = null;
+        setWorld(world, {
           focusContent: true,
-          resetScience: button.dataset.world === "science3d",
-          resetLife: button.dataset.world === "life3d"
+          resetScience: world === "science3d",
+          resetLife: world === "life3d"
         });
       });
     });
@@ -7509,6 +7839,26 @@
       ];
     }
 
+    function renderWorldMap() {
+      els.worldMapStatus.textContent = `今天完成 ${completedTodayMissionCount()} / 3 件`;
+      const progress = {
+        playroom: state.playroomDays?.[TODAY_KEY] ? "今天完成" : "今天可以玩",
+        math3d: `${state.mathGarden.rounds} 回合`,
+        science3d: `${state.scienceLab.rounds} 回合`,
+        life3d: `${state.lifeHouse.rounds} 回合`,
+        alphabet: `${unlockedCount()} 個已開啟`
+      };
+      Object.keys(DISCOVERY).forEach((subjectKey) => {
+        const completed = DISCOVERY[subjectKey].lessons.filter((lesson) => (
+          state.discoveryCompleted?.[`${subjectKey}:${lesson.id}`]
+        )).length;
+        progress[subjectKey] = `${completed} / ${DISCOVERY[subjectKey].lessons.length}`;
+      });
+      document.querySelectorAll("[data-map-progress]").forEach((element) => {
+        element.textContent = progress[element.dataset.mapProgress] || "可以探索";
+      });
+    }
+
     function renderTodayWorld() {
       const progress = getTodayAdventure();
       const completedCount = completedTodayMissionCount();
@@ -7692,16 +8042,22 @@
     }
 
     function setWorld(world, options = {}) {
-      if (world !== "today" && world !== "playroom" && world !== "math3d" && world !== "science3d" && world !== "life3d" && world !== "alphabet" && !DISCOVERY[world]) return;
+      if (world !== "map" && world !== "today" && world !== "playroom" && world !== "math3d" && world !== "science3d" && world !== "life3d" && world !== "alphabet" && !DISCOVERY[world]) return;
       activeWorld = world;
       if (!options.preserveLesson) activeLessonIndex = 0;
       lessonJustCompleted = false;
       cancelSpeechQueue();
 
+      const quickWorld = ["today", "playroom", "alphabet", "map"].includes(world) ? world : "map";
       document.querySelectorAll(".world-button").forEach((button) => {
-        button.setAttribute("aria-pressed", String(button.dataset.world === world));
+        button.setAttribute("aria-pressed", String(button.dataset.world === quickWorld));
+      });
+      document.querySelectorAll(".world-map-button").forEach((button) => {
+        if (button.dataset.mapWorld === world) button.setAttribute("aria-current", "page");
+        else button.removeAttribute("aria-current");
       });
 
+      const showMap = world === "map";
       const showToday = world === "today";
       const showPlayroom = world === "playroom";
       const showMathGarden = world === "math3d";
@@ -7709,19 +8065,24 @@
       const showLifeHouse = world === "life3d";
       const showAlphabet = world === "alphabet";
       els.alphabetModeRow.hidden = !showAlphabet;
+      els.worldMapWorld.hidden = !showMap;
       els.alphabetWorld.hidden = !showAlphabet;
       els.todayWorld.hidden = !showToday;
       els.playroomWorld.hidden = !showPlayroom;
       els.mathGardenWorld.hidden = !showMathGarden;
       els.scienceLabWorld.hidden = !showScienceLab;
       els.lifeHouseWorld.hidden = !showLifeHouse;
-      els.discoveryWorld.hidden = showToday || showPlayroom || showMathGarden || showScienceLab || showLifeHouse || showAlphabet;
+      els.discoveryWorld.hidden = showMap || showToday || showPlayroom || showMathGarden || showScienceLab || showLifeHouse || showAlphabet;
       if (!showPlayroom) playroomController?.pause();
       if (!showMathGarden) mathGardenController?.pause();
       if (!showScienceLab) scienceLabController?.pause();
       if (!showLifeHouse) lifeHouseController?.pause();
 
-      if (showToday) {
+      if (showMap) {
+        els.appTitle.textContent = "兔兔世界地圖";
+        els.appSubtitle.textContent = "今天想去哪個世界？";
+        renderWorldMap();
+      } else if (showToday) {
         els.appTitle.textContent = "兔兔小小科學院";
         els.appSubtitle.textContent = "今天有三個剛剛好的小任務。";
         renderTodayWorld();
@@ -8163,7 +8524,9 @@
     }
 
     function focusActiveContent(world = activeWorld) {
-      const target = world === "today"
+      const target = world === "map"
+        ? els.worldMapWorld
+        : world === "today"
         ? els.todayWorld
         : world === "playroom"
           ? els.playroomWorld
@@ -8183,12 +8546,12 @@
     }
 
     function updateJourneyDock() {
-      const showDock = activeWorld !== "today" && activeWorld !== "playroom" && activeWorld !== "math3d" && activeWorld !== "science3d" && activeWorld !== "life3d";
+      const showDock = activeWorld !== "map" && activeWorld !== "today" && activeWorld !== "playroom" && activeWorld !== "math3d" && activeWorld !== "science3d" && activeWorld !== "life3d";
       const journeyComplete = journeyContext?.status === "complete";
       const activityComplete = lessonJustCompleted || journeyComplete;
       els.journeyDock.hidden = !showDock;
       els.appShell.classList.toggle("has-journey-dock", showDock);
-      els.appShell.classList.toggle("has-journey-focus", showDock && Boolean(journeyContext));
+      els.appShell.classList.toggle("has-journey-focus", showDock && Boolean(journeyContext) && !journeyComplete);
       if (!showDock) return;
 
       els.journeyHome.classList.toggle("is-complete", activityComplete);
@@ -8855,9 +9218,13 @@
     }
 
     function refreshAll() {
+      els.appShell.classList.toggle("has-daily-focus", activeWorld !== "today" && Boolean(activeAdventureMission));
+      renderWorldMap();
       els.starPill.textContent = `⭐ 星星 ${state.stars}`;
       els.unlockPill.textContent = activeWorld === "today"
         ? `🌱 花園 ${state.gardenLevel}/5`
+        : activeWorld === "map"
+          ? `🗺️ 世界 11`
         : activeWorld === "playroom"
           ? `🟢 3D ${state.playroomDays[TODAY_KEY] ? "完成" : "準備玩"}`
         : activeWorld === "math3d"

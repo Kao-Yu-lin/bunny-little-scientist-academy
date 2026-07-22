@@ -1203,7 +1203,7 @@
 
     .world-row {
       display: grid;
-      grid-template-columns: repeat(11, minmax(0, 1fr));
+      grid-template-columns: repeat(12, minmax(0, 1fr));
       gap: 10px;
       padding: 12px 18px 4px;
       background: rgba(255, 255, 255, 0.82);
@@ -5414,12 +5414,21 @@
       background: #d4f1f7;
     }
 
+    .life-house-stage,
+    .life-house-main {
+      background: #f4e8ef;
+    }
+
     .math-garden-fallback {
       background-image: url("bunny_garden_3d_v1.webp");
     }
 
     .science-lab-fallback {
       background-image: url("bunny_science_3d_v1.webp");
+    }
+
+    .life-house-fallback {
+      background-image: url("bunny_garden_3d_v1.webp");
     }
 
     .prediction-block {
@@ -5661,6 +5670,7 @@
       <button class="world-button" type="button" data-world="playroom" aria-pressed="false"><span class="world-icon" aria-hidden="true">🟢</span><span>3D 遊樂場</span></button>
       <button class="world-button" type="button" data-world="math3d" aria-pressed="false"><span class="world-icon" aria-hidden="true">🥕</span><span>3D 數學</span></button>
       <button class="world-button" type="button" data-world="science3d" aria-pressed="false"><span class="world-icon" aria-hidden="true">🧪</span><span>3D 科學</span></button>
+      <button class="world-button" type="button" data-world="life3d" aria-pressed="false"><span class="world-icon" aria-hidden="true">🏠</span><span>3D 生活</span></button>
       <button class="world-button" type="button" data-world="alphabet" aria-pressed="false"><span class="world-icon" aria-hidden="true">🔤</span><span>ABC</span></button>
       <button class="world-button" type="button" data-world="story" aria-pressed="false"><span class="world-icon" aria-hidden="true">📖</span><span>兔兔故事</span></button>
       <button class="world-button" type="button" data-world="emotion" aria-pressed="false"><span class="world-icon" aria-hidden="true">💗</span><span>兔兔心情</span></button>
@@ -5786,6 +5796,11 @@
                 <span id="parentScienceLabConcept">下一次：重力與運動</span>
                 <small id="parentScienceLabProgress">尚未開始 · 0 回合</small>
               </div>
+              <div class="parent-math-garden parent-life-house" aria-label="3D 生活小屋練習摘要">
+                <strong>🏠 3D 生活小屋</strong>
+                <span id="parentLifeHouseConcept">下一次：洗手泡泡</span>
+                <small id="parentLifeHouseProgress">尚未開始 · 0 回合</small>
+              </div>
             </section>
 
             <div class="parent-station-controls">
@@ -5902,6 +5917,43 @@
           <div class="playroom-complete-actions" id="scienceLabCompleteActions" hidden>
             <button class="playroom-replay" type="button" id="scienceLabNext"><span aria-hidden="true">›</span> 下一個實驗</button>
             <button class="playroom-finish-home" type="button" id="scienceLabFinishHome"><span aria-hidden="true">🐰</span> 回今天</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <main class="playroom-main life-house-main" id="lifeHouseWorld" hidden>
+      <section class="playroom-stage life-house-stage" id="lifeHouseStage" aria-labelledby="lifeHousePrompt">
+        <div class="playroom-canvas-host" id="lifeHouseCanvasHost"></div>
+        <div class="playroom-fallback life-house-fallback" id="lifeHouseFallback" hidden>
+          <p>這台裝置暫時不能顯示 3D。請大人陪兔兔用生活圖卡，一次做一個步驟。</p>
+        </div>
+
+        <div class="playroom-hud">
+          <button class="playroom-home" type="button" id="lifeHouseHome" aria-label="回今天">
+            <span aria-hidden="true">🐰</span> 回今天
+          </button>
+          <div class="playroom-guide" role="status" aria-live="polite">
+            <span class="playroom-step" id="lifeHouseStep">洗手泡泡 · 第 1 個步驟</span>
+            <strong class="playroom-prompt" id="lifeHousePrompt">先打開水</strong>
+          </div>
+          <button class="playroom-speak" type="button" id="lifeHouseSpeak" title="再聽一次" aria-label="再聽一次">🔊</button>
+        </div>
+
+        <div class="playroom-bottom">
+          <div class="playroom-hint" id="lifeHouseHint" role="status" aria-live="polite">
+            <span class="playroom-touch" aria-hidden="true">☝️</span>
+            <span id="lifeHouseHintText">碰碰發光的水龍頭</span>
+          </div>
+          <div class="playroom-progress" id="lifeHouseProgress" aria-label="3D 生活步驟進度">
+            <span class="playroom-progress-dot is-current"></span>
+            <span class="playroom-progress-dot"></span>
+            <span class="playroom-progress-dot"></span>
+            <span class="playroom-progress-dot"></span>
+          </div>
+          <div class="playroom-complete-actions" id="lifeHouseCompleteActions" hidden>
+            <button class="playroom-replay" type="button" id="lifeHouseNext"><span aria-hidden="true">›</span> 下一個生活練習</button>
+            <button class="playroom-finish-home" type="button" id="lifeHouseFinishHome"><span aria-hidden="true">🐰</span> 回今天</button>
           </div>
         </div>
       </section>
@@ -6045,6 +6097,7 @@
   <script src="three-playroom.js"></script>
   <script src="three-math-garden.js"></script>
   <script src="three-science-lab.js"></script>
+  <script src="three-life-house.js"></script>
   <script>
     const STORE_KEY = "bunnyAlphabetMemoryV1";
     const TODAY_KEY = new Date().toISOString().slice(0, 10);
@@ -6767,10 +6820,13 @@
     let mathGardenController = null;
     let scienceLabController = null;
     let scienceLabCourseOverride = null;
+    let lifeHouseController = null;
+    let lifeHouseRoutineOverride = null;
     const discoveryImagePreloads = [];
     let currentPlayroomSpeech = ["兔兔想找紅色球。", "小手碰一碰！"];
     let currentMathGardenSpeech = ["幫兔兔摘兩根胡蘿蔔。", "一根一根碰。"];
     let currentScienceLabSpeech = ["這顆小球會去哪裡呢？", "小手碰碰看。"];
+    let currentLifeHouseSpeech = ["先讓小手碰到水。", "碰碰水龍頭。"];
 
     const els = {
       starPill: document.getElementById("starPill"),
@@ -6849,6 +6905,20 @@
       scienceLabCompleteActions: document.getElementById("scienceLabCompleteActions"),
       scienceLabNext: document.getElementById("scienceLabNext"),
       scienceLabFinishHome: document.getElementById("scienceLabFinishHome"),
+      lifeHouseWorld: document.getElementById("lifeHouseWorld"),
+      lifeHouseStage: document.getElementById("lifeHouseStage"),
+      lifeHouseCanvasHost: document.getElementById("lifeHouseCanvasHost"),
+      lifeHouseFallback: document.getElementById("lifeHouseFallback"),
+      lifeHouseHome: document.getElementById("lifeHouseHome"),
+      lifeHouseSpeak: document.getElementById("lifeHouseSpeak"),
+      lifeHouseStep: document.getElementById("lifeHouseStep"),
+      lifeHousePrompt: document.getElementById("lifeHousePrompt"),
+      lifeHouseHint: document.getElementById("lifeHouseHint"),
+      lifeHouseHintText: document.getElementById("lifeHouseHintText"),
+      lifeHouseProgress: document.getElementById("lifeHouseProgress"),
+      lifeHouseCompleteActions: document.getElementById("lifeHouseCompleteActions"),
+      lifeHouseNext: document.getElementById("lifeHouseNext"),
+      lifeHouseFinishHome: document.getElementById("lifeHouseFinishHome"),
       todayHero: document.getElementById("todayHero"),
       todayStoryTitle: document.getElementById("todayStoryTitle"),
       todayStoryLine: document.getElementById("todayStoryLine"),
@@ -6883,6 +6953,8 @@
       parentMathGardenProgress: document.getElementById("parentMathGardenProgress"),
       parentScienceLabConcept: document.getElementById("parentScienceLabConcept"),
       parentScienceLabProgress: document.getElementById("parentScienceLabProgress"),
+      parentLifeHouseConcept: document.getElementById("parentLifeHouseConcept"),
+      parentLifeHouseProgress: document.getElementById("parentLifeHouseProgress"),
       toggleSoundStyle: document.getElementById("toggleSoundStyle"),
       alphabetWorld: document.getElementById("alphabetWorld"),
       discoveryWorld: document.getElementById("discoveryWorld"),
@@ -6916,9 +6988,11 @@
         activeAdventureMission = null;
         journeyContext = null;
         if (button.dataset.world === "science3d") scienceLabCourseOverride = null;
+        if (button.dataset.world === "life3d") lifeHouseRoutineOverride = null;
         setWorld(button.dataset.world, {
           focusContent: true,
-          resetScience: button.dataset.world === "science3d"
+          resetScience: button.dataset.world === "science3d",
+          resetLife: button.dataset.world === "life3d"
         });
       });
     });
@@ -6966,6 +7040,13 @@
     els.scienceLabNext.addEventListener("click", () => {
       scienceLabCourseOverride = null;
       scienceLabController?.reset({ course: nextScienceLabCourse() });
+    });
+    els.lifeHouseHome.addEventListener("click", returnToToday);
+    els.lifeHouseFinishHome.addEventListener("click", returnToToday);
+    els.lifeHouseSpeak.addEventListener("click", () => sayDiscoveryText(currentLifeHouseSpeech));
+    els.lifeHouseNext.addEventListener("click", () => {
+      lifeHouseRoutineOverride = null;
+      lifeHouseController?.reset({ routine: nextLifeHouseRoutine() });
     });
     els.startNextMission.addEventListener("click", startNextTodayMission);
     els.speakToday.addEventListener("click", speakTodayAdventure);
@@ -7017,6 +7098,7 @@
           playroomDays: parsed.playroomDays && typeof parsed.playroomDays === "object" ? parsed.playroomDays : {},
           mathGarden: normalizeMathGardenState(parsed.mathGarden),
           scienceLab: normalizeScienceLabState(parsed.scienceLab),
+          lifeHouse: normalizeLifeHouseState(parsed.lifeHouse),
           adventureDays,
           gardenLevel: Math.min(5, Math.max(0, storedGardenLevel, Math.min(5, recordedMissions))),
           stats: { ...blankStats, ...(parsed.stats || {}) }
@@ -7030,6 +7112,7 @@
           playroomDays: {},
           mathGarden: normalizeMathGardenState(),
           scienceLab: normalizeScienceLabState(),
+          lifeHouse: normalizeLifeHouseState(),
           adventureDays: {},
           gardenLevel: 0,
           stats: blankStats
@@ -7077,6 +7160,39 @@
       const courseIds = window.BunnyScienceLab3D?.courseIds || ["motion", "water", "light"];
       const currentIndex = courseIds.indexOf(state.scienceLab.lastCourse);
       return currentIndex < 0 ? courseIds[0] : courseIds[(currentIndex + 1) % courseIds.length];
+    }
+
+    function normalizeLifeHouseState(raw = {}) {
+      const source = raw && typeof raw === "object" ? raw : {};
+      const routineIds = window.BunnyLifeHouse3D?.routineIds || ["wash", "tidy", "outing"];
+      const stepIds = new Set(Object.values(window.BunnyLifeHouse3D?.routines || {})
+        .flatMap((routine) => routine.tasks?.map((task) => task.id) || []));
+      const sourceRounds = source.routineRounds && typeof source.routineRounds === "object"
+        ? source.routineRounds
+        : {};
+      return {
+        rounds: Math.max(0, Math.floor(Number(source.rounds) || 0)),
+        routineRounds: Object.fromEntries(routineIds.map((routineId) => [
+          routineId,
+          Math.max(0, Math.floor(Number(sourceRounds[routineId]) || 0))
+        ])),
+        seenSteps: Array.isArray(source.seenSteps)
+          ? [...new Set(source.seenSteps.filter((step) => stepIds.has(step)))]
+          : [],
+        lastRoutine: routineIds.includes(source.lastRoutine) ? source.lastRoutine : "",
+        lastPlayed: typeof source.lastPlayed === "string" ? source.lastPlayed : "",
+        days: source.days && typeof source.days === "object" ? source.days : {}
+      };
+    }
+
+    function nextLifeHouseRoutine() {
+      const routineIds = window.BunnyLifeHouse3D?.routineIds || ["wash", "tidy", "outing"];
+      const currentIndex = routineIds.indexOf(state.lifeHouse.lastRoutine);
+      return currentIndex < 0 ? routineIds[0] : routineIds[(currentIndex + 1) % routineIds.length];
+    }
+
+    function lifeHouseRoutineForToday(dayKey = TODAY_KEY) {
+      return window.BunnyLifeHouse3D?.routineForDay(dayKey) || "wash";
     }
 
     function saveState() {
@@ -7274,6 +7390,18 @@
         ? `重力 ${scienceCounts.motion} · 浮沉 ${scienceCounts.water} · 光 ${scienceCounts.light} · 共 ${state.scienceLab.rounds} 回合`
         : "尚未開始 · 0 回合";
       els.parentScienceLabConcept.title = "這是網站上的概念探索紀錄，不是科學能力或發展診斷；光點動畫是模型示意。";
+
+      const lifeRoutines = window.BunnyLifeHouse3D?.routines || {};
+      const lastLifeRoutine = lifeRoutines[state.lifeHouse.lastRoutine];
+      const nextLifeRoutine = lifeRoutines[nextLifeHouseRoutine()];
+      const lifeCounts = state.lifeHouse.routineRounds;
+      els.parentLifeHouseConcept.textContent = lastLifeRoutine
+        ? `最近練習：${lastLifeRoutine.label} · 下一次：${nextLifeRoutine.label}`
+        : `下一次：${nextLifeRoutine.label}`;
+      els.parentLifeHouseProgress.textContent = state.lifeHouse.rounds > 0
+        ? `洗手 ${lifeCounts.wash} · 收拾 ${lifeCounts.tidy} · 出門 ${lifeCounts.outing} · 共 ${state.lifeHouse.rounds} 回合`
+        : "尚未開始 · 0 回合";
+      els.parentLifeHouseConcept.title = "網站只記錄看過的生活示範，不代表孩子已能獨立完成；請成人全程陪同。";
     }
 
     function preferredDiscoveryOrder(dayKey = TODAY_KEY) {
@@ -7320,8 +7448,16 @@
     }
 
     function todayOfflineMission() {
-      const dayNumber = Number(TODAY_KEY.replaceAll("-", ""));
-      return OFFLINE_MISSIONS[dayNumber % OFFLINE_MISSIONS.length];
+      const routineId = lifeHouseRoutineForToday();
+      const routine = window.BunnyLifeHouse3D?.routines?.[routineId];
+      return {
+        routineId,
+        icon: routine?.icon || "🏠",
+        title: `到 3D 生活小屋練習${routine?.label || "生活順序"}`,
+        voice: routine?.retell || ["先看兔兔做一次。", "再和大人到生活裡試試。"],
+        tip: routine?.practice || "由大人陪同，一次說一個步驟，再讓孩子慢慢模仿。",
+        goal: "練習：生活順序、動作詞與成人陪同安全"
+      };
     }
 
     function scienceLabDailyTitle(subjectKey) {
@@ -7366,9 +7502,9 @@
         {
           type: "offline",
           icon: offline.icon,
-          label: "生活裡找一找",
+          label: "生活小任務",
           title: offline.title,
-          action: "和大人完成後，點這裡告訴兔兔"
+          action: "先看兔兔做一次，再和大人到生活裡試試"
         }
       ];
     }
@@ -7489,10 +7625,13 @@
 
       if (type === "offline") {
         journeyContext = null;
-        const completed = completeAdventureMission("offline", { awardStar: true, countActivity: true });
-        sayDiscoveryText(completed
-          ? "太好了！你把生活裡的發現帶回來了。兔兔花園又長大一點。"
-          : "今天的生活任務已經完成了。想再找一次也可以喔。");
+        activeAdventureMission = "offline";
+        lifeHouseRoutineOverride = todayOfflineMission().routineId;
+        setWorld("life3d", {
+          focusContent: true,
+          resetLife: true,
+          lifeRoutine: lifeHouseRoutineOverride
+        });
       }
     }
 
@@ -7553,7 +7692,7 @@
     }
 
     function setWorld(world, options = {}) {
-      if (world !== "today" && world !== "playroom" && world !== "math3d" && world !== "science3d" && world !== "alphabet" && !DISCOVERY[world]) return;
+      if (world !== "today" && world !== "playroom" && world !== "math3d" && world !== "science3d" && world !== "life3d" && world !== "alphabet" && !DISCOVERY[world]) return;
       activeWorld = world;
       if (!options.preserveLesson) activeLessonIndex = 0;
       lessonJustCompleted = false;
@@ -7567,6 +7706,7 @@
       const showPlayroom = world === "playroom";
       const showMathGarden = world === "math3d";
       const showScienceLab = world === "science3d";
+      const showLifeHouse = world === "life3d";
       const showAlphabet = world === "alphabet";
       els.alphabetModeRow.hidden = !showAlphabet;
       els.alphabetWorld.hidden = !showAlphabet;
@@ -7574,10 +7714,12 @@
       els.playroomWorld.hidden = !showPlayroom;
       els.mathGardenWorld.hidden = !showMathGarden;
       els.scienceLabWorld.hidden = !showScienceLab;
-      els.discoveryWorld.hidden = showToday || showPlayroom || showMathGarden || showScienceLab || showAlphabet;
+      els.lifeHouseWorld.hidden = !showLifeHouse;
+      els.discoveryWorld.hidden = showToday || showPlayroom || showMathGarden || showScienceLab || showLifeHouse || showAlphabet;
       if (!showPlayroom) playroomController?.pause();
       if (!showMathGarden) mathGardenController?.pause();
       if (!showScienceLab) scienceLabController?.pause();
+      if (!showLifeHouse) lifeHouseController?.pause();
 
       if (showToday) {
         els.appTitle.textContent = "兔兔小小科學院";
@@ -7604,6 +7746,18 @@
           controller.start({ course, announce: true });
         } else {
           controller.start({ course, announce: true });
+        }
+      } else if (showLifeHouse) {
+        const routine = options.lifeRoutine || lifeHouseRoutineOverride || nextLifeHouseRoutine();
+        const routineLabel = window.BunnyLifeHouse3D.routines[routine].label;
+        els.appTitle.textContent = "兔兔 3D 生活小屋";
+        els.appSubtitle.textContent = `今天練習：${routineLabel}。一次做一個步驟。`;
+        const controller = ensureLifeHouse();
+        if (options.resetLife || controller.getSnapshot().complete || controller.getSnapshot().routine !== routine) {
+          controller.reset({ routine });
+          controller.start({ routine, announce: true });
+        } else {
+          controller.start({ routine, announce: true });
         }
       } else if (showAlphabet) {
         els.appTitle.textContent = "兔兔小小科學院";
@@ -7851,6 +8005,102 @@
       };
     }
 
+    function ensureLifeHouse() {
+      if (lifeHouseController) return lifeHouseController;
+      lifeHouseController = window.BunnyLifeHouse3D.create({
+        host: els.lifeHouseCanvasHost,
+        fallback: els.lifeHouseFallback,
+        getRoutine: () => lifeHouseRoutineOverride || nextLifeHouseRoutine(),
+        getRound: () => state.lifeHouse.rounds,
+        speak: (parts) => sayDiscoveryText(parts),
+        onTask: renderLifeHouseTask,
+        onStatus: (message, status) => {
+          els.lifeHouseHint.dataset.status = status;
+          els.lifeHouseHintText.textContent = message;
+        },
+        onComplete: completeLifeHouse,
+        onCompleteUi: renderLifeHouseComplete
+      });
+      window.bunnyLifeHouse = lifeHouseController;
+      return lifeHouseController;
+    }
+
+    function renderLifeHouseTask(task) {
+      currentLifeHouseSpeech = task.speech;
+      if (activeWorld === "life3d") {
+        els.appSubtitle.textContent = `今天練習：${task.routineLabel}。一次做一個步驟。`;
+      }
+      els.lifeHouseStep.textContent = `${task.routineIcon} ${task.routineLabel} · 第 ${task.stage + 1} 個步驟`;
+      els.lifeHousePrompt.textContent = task.prompt;
+      els.lifeHouseHint.dataset.status = "ready";
+      els.lifeHouseHintText.textContent = task.hint;
+      els.lifeHouseCompleteActions.hidden = true;
+      els.lifeHouseProgress.querySelectorAll(".playroom-progress-dot").forEach((dot, index) => {
+        dot.hidden = index >= task.total;
+        dot.classList.toggle("is-done", index < task.stage);
+        dot.classList.toggle("is-current", index === task.stage);
+      });
+      if (activeWorld === "life3d") refreshAll();
+      if (task.announce) sayDiscoveryText(task.speech);
+    }
+
+    function renderLifeHouseComplete(result) {
+      currentLifeHouseSpeech = result.retell;
+      els.lifeHouseStep.textContent = `${result.routineLabel} · 生活順序完成`;
+      els.lifeHousePrompt.textContent = "先、接著、最後，都看到了！";
+      els.lifeHouseHint.dataset.status = "complete";
+      els.lifeHouseHintText.textContent = "下一步：和大人到生活裡試一次";
+      const taskCount = window.BunnyLifeHouse3D.routines[result.routine].tasks.length;
+      els.lifeHouseProgress.querySelectorAll(".playroom-progress-dot").forEach((dot, index) => {
+        dot.hidden = index >= taskCount;
+        dot.classList.toggle("is-done", index < taskCount);
+        dot.classList.remove("is-current");
+      });
+      els.lifeHouseCompleteActions.hidden = false;
+    }
+
+    function completeLifeHouse(summary) {
+      const profile = state.lifeHouse;
+      const roundsToday = Math.max(0, Number(profile.days[TODAY_KEY]) || 0);
+      const firstToday = roundsToday === 0;
+      profile.days[TODAY_KEY] = roundsToday + 1;
+      profile.rounds += 1;
+      profile.routineRounds[summary.routine] = Math.max(0, Number(profile.routineRounds[summary.routine]) || 0) + 1;
+      profile.seenSteps = [...new Set([...profile.seenSteps, ...summary.steps])];
+      profile.lastRoutine = summary.routine;
+      profile.lastPlayed = TODAY_KEY;
+      saveState();
+
+      let dailyCompleted = false;
+      if (activeAdventureMission === "offline") {
+        activeAdventureMission = null;
+        dailyCompleted = completeAdventureMission("offline", {
+          awardStar: firstToday,
+          countActivity: firstToday
+        });
+      }
+
+      if (!dailyCompleted && firstToday) {
+        state.stars += 1;
+        state.days[TODAY_KEY] = (state.days[TODAY_KEY] || 0) + 1;
+        saveState();
+        popStars();
+        refreshAll();
+      } else if (!dailyCompleted) {
+        refreshAll();
+      }
+
+      return {
+        routine: summary.routine,
+        routineLabel: summary.routineLabel,
+        retell: summary.retell,
+        practice: summary.practice,
+        rounds: profile.rounds,
+        firstToday,
+        nextRoutine: nextLifeHouseRoutine()
+      };
+    }
+
     function renderDiscoveryLesson() {
       lessonJustCompleted = false;
       pendingDiscoveryAction = null;
@@ -7921,6 +8171,8 @@
           ? els.mathGardenWorld
         : world === "science3d"
           ? els.scienceLabWorld
+        : world === "life3d"
+          ? els.lifeHouseWorld
         : world === "alphabet"
           ? els.alphabetWorld
           : els.discoveryWorld;
@@ -7931,7 +8183,7 @@
     }
 
     function updateJourneyDock() {
-      const showDock = activeWorld !== "today" && activeWorld !== "playroom" && activeWorld !== "math3d" && activeWorld !== "science3d";
+      const showDock = activeWorld !== "today" && activeWorld !== "playroom" && activeWorld !== "math3d" && activeWorld !== "science3d" && activeWorld !== "life3d";
       const journeyComplete = journeyContext?.status === "complete";
       const activityComplete = lessonJustCompleted || journeyComplete;
       els.journeyDock.hidden = !showDock;
@@ -7970,6 +8222,7 @@
       activeAdventureMission = null;
       journeyContext = null;
       scienceLabCourseOverride = null;
+      lifeHouseRoutineOverride = null;
       lessonJustCompleted = false;
       setWorld("today", { focusContent: true });
     }
@@ -8210,9 +8463,24 @@
       });
     }
 
+    function mergeShortSpeechParts(parts, maxLength = 0) {
+      if (!maxLength) return parts;
+      return parts.reduce((queue, part) => {
+        const previous = queue[queue.length - 1];
+        if (!previous) {
+          queue.push(part);
+          return queue;
+        }
+        const joined = `${previous} ${part}`;
+        if (joined.length <= maxLength) queue[queue.length - 1] = joined;
+        else queue.push(part);
+        return queue;
+      }, []);
+    }
+
     function speakSequence(parts, settings) {
       if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance !== "function") return false;
-      const queue = splitSpeechParts(parts);
+      const queue = mergeShortSpeechParts(splitSpeechParts(parts), settings.mergeBelow);
       if (!queue.length) return false;
       const token = ++speechSequenceToken;
       window.speechSynthesis.cancel();
@@ -8252,10 +8520,11 @@
 
       speakSequence(text, {
         lang: "zh-TW",
-        rate: 0.8,
+        rate: 0.76,
         pitch: 1,
-        volume: 0.88,
-        pause: 190,
+        volume: 0.86,
+        pause: 140,
+        mergeBelow: 34,
         voice: () => {
           friendlyChineseVoice = friendlyChineseVoice || pickFriendlyChineseVoice();
           return friendlyChineseVoice;
@@ -8280,11 +8549,15 @@
         /taiwan/i,
         /google.*中文/i
       ];
-      const preferredVoice = preferredNames
-        .map((pattern) => [...taiwanVoices, ...chineseVoices].find((voice) => pattern.test(voice.name)))
+      const preferredTaiwanVoice = preferredNames
+        .map((pattern) => taiwanVoices.find((voice) => pattern.test(voice.name)))
         .find(Boolean);
-      const premiumVoice = [...taiwanVoices, ...chineseVoices].find((voice) => naturalPattern.test(voice.name));
-      return premiumVoice || preferredVoice || taiwanVoices.find((voice) => voice.localService) || chineseVoices.find((voice) => voice.localService) || taiwanVoices[0] || chineseVoices[0] || null;
+      const preferredChineseVoice = preferredNames
+        .map((pattern) => chineseVoices.find((voice) => pattern.test(voice.name)))
+        .find(Boolean);
+      const premiumTaiwanVoice = taiwanVoices.find((voice) => naturalPattern.test(voice.name));
+      const premiumChineseVoice = chineseVoices.find((voice) => naturalPattern.test(voice.name));
+      return premiumTaiwanVoice || preferredTaiwanVoice || taiwanVoices.find((voice) => voice.localService) || taiwanVoices[0] || premiumChineseVoice || preferredChineseVoice || chineseVoices.find((voice) => voice.localService) || chineseVoices[0] || null;
     }
 
     function playDiscoveryChime() {
@@ -8498,10 +8771,11 @@
         : [`Can you find the letter ${letter.upper}?`];
       speakSequence(parts, {
         lang: "en-US",
-        rate: 0.78,
+        rate: 0.75,
         pitch: 1,
-        volume: 0.9,
-        pause: 230,
+        volume: 0.88,
+        pause: 160,
+        mergeBelow: 48,
         voice: () => {
           friendlyVoice = friendlyVoice || pickFriendlyVoice();
           return friendlyVoice;
@@ -8532,12 +8806,16 @@
         /google us english/i,
         /english.*united states/i
       ];
-      const preferredVoice = preferredNames
-        .map((pattern) => [...usVoices, ...englishVoices].find((voice) => pattern.test(voice.name)))
+      const preferredUsVoice = preferredNames
+        .map((pattern) => usVoices.find((voice) => pattern.test(voice.name)))
         .find(Boolean);
-      const premiumVoice = [...usVoices, ...englishVoices].find((voice) => naturalPattern.test(voice.name));
+      const preferredEnglishVoice = preferredNames
+        .map((pattern) => englishVoices.find((voice) => pattern.test(voice.name)))
+        .find(Boolean);
+      const premiumUsVoice = usVoices.find((voice) => naturalPattern.test(voice.name));
+      const premiumEnglishVoice = englishVoices.find((voice) => naturalPattern.test(voice.name));
 
-      return premiumVoice || preferredVoice || usVoices.find((voice) => voice.localService) || englishVoices.find((voice) => voice.localService) || usVoices[0] || englishVoices[0] || voices[0] || null;
+      return premiumUsVoice || preferredUsVoice || usVoices.find((voice) => voice.localService) || usVoices[0] || premiumEnglishVoice || preferredEnglishVoice || englishVoices.find((voice) => voice.localService) || englishVoices[0] || voices[0] || null;
     }
 
     function playCuteChime(letter) {
@@ -8586,6 +8864,8 @@
           ? `🥕 數量 1–${state.mathGarden.level + 2}`
         : activeWorld === "science3d"
           ? `🧪 ${window.BunnyScienceLab3D.courses[scienceLabController?.getSnapshot().course || nextScienceLabCourse()].label}`
+        : activeWorld === "life3d"
+          ? `🏠 ${window.BunnyLifeHouse3D.routines[lifeHouseController?.getSnapshot().routine || nextLifeHouseRoutine()].label}`
         : activeWorld === "alphabet"
           ? `🔤 字母 ${unlockedCount()}/26`
           : `🧭 活動 ${completedDiscoveryCount()}/${totalDiscoveryCount()}`;

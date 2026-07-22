@@ -1203,7 +1203,7 @@
 
     .world-row {
       display: grid;
-      grid-template-columns: repeat(8, minmax(0, 1fr));
+      grid-template-columns: repeat(9, minmax(0, 1fr));
       gap: 10px;
       padding: 12px 18px 4px;
       background: rgba(255, 255, 255, 0.82);
@@ -1845,28 +1845,295 @@
       color: #3d8159;
     }
 
-    .today-parent {
-      margin-top: 14px;
-      border: 1px solid #ded4e5;
+    .parent-station {
+      margin-top: 18px;
+      overflow: hidden;
+      border: 2px solid #d9d0e1;
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.92);
-      color: #5f5368;
+      background: rgba(255, 255, 255, 0.96);
+      color: #55495e;
+      box-shadow: 0 5px 0 #ddd4e3, 0 12px 28px rgba(74, 58, 84, 0.07);
     }
 
-    .today-parent summary {
-      min-height: 50px;
-      display: flex;
+    .parent-station > summary {
+      min-height: 76px;
+      display: grid;
+      grid-template-columns: 50px minmax(0, 1fr) 32px;
       align-items: center;
-      padding: 9px 14px;
-      color: #4f4359;
-      font-weight: 900;
+      gap: 12px;
+      padding: 12px 16px;
+      color: #493e52;
       cursor: pointer;
+      list-style: none;
+      user-select: none;
     }
 
-    .today-parent p {
+    .parent-station > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .parent-station[open] > summary {
+      border-bottom: 1px solid #ded5e4;
+      background: #fbf9fc;
+    }
+
+    .parent-station-icon {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      background: #dff6ea;
+      font-size: 27px;
+      box-shadow: 0 3px 0 #a9d8bd;
+    }
+
+    .parent-station-summary-copy {
+      min-width: 0;
+      display: grid;
+      gap: 3px;
+    }
+
+    .parent-station-summary-copy strong {
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .parent-station-summary-copy small {
+      color: #726779;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .parent-station[open] .parent-chevron {
+      transform: rotate(180deg);
+    }
+
+    .parent-station-body {
+      padding: 20px;
+    }
+
+    .parent-station-heading {
+      max-width: 760px;
+    }
+
+    .parent-station-kicker {
+      display: block;
+      margin-bottom: 4px;
+      color: #b45e75;
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .parent-station-heading h2 {
       margin: 0;
-      padding: 0 14px 14px;
-      line-height: 1.6;
+      color: #433849;
+      font-size: 24px;
+      line-height: 1.25;
+    }
+
+    .parent-station-heading p {
+      margin: 7px 0 0;
+      color: #756a7b;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .parent-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 18px;
+      border-top: 1px solid #e1d9e6;
+      border-bottom: 1px solid #e1d9e6;
+    }
+
+    .parent-stat {
+      min-width: 0;
+      padding: 15px 18px;
+      border-right: 1px solid #e1d9e6;
+    }
+
+    .parent-stat:last-child {
+      border-right: 0;
+    }
+
+    .parent-stat span {
+      display: block;
+      color: #776b7e;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .parent-stat strong {
+      display: block;
+      margin-top: 4px;
+      color: #44394d;
+      font-size: 25px;
+      line-height: 1.15;
+    }
+
+    .parent-station-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 20px;
+    }
+
+    .parent-guidance {
+      min-width: 0;
+      padding: 0 20px 0 0;
+    }
+
+    .parent-guidance + .parent-guidance {
+      padding: 0 0 0 20px;
+      border-left: 1px solid #e1d9e6;
+    }
+
+    .parent-guidance h3,
+    .parent-world-progress h3 {
+      margin: 0 0 8px;
+      color: #493d52;
+      font-size: 18px;
+    }
+
+    .parent-guidance-label {
+      display: block;
+      margin-bottom: 5px;
+      color: #4b8c70;
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .parent-guidance p {
+      margin: 0;
+      color: #64586c;
+      font-size: 15px;
+      font-weight: 750;
+      line-height: 1.55;
+    }
+
+    .parent-guidance-note {
+      display: block;
+      margin-top: 8px;
+      color: #817487;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .parent-review-letters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .parent-review-letter {
+      min-width: 38px;
+      min-height: 38px;
+      display: grid;
+      place-items: center;
+      padding: 4px 9px;
+      border: 1px solid #e0ca7c;
+      border-radius: 6px;
+      background: #fff7cf;
+      color: #65512a;
+      font-weight: 950;
+    }
+
+    .parent-offline-title {
+      margin-bottom: 5px !important;
+      color: #4d4260 !important;
+      font-size: 16px !important;
+      font-weight: 950 !important;
+    }
+
+    .parent-goal {
+      display: inline-block;
+      margin-top: 9px;
+      color: #9a5670;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .parent-world-progress {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid #e1d9e6;
+    }
+
+    .parent-world-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 22px;
+    }
+
+    .parent-world-row {
+      --world-progress: #79b99c;
+      display: grid;
+      grid-template-columns: minmax(112px, auto) minmax(80px, 1fr) 38px;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .parent-world-row[data-parent-world="story"] { --world-progress: #d58aa4; }
+    .parent-world-row[data-parent-world="emotion"] { --world-progress: #c46f92; }
+    .parent-world-row[data-parent-world="math"] { --world-progress: #ddae44; }
+    .parent-world-row[data-parent-world="physics"] { --world-progress: #68a7c3; }
+    .parent-world-row[data-parent-world="quantum"] { --world-progress: #8d7fc1; }
+    .parent-world-row[data-parent-world="science"] { --world-progress: #68a886; }
+
+    .parent-world-name {
+      min-width: 0;
+      color: #5c5064;
+      font-size: 14px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .parent-world-track {
+      height: 10px;
+      overflow: hidden;
+      border-radius: 5px;
+      background: #ede8f0;
+    }
+
+    .parent-world-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--world-progress);
+      transition: width 360ms ease;
+    }
+
+    .parent-world-count {
+      color: #746879;
+      font-size: 13px;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .parent-station-controls {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 220px)) minmax(260px, 1fr);
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid #e1d9e6;
+    }
+
+    .parent-station-controls .quiet-button {
+      min-height: 48px;
+    }
+
+    .parent-privacy-note {
+      margin: 0;
+      color: #796e80;
+      font-size: 13px;
+      line-height: 1.5;
+      text-align: right;
     }
 
     @keyframes moodBunnyNod {
@@ -4251,6 +4518,42 @@
         min-height: 132px;
       }
 
+      .parent-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .parent-stat:nth-child(2) {
+        border-right: 0;
+      }
+
+      .parent-stat:nth-child(-n+2) {
+        border-bottom: 1px solid #e1d9e6;
+      }
+
+      .parent-station-grid,
+      .parent-world-list {
+        grid-template-columns: 1fr;
+      }
+
+      .parent-guidance {
+        padding: 0 0 17px;
+      }
+
+      .parent-guidance + .parent-guidance {
+        padding: 17px 0 0;
+        border-top: 1px solid #e1d9e6;
+        border-left: 0;
+      }
+
+      .parent-station-controls {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .parent-privacy-note {
+        grid-column: 1 / -1;
+        text-align: left;
+      }
+
       .lesson-console {
         top: 3%;
       }
@@ -4482,6 +4785,84 @@
 
       .mission-button {
         min-height: 124px;
+      }
+
+      .parent-station > summary {
+        min-height: 72px;
+        grid-template-columns: 46px minmax(0, 1fr) 28px;
+        gap: 10px;
+        padding: 10px 12px;
+      }
+
+      .parent-station-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 24px;
+      }
+
+      .parent-station-summary-copy strong {
+        font-size: 16px;
+      }
+
+      .parent-station-summary-copy small {
+        font-size: 12px;
+      }
+
+      .parent-station-body {
+        padding: 16px 14px 18px;
+      }
+
+      .parent-station-heading h2 {
+        font-size: 21px;
+      }
+
+      .parent-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .parent-stat {
+        padding: 13px 11px;
+      }
+
+      .parent-stat:nth-child(2) {
+        border-right: 0;
+      }
+
+      .parent-stat:nth-child(-n+2) {
+        border-bottom: 1px solid #e1d9e6;
+      }
+
+      .parent-stat strong {
+        font-size: 22px;
+      }
+
+      .parent-station-grid,
+      .parent-world-list,
+      .parent-station-controls {
+        grid-template-columns: 1fr;
+      }
+
+      .parent-guidance {
+        padding: 0 0 16px;
+      }
+
+      .parent-guidance + .parent-guidance {
+        padding: 16px 0 0;
+        border-top: 1px solid #e1d9e6;
+        border-left: 0;
+      }
+
+      .parent-world-row {
+        grid-template-columns: minmax(102px, auto) minmax(70px, 1fr) 36px;
+        gap: 8px;
+      }
+
+      .parent-world-name {
+        font-size: 13px;
+      }
+
+      .parent-privacy-note {
+        text-align: left;
       }
 
       .stage {
@@ -4777,6 +5158,380 @@
       }
     }
 
+    /* 3D playroom: the scene is the activity, not a decorative preview card. */
+    .playroom-main {
+      width: 100%;
+      max-width: none;
+      padding: 0;
+      background: #bfe9f4;
+    }
+
+    .playroom-stage {
+      position: relative;
+      isolation: isolate;
+      width: 100%;
+      height: clamp(610px, calc(100svh - 178px), 860px);
+      min-height: 610px;
+      overflow: hidden;
+      background: #bfe9f4;
+    }
+
+    .playroom-canvas-host,
+    .playroom-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .playroom-canvas {
+      display: block;
+      touch-action: manipulation;
+      cursor: pointer;
+    }
+
+    .playroom-hud {
+      position: absolute;
+      inset: 18px 18px auto;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .playroom-home,
+    .playroom-speak,
+    .playroom-replay,
+    .playroom-finish-home {
+      min-height: 54px;
+      border: 2px solid rgba(255, 255, 255, 0.92);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #40364b;
+      font-weight: 950;
+      box-shadow: 0 6px 0 rgba(70, 94, 92, 0.22), 0 12px 24px rgba(45, 72, 80, 0.12);
+      pointer-events: auto;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .playroom-home {
+      min-width: 112px;
+      padding: 8px 14px;
+      font-size: 15px;
+    }
+
+    .playroom-speak {
+      width: 56px;
+      padding: 0;
+      font-size: 25px;
+    }
+
+    .playroom-guide {
+      justify-self: center;
+      width: min(560px, 100%);
+      padding: 12px 18px 14px;
+      border: 2px solid rgba(255, 255, 255, 0.95);
+      border-radius: 8px;
+      background: rgba(255, 253, 248, 0.94);
+      color: #40364b;
+      text-align: center;
+      box-shadow: 0 10px 28px rgba(45, 72, 80, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .playroom-step {
+      display: block;
+      color: #3f7f72;
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .playroom-prompt {
+      display: block;
+      margin-top: 3px;
+      font-size: clamp(21px, 2.4vw, 30px);
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .playroom-bottom {
+      position: absolute;
+      z-index: 5;
+      left: 50%;
+      bottom: max(18px, env(safe-area-inset-bottom));
+      width: min(660px, calc(100% - 28px));
+      display: grid;
+      justify-items: center;
+      gap: 10px;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .playroom-hint {
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 9px 18px;
+      border: 2px solid rgba(255, 255, 255, 0.92);
+      border-radius: 8px;
+      background: rgba(49, 63, 72, 0.82);
+      color: #ffffff;
+      font-size: 17px;
+      font-weight: 900;
+      text-align: center;
+      box-shadow: 0 10px 24px rgba(34, 54, 61, 0.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .playroom-touch {
+      font-size: 25px;
+      animation: playroomTouch 1200ms ease-in-out infinite;
+    }
+
+    .playroom-progress {
+      display: flex;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 6px 18px rgba(34, 54, 61, 0.12);
+    }
+
+    .playroom-progress-dot {
+      width: 14px;
+      height: 14px;
+      border: 2px solid #4a776f;
+      border-radius: 50%;
+      background: #ffffff;
+    }
+
+    .playroom-progress-dot.is-current {
+      background: #f3c94f;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.82);
+    }
+
+    .playroom-progress-dot.is-done {
+      background: #68b77d;
+    }
+
+    .playroom-complete-actions {
+      display: flex;
+      gap: 10px;
+      pointer-events: auto;
+    }
+
+    .playroom-complete-actions[hidden] {
+      display: none;
+    }
+
+    .playroom-replay,
+    .playroom-finish-home {
+      min-width: 142px;
+      padding: 9px 16px;
+      font-size: 16px;
+    }
+
+    .playroom-replay {
+      background: #fff0a9;
+    }
+
+    .playroom-finish-home {
+      background: #d8f5e8;
+    }
+
+    .playroom-fallback {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: #dff3f0 url("bunny_physics_3d_v1.webp") center / cover no-repeat;
+    }
+
+    .playroom-fallback[hidden] {
+      display: none;
+    }
+
+    .playroom-fallback p {
+      max-width: 480px;
+      margin: 0;
+      padding: 15px 18px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #40364b;
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .prediction-block {
+      position: relative;
+    }
+
+    .discovery-action-cue {
+      display: inline-flex;
+      min-height: 28px;
+      align-items: center;
+      margin-bottom: 7px;
+      padding: 3px 9px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .prediction-choice {
+      position: relative;
+    }
+
+    .prediction-choice::after {
+      content: "碰一下";
+      display: block;
+      margin-top: 4px;
+      color: #7a6d80;
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .prediction-choice.is-answered {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .prediction-choice.is-quiet {
+      opacity: 0.66;
+    }
+
+    .run-experiment[hidden] {
+      display: none;
+    }
+
+    .lesson-actions.is-single-action {
+      grid-template-columns: 60px minmax(0, 1fr);
+    }
+
+    .lesson-next-copy {
+      display: flex;
+      align-items: center;
+      color: #6a5e72;
+      font-size: 13px;
+      font-weight: 850;
+      line-height: 1.35;
+    }
+
+    @keyframes playroomTouch {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    @media (max-width: 900px) {
+      .world-row {
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(88px, 23vw);
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scroll-snap-type: inline proximity;
+        scrollbar-width: none;
+      }
+
+      .world-row::-webkit-scrollbar {
+        display: none;
+      }
+
+      .world-button {
+        scroll-snap-align: start;
+      }
+
+      .playroom-stage {
+        height: clamp(640px, calc(100svh - 166px), 820px);
+        min-height: 640px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .playroom-hud {
+        inset: 10px 10px auto;
+        grid-template-columns: 54px minmax(0, 1fr) 54px;
+        gap: 7px;
+      }
+
+      .playroom-home {
+        min-width: 54px;
+        width: 54px;
+        padding: 0;
+        font-size: 0;
+      }
+
+      .playroom-home span[aria-hidden="true"] {
+        font-size: 24px;
+      }
+
+      .playroom-guide {
+        padding: 9px 8px 10px;
+      }
+
+      .playroom-step {
+        font-size: 11px;
+      }
+
+      .playroom-prompt {
+        font-size: 18px;
+      }
+
+      .playroom-stage {
+        height: max(660px, calc(100svh - 154px));
+        min-height: 660px;
+      }
+
+      .discovery-scene[data-subject="story"],
+      .discovery-scene[data-subject="emotion"] {
+        min-height: 880px;
+      }
+
+      .playroom-bottom {
+        bottom: max(12px, env(safe-area-inset-bottom));
+      }
+
+      .playroom-hint {
+        min-height: 48px;
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+
+      .playroom-touch {
+        font-size: 22px;
+      }
+
+      .playroom-replay,
+      .playroom-finish-home {
+        min-width: 0;
+        flex: 1 1 0;
+      }
+
+      .playroom-complete-actions {
+        width: 100%;
+      }
+
+      .lesson-actions.is-single-action {
+        grid-template-columns: 58px minmax(0, 1fr);
+      }
+
+      .lesson-next-copy {
+        font-size: 12px;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -4845,6 +5600,7 @@
 
     <nav class="world-row" aria-label="學習世界">
       <button class="world-button" type="button" data-world="today" aria-pressed="true"><span class="world-icon" aria-hidden="true">🐰</span><span>今天</span></button>
+      <button class="world-button" type="button" data-world="playroom" aria-pressed="false"><span class="world-icon" aria-hidden="true">🟢</span><span>3D 遊樂場</span></button>
       <button class="world-button" type="button" data-world="alphabet" aria-pressed="false"><span class="world-icon" aria-hidden="true">🔤</span><span>ABC</span></button>
       <button class="world-button" type="button" data-world="story" aria-pressed="false"><span class="world-icon" aria-hidden="true">📖</span><span>兔兔故事</span></button>
       <button class="world-button" type="button" data-world="emotion" aria-pressed="false"><span class="world-icon" aria-hidden="true">💗</span><span>兔兔心情</span></button>
@@ -4917,11 +5673,95 @@
           <div class="mission-grid" id="todayMissions"></div>
         </section>
 
-        <details class="today-parent">
-          <summary>給家長的陪玩小提醒</summary>
-          <p id="todayParentNote">每次約 8 到 12 分鐘就好。心情選擇沒有正確答案，一次點選只代表當下，不用追問原因或固定標籤。孩子想重玩可以重玩，不需要一次做完，也不必追求答對速度。</p>
+        <details class="parent-station" id="parentStation">
+          <summary>
+            <span class="parent-station-icon" aria-hidden="true">🐾</span>
+            <span class="parent-station-summary-copy">
+              <strong>家長小站</strong>
+              <small id="parentSummaryLine">最近七天的陪伴摘要與下一步</small>
+            </span>
+            <span class="parent-chevron" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="parent-station-body">
+            <div class="parent-station-heading">
+              <span class="parent-station-kicker">給大人的 30 秒摘要</span>
+              <h2>一起看見孩子正在練什麼</h2>
+              <p>只整理這台裝置上的活動紀錄，不做排名、同齡比較或發展診斷。</p>
+            </div>
+
+            <div class="parent-stat-grid" aria-label="近期陪伴摘要">
+              <div class="parent-stat"><span>今天小任務</span><strong id="parentTodayMissions">0 / 3</strong></div>
+              <div class="parent-stat"><span>最近 7 天陪伴</span><strong id="parentWeekDays">0 天</strong></div>
+              <div class="parent-stat"><span>最近 7 天任務</span><strong id="parentWeekMissions">0 件</strong></div>
+              <div class="parent-stat"><span>已探索活動</span><strong id="parentDiscoveryTotal">0 / 36</strong></div>
+            </div>
+
+            <div class="parent-station-grid">
+              <section class="parent-guidance" aria-labelledby="parentNextHeading">
+                <h3 id="parentNextHeading">下一次從哪裡開始</h3>
+                <span class="parent-guidance-label" id="parentNextLabel">先陪孩子完成一件就好</span>
+                <p id="parentNextText">今天可以從暖身複習開始。</p>
+                <div class="parent-review-letters" id="parentReviewLetters" aria-label="較少練到的字母"></div>
+                <small class="parent-guidance-note">字母建議只代表網站裡較少練到，不是能力判定。</small>
+              </section>
+
+              <section class="parent-guidance" aria-labelledby="parentOfflineHeading">
+                <h3 id="parentOfflineHeading">今天帶到生活裡</h3>
+                <p class="parent-offline-title" id="parentOfflineTitle">找 3 個圓圓的東西</p>
+                <p id="parentOfflineTip">陪孩子在安全物品中慢慢找，找到時一起說出形狀。</p>
+                <span class="parent-goal" id="parentOfflineGoal">練習：數量與形狀詞</span>
+              </section>
+            </div>
+
+            <section class="parent-world-progress" aria-labelledby="parentWorldHeading">
+              <h3 id="parentWorldHeading">六個學習世界的探索地圖</h3>
+              <div class="parent-world-list" id="parentWorldProgress"></div>
+            </section>
+
+            <div class="parent-station-controls">
+              <button class="quiet-button" type="button" id="toggleSoundStyle">聲音：自然語音</button>
+              <button class="quiet-button" type="button" id="resetProgress">重置全部進度</button>
+              <p class="parent-privacy-note">學習紀錄只存在這台裝置。重置前會再次詢問，不會自動上傳或備份。</p>
+            </div>
+          </div>
         </details>
       </div>
+    </main>
+
+    <main class="playroom-main" id="playroomWorld" hidden>
+      <section class="playroom-stage" id="playroomStage" aria-labelledby="playroomPrompt">
+        <div class="playroom-canvas-host" id="playroomCanvasHost"></div>
+        <div class="playroom-fallback" id="playroomFallback" hidden>
+          <p>這台裝置暫時不能顯示 3D。可以回到寶寶物理，用圖卡陪兔兔玩。</p>
+        </div>
+
+        <div class="playroom-hud">
+          <button class="playroom-home" type="button" id="playroomHome" aria-label="回今天">
+            <span aria-hidden="true">🐰</span> 回今天
+          </button>
+          <div class="playroom-guide" role="status" aria-live="polite">
+            <span class="playroom-step" id="playroomStep">第 1 個小任務 · 共 3 個</span>
+            <strong class="playroom-prompt" id="playroomPrompt">兔兔想找紅色球</strong>
+          </div>
+          <button class="playroom-speak" type="button" id="playroomSpeak" title="再聽一次" aria-label="再聽一次">🔊</button>
+        </div>
+
+        <div class="playroom-bottom">
+          <div class="playroom-hint" id="playroomHint" role="status" aria-live="polite">
+            <span class="playroom-touch" aria-hidden="true">☝️</span>
+            <span id="playroomHintText">小手碰一碰紅色球</span>
+          </div>
+          <div class="playroom-progress" id="playroomProgress" aria-label="3D 小任務進度">
+            <span class="playroom-progress-dot is-current"></span>
+            <span class="playroom-progress-dot"></span>
+            <span class="playroom-progress-dot"></span>
+          </div>
+          <div class="playroom-complete-actions" id="playroomCompleteActions" hidden>
+            <button class="playroom-replay" type="button" id="playroomReplay"><span aria-hidden="true">↻</span> 再玩一次</button>
+            <button class="playroom-finish-home" type="button" id="playroomFinishHome"><span aria-hidden="true">🐰</span> 回今天</button>
+          </div>
+        </div>
+      </section>
     </main>
 
     <main id="alphabetWorld" hidden>
@@ -4997,14 +5837,12 @@
 
           <details class="parent-panel">
             <summary class="parent-summary">
-              <span>⚙️ 家長設定</span>
+              <span>🧩 字母練習工具</span>
               <span class="parent-chevron" aria-hidden="true">⌄</span>
             </summary>
             <div class="parent-actions">
               <button class="quiet-button" type="button" id="newMatch">換一組配對</button>
               <button class="quiet-button" type="button" id="practiceWeak">練較不熟字母</button>
-              <button class="quiet-button" type="button" id="toggleSoundStyle">聲音：自然語音</button>
-              <button class="quiet-button" type="button" id="resetProgress">重置進度</button>
             </div>
           </details>
         </aside>
@@ -5020,12 +5858,14 @@
             <h2 class="lesson-title" id="lessonTitle">滾下來</h2>
             <p class="lesson-line" id="lessonLine">斜斜的路，會讓球越滾越快。</p>
             <div class="prediction-block">
+              <span class="discovery-action-cue" id="discoveryActionCue">碰一個</span>
               <div class="prediction-question" id="predictionQuestion">先猜一猜：小球會往哪裡？</div>
               <div class="prediction-choices" id="predictionChoices" data-count="2" aria-label="選擇你的猜想"></div>
             </div>
-            <div class="lesson-actions">
+            <div class="lesson-actions is-single-action">
               <button class="speak-discovery" type="button" id="speakDiscovery" title="聽兔兔說" aria-label="聽兔兔說">🔊</button>
-              <button class="run-experiment" type="button" id="runExperiment" disabled>先選一個猜想</button>
+              <div class="lesson-next-copy" id="lessonNextCopy">碰一個答案，畫面就會動起來。</div>
+              <button class="run-experiment" type="button" id="runExperiment" hidden>下一步</button>
             </div>
           </div>
 
@@ -5034,7 +5874,7 @@
             <div class="experiment-visual" id="experimentVisual"></div>
           </div>
 
-          <div class="discovery-feedback" id="discoveryFeedback">兔兔準備好囉，按下按鈕做實驗。</div>
+          <div class="discovery-feedback" id="discoveryFeedback">小手碰一個答案，兔兔會馬上回應。</div>
         </section>
 
         <details class="discovery-parent">
@@ -5058,6 +5898,8 @@
 
   <div class="reward-sky" id="rewardSky" aria-hidden="true"></div>
 
+  <script src="vendor/three-global.js"></script>
+  <script src="three-playroom.js"></script>
   <script>
     const STORE_KEY = "bunnyAlphabetMemoryV1";
     const TODAY_KEY = new Date().toISOString().slice(0, 10);
@@ -5676,11 +6518,41 @@
     };
 
     const OFFLINE_MISSIONS = [
-      { icon: "⭕", title: "找 3 個圓圓的東西", voice: "和大人一起，在家裡找三個圓圓的東西。找到了，再回來點任務。" },
-      { icon: "🧦", title: "把襪子按顏色分一分", voice: "和大人一起，把幾雙襪子按顏色分成小堆。分好了，再回來點任務。" },
-      { icon: "🧸", title: "找一個軟軟和硬硬的東西", voice: "和大人一起，找一個摸起來軟軟的東西，再找一個硬硬的東西。" },
-      { icon: "🔴", title: "排出紅、黃、紅、黃", voice: "用安全的大積木或玩具，排出紅色、黃色、紅色、黃色。" },
-      { icon: "⚽", title: "讓球滾近一點、遠一點", voice: "和大人一起輕輕推球，再多用一點力，看看哪一次滾得比較遠。" }
+      {
+        icon: "⭕",
+        title: "找 3 個圓圓的東西",
+        voice: "和大人一起，在家裡找三個圓圓的東西。找到了，再回來點任務。",
+        tip: "花 3 分鐘陪孩子在安全、拿得到的物品中找。每找到一個，就一起說「圓圓的」，最後再慢慢數一次。",
+        goal: "練習：1–3 點數與形狀詞"
+      },
+      {
+        icon: "🧦",
+        title: "把襪子按顏色分一分",
+        voice: "和大人一起，把幾雙襪子按顏色分成小堆。分好了，再回來點任務。",
+        tip: "準備 4–6 隻乾淨襪子，先讓孩子自己決定怎麼分。若卡住，再示範把一隻放到同顏色旁邊。",
+        goal: "練習：顏色分類與認知彈性"
+      },
+      {
+        icon: "🧸",
+        title: "找一個軟軟和硬硬的東西",
+        voice: "和大人一起，找一個摸起來軟軟的東西，再找一個硬硬的東西。",
+        tip: "由大人先排除尖銳、易碎或燙的物品，再讓孩子用手背輕碰並說「軟軟」或「硬硬」。",
+        goal: "練習：觸覺觀察與比較詞"
+      },
+      {
+        icon: "🔴",
+        title: "排出紅、黃、紅、黃",
+        voice: "用安全的大積木或玩具，排出紅色、黃色、紅色、黃色。",
+        tip: "使用不易吞食的大積木或玩具。大人先排紅、黃，再停下來問：「接下來會是什麼顏色？」",
+        goal: "練習：AB 規律與預測"
+      },
+      {
+        icon: "⚽",
+        title: "讓球滾近一點、遠一點",
+        voice: "和大人一起輕輕推球，再多用一點力，看看哪一次滾得比較遠。",
+        tip: "在沒有樓梯與易碎物的平坦地面，用柔軟大球各推一次。一起指出哪一次近、哪一次遠。",
+        goal: "練習：推力、距離與比較"
+      }
     ];
 
     const GARDEN_STAGES = [
@@ -5740,9 +6612,14 @@
     let lastIncorrectChoice = "";
     let activePrediction = null;
     let activeQuestionStage = 0;
+    let pendingDiscoveryAction = null;
+    let discoveryInteractionLocked = false;
     let cuteAudioContext = null;
     let friendlyVoice = null;
     let friendlyChineseVoice = null;
+    let speechSequenceToken = 0;
+    let playroomController = null;
+    let currentPlayroomSpeech = ["兔兔想找紅色球。", "小手碰一碰！"];
 
     const els = {
       starPill: document.getElementById("starPill"),
@@ -5779,6 +6656,20 @@
       bunnyMark: document.getElementById("bunnyMark"),
       alphabetModeRow: document.getElementById("alphabetModeRow"),
       todayWorld: document.getElementById("todayWorld"),
+      playroomWorld: document.getElementById("playroomWorld"),
+      playroomStage: document.getElementById("playroomStage"),
+      playroomCanvasHost: document.getElementById("playroomCanvasHost"),
+      playroomFallback: document.getElementById("playroomFallback"),
+      playroomHome: document.getElementById("playroomHome"),
+      playroomSpeak: document.getElementById("playroomSpeak"),
+      playroomStep: document.getElementById("playroomStep"),
+      playroomPrompt: document.getElementById("playroomPrompt"),
+      playroomHint: document.getElementById("playroomHint"),
+      playroomHintText: document.getElementById("playroomHintText"),
+      playroomProgress: document.getElementById("playroomProgress"),
+      playroomCompleteActions: document.getElementById("playroomCompleteActions"),
+      playroomReplay: document.getElementById("playroomReplay"),
+      playroomFinishHome: document.getElementById("playroomFinishHome"),
       todayHero: document.getElementById("todayHero"),
       todayStoryTitle: document.getElementById("todayStoryTitle"),
       todayStoryLine: document.getElementById("todayStoryLine"),
@@ -5796,6 +6687,20 @@
       gardenFill: document.getElementById("gardenFill"),
       todayMissionCount: document.getElementById("todayMissionCount"),
       todayMissions: document.getElementById("todayMissions"),
+      parentStation: document.getElementById("parentStation"),
+      parentSummaryLine: document.getElementById("parentSummaryLine"),
+      parentTodayMissions: document.getElementById("parentTodayMissions"),
+      parentWeekDays: document.getElementById("parentWeekDays"),
+      parentWeekMissions: document.getElementById("parentWeekMissions"),
+      parentDiscoveryTotal: document.getElementById("parentDiscoveryTotal"),
+      parentNextLabel: document.getElementById("parentNextLabel"),
+      parentNextText: document.getElementById("parentNextText"),
+      parentReviewLetters: document.getElementById("parentReviewLetters"),
+      parentOfflineTitle: document.getElementById("parentOfflineTitle"),
+      parentOfflineTip: document.getElementById("parentOfflineTip"),
+      parentOfflineGoal: document.getElementById("parentOfflineGoal"),
+      parentWorldProgress: document.getElementById("parentWorldProgress"),
+      toggleSoundStyle: document.getElementById("toggleSoundStyle"),
       alphabetWorld: document.getElementById("alphabetWorld"),
       discoveryWorld: document.getElementById("discoveryWorld"),
       discoveryScene: document.getElementById("discoveryScene"),
@@ -5803,10 +6708,12 @@
       lessonTabs: document.getElementById("lessonTabs"),
       lessonTitle: document.getElementById("lessonTitle"),
       lessonLine: document.getElementById("lessonLine"),
+      discoveryActionCue: document.getElementById("discoveryActionCue"),
       predictionQuestion: document.getElementById("predictionQuestion"),
       predictionChoices: document.getElementById("predictionChoices"),
       speakDiscovery: document.getElementById("speakDiscovery"),
       runExperiment: document.getElementById("runExperiment"),
+      lessonNextCopy: document.getElementById("lessonNextCopy"),
       experimentZone: document.getElementById("experimentZone"),
       experimentLabel: document.getElementById("experimentLabel"),
       experimentVisual: document.getElementById("experimentVisual"),
@@ -5854,10 +6761,14 @@
       refreshAll();
     });
     document.getElementById("resetProgress").addEventListener("click", resetProgress);
-    document.getElementById("toggleSoundStyle").addEventListener("click", toggleSoundStyle);
+    els.toggleSoundStyle.addEventListener("click", toggleSoundStyle);
     document.getElementById("playPrompt").addEventListener("click", () => sayLetter(listenTarget, { includeWord: false }));
     els.speakDiscovery.addEventListener("click", speakCurrentDiscovery);
     els.runExperiment.addEventListener("click", runDiscoveryExperiment);
+    els.playroomHome.addEventListener("click", returnToToday);
+    els.playroomFinishHome.addEventListener("click", returnToToday);
+    els.playroomSpeak.addEventListener("click", () => sayDiscoveryText(currentPlayroomSpeech));
+    els.playroomReplay.addEventListener("click", () => playroomController?.reset());
     els.startNextMission.addEventListener("click", startNextTodayMission);
     els.speakToday.addEventListener("click", speakTodayAdventure);
     els.journeyHome.addEventListener("click", returnToToday);
@@ -5905,6 +6816,7 @@
           days: parsed.days || {},
           soundStyle: parsed.soundStyle === "chimeOnly" ? "chimeOnly" : "softVoice",
           discoveryCompleted: parsed.discoveryCompleted || {},
+          playroomDays: parsed.playroomDays && typeof parsed.playroomDays === "object" ? parsed.playroomDays : {},
           adventureDays,
           gardenLevel: Math.min(5, Math.max(0, storedGardenLevel, Math.min(5, recordedMissions))),
           stats: { ...blankStats, ...(parsed.stats || {}) }
@@ -5915,6 +6827,7 @@
           days: {},
           soundStyle: "softVoice",
           discoveryCompleted: {},
+          playroomDays: {},
           adventureDays: {},
           gardenLevel: 0,
           stats: blankStats
@@ -6000,6 +6913,102 @@
 
     function completedTodayMissionCount() {
       return Object.values(getTodayAdventure()).filter(Boolean).length;
+    }
+
+    function recentAdventureSummary(dayCount = 7) {
+      const anchor = new Date(`${TODAY_KEY}T00:00:00Z`);
+      let practiceDays = 0;
+      let missionCount = 0;
+
+      for (let offset = 0; offset < dayCount; offset += 1) {
+        const day = new Date(anchor.getTime() - offset * 86400000).toISOString().slice(0, 10);
+        const progress = state.adventureDays?.[day];
+        if (!progress || typeof progress !== "object") continue;
+        const completed = ["warmup", "discover", "offline"].filter((type) => progress[type] === true).length;
+        if (completed > 0) practiceDays += 1;
+        missionCount += completed;
+      }
+
+      return { practiceDays, missionCount };
+    }
+
+    function completedDiscoveryForSubject(subjectKey) {
+      const subject = DISCOVERY[subjectKey];
+      if (!subject) return 0;
+      return subject.lessons.filter((lesson) => state.discoveryCompleted?.[`${subjectKey}:${lesson.id}`]).length;
+    }
+
+    function renderParentStation({ progress, missionCards, gardenLevel }) {
+      const recent = recentAdventureSummary();
+      const completedTotal = completedDiscoveryCount();
+      const nextMission = missionCards.find((mission) => !progress[mission.type]);
+      const offline = todayOfflineMission();
+
+      els.parentSummaryLine.textContent = recent.practiceDays > 0
+        ? `最近 7 天一起玩 ${recent.practiceDays} 天，完成 ${recent.missionCount} 件小任務`
+        : "還沒有近期任務紀錄，今天從一件開始就好";
+      els.parentTodayMissions.textContent = `${completedTodayMissionCount()} / 3`;
+      els.parentWeekDays.textContent = `${recent.practiceDays} 天`;
+      els.parentWeekMissions.textContent = `${recent.missionCount} 件`;
+      els.parentDiscoveryTotal.textContent = `${completedTotal} / ${totalDiscoveryCount()}`;
+
+      if (nextMission) {
+        els.parentNextLabel.textContent = `下一次先陪玩：${nextMission.label}`;
+        els.parentNextText.textContent = nextMission.title;
+      } else {
+        els.parentNextLabel.textContent = "今天已經剛剛好";
+        els.parentNextText.textContent = `兔兔花園現在是「${GARDEN_STAGES[gardenLevel]}」。可以休息，或讓孩子自己選一題重玩。`;
+      }
+
+      els.parentReviewLetters.innerHTML = "";
+      getWeakLetters().slice(0, 3).forEach((letter) => {
+        const item = document.createElement("span");
+        item.className = "parent-review-letter";
+        item.textContent = letter.upper;
+        item.title = `${letter.upper} ${letter.word}`;
+        els.parentReviewLetters.appendChild(item);
+      });
+
+      els.parentOfflineTitle.textContent = `${offline.icon} ${offline.title}`;
+      els.parentOfflineTip.textContent = offline.tip;
+      els.parentOfflineGoal.textContent = offline.goal;
+
+      const worldMeta = [
+        ["story", "📖"],
+        ["emotion", "💗"],
+        ["math", "🔢"],
+        ["physics", "🛝"],
+        ["quantum", "✨"],
+        ["science", "🔬"]
+      ];
+      els.parentWorldProgress.innerHTML = "";
+      worldMeta.forEach(([subjectKey, icon]) => {
+        const subject = DISCOVERY[subjectKey];
+        const completed = completedDiscoveryForSubject(subjectKey);
+        const total = subject.lessons.length;
+        const row = document.createElement("div");
+        row.className = "parent-world-row";
+        row.dataset.parentWorld = subjectKey;
+        row.setAttribute("aria-label", `${subject.name}已探索 ${completed} 個，共 ${total} 個`);
+
+        const name = document.createElement("span");
+        name.className = "parent-world-name";
+        name.textContent = `${icon} ${subject.name}`;
+
+        const track = document.createElement("span");
+        track.className = "parent-world-track";
+        track.setAttribute("aria-hidden", "true");
+        const fill = document.createElement("span");
+        fill.className = "parent-world-fill";
+        fill.style.width = `${(completed / total) * 100}%`;
+        track.appendChild(fill);
+
+        const count = document.createElement("span");
+        count.className = "parent-world-count";
+        count.textContent = `${completed}/${total}`;
+        row.append(name, track, count);
+        els.parentWorldProgress.appendChild(row);
+      });
     }
 
     function preferredDiscoveryOrder(dayKey = TODAY_KEY) {
@@ -6088,6 +7097,7 @@
       const completedCount = completedTodayMissionCount();
       const gardenLevel = Math.min(5, Math.max(0, Number(state.gardenLevel || 0)));
       const allDone = completedCount === 3;
+      const missionCards = getTodayMissionCards();
 
       els.todayHero.dataset.gardenLevel = String(gardenLevel);
       els.gardenStageName.textContent = GARDEN_STAGES[gardenLevel];
@@ -6111,7 +7121,7 @@
       renderMoodCheckin();
 
       els.todayMissions.innerHTML = "";
-      getTodayMissionCards().forEach((mission) => {
+      missionCards.forEach((mission) => {
         const complete = progress[mission.type];
         const button = document.createElement("button");
         button.type = "button";
@@ -6139,6 +7149,7 @@
         button.append(icon, type, title, action);
         els.todayMissions.appendChild(button);
       });
+      renderParentStation({ progress, missionCards, gardenLevel });
     }
 
     function startNextTodayMission() {
@@ -6245,27 +7256,34 @@
     }
 
     function setWorld(world, options = {}) {
-      if (world !== "today" && world !== "alphabet" && !DISCOVERY[world]) return;
+      if (world !== "today" && world !== "playroom" && world !== "alphabet" && !DISCOVERY[world]) return;
       activeWorld = world;
       if (!options.preserveLesson) activeLessonIndex = 0;
       lessonJustCompleted = false;
-      window.speechSynthesis?.cancel();
+      cancelSpeechQueue();
 
       document.querySelectorAll(".world-button").forEach((button) => {
         button.setAttribute("aria-pressed", String(button.dataset.world === world));
       });
 
       const showToday = world === "today";
+      const showPlayroom = world === "playroom";
       const showAlphabet = world === "alphabet";
       els.alphabetModeRow.hidden = !showAlphabet;
       els.alphabetWorld.hidden = !showAlphabet;
       els.todayWorld.hidden = !showToday;
-      els.discoveryWorld.hidden = showToday || showAlphabet;
+      els.playroomWorld.hidden = !showPlayroom;
+      els.discoveryWorld.hidden = showToday || showPlayroom || showAlphabet;
+      if (!showPlayroom) playroomController?.pause();
 
       if (showToday) {
         els.appTitle.textContent = "兔兔小小科學院";
         els.appSubtitle.textContent = "今天有三個剛剛好的小任務。";
         renderTodayWorld();
+      } else if (showPlayroom) {
+        els.appTitle.textContent = "兔兔 3D 遊樂場";
+        els.appSubtitle.textContent = "找顏色、比大小，再看小球滾下來。";
+        ensurePlayroom().start({ announce: true });
       } else if (showAlphabet) {
         els.appTitle.textContent = "兔兔小小科學院";
         els.appSubtitle.textContent = "今天和兔兔一起認 4 個英文字母。";
@@ -6277,8 +7295,67 @@
       if (options.focusContent) focusActiveContent(world);
     }
 
+    function ensurePlayroom() {
+      if (playroomController) return playroomController;
+      playroomController = window.BunnyPlayroom3D.create({
+        host: els.playroomCanvasHost,
+        fallback: els.playroomFallback,
+        speak: (parts) => sayDiscoveryText(parts),
+        onTask: renderPlayroomTask,
+        onStatus: (message, status) => {
+          els.playroomHint.dataset.status = status;
+          els.playroomHintText.textContent = message;
+        },
+        onCompleteUi: renderPlayroomComplete,
+        onComplete: completePlayroom
+      });
+      window.bunnyPlayroom = playroomController;
+      return playroomController;
+    }
+
+    function renderPlayroomTask(task) {
+      currentPlayroomSpeech = task.speech;
+      els.playroomStep.textContent = `第 ${task.stage + 1} 個小任務 · 共 ${task.total} 個`;
+      els.playroomPrompt.textContent = task.prompt;
+      els.playroomHint.dataset.status = "ready";
+      els.playroomHintText.textContent = task.hint;
+      els.playroomCompleteActions.hidden = true;
+      els.playroomProgress.querySelectorAll(".playroom-progress-dot").forEach((dot, index) => {
+        dot.classList.toggle("is-done", index < task.stage);
+        dot.classList.toggle("is-current", index === task.stage);
+      });
+      if (task.announce) sayDiscoveryText(task.speech);
+    }
+
+    function renderPlayroomComplete() {
+      currentPlayroomSpeech = ["三個都完成了！", "兔兔和你一起歡呼。"];
+      els.playroomStep.textContent = "三個小任務都完成了";
+      els.playroomPrompt.textContent = "你讓兔兔的遊樂場動起來了！";
+      els.playroomHint.dataset.status = "complete";
+      els.playroomHintText.textContent = "找到顏色、比較大小，也看見小球往下滾";
+      els.playroomProgress.querySelectorAll(".playroom-progress-dot").forEach((dot) => {
+        dot.classList.add("is-done");
+        dot.classList.remove("is-current");
+      });
+      els.playroomCompleteActions.hidden = false;
+    }
+
+    function completePlayroom() {
+      const firstToday = state.playroomDays[TODAY_KEY] !== true;
+      state.playroomDays[TODAY_KEY] = true;
+      if (firstToday) {
+        state.stars += 1;
+        state.days[TODAY_KEY] = (state.days[TODAY_KEY] || 0) + 1;
+      }
+      saveState();
+      if (firstToday) popStars();
+      refreshAll();
+    }
+
     function renderDiscoveryLesson() {
       lessonJustCompleted = false;
+      pendingDiscoveryAction = null;
+      discoveryInteractionLocked = false;
       const subjectKey = activeWorld === "alphabet" ? "physics" : activeWorld;
       const subject = DISCOVERY[subjectKey];
       const lesson = subject.lessons[activeLessonIndex % subject.lessons.length];
@@ -6306,11 +7383,14 @@
       activeQuestionStage = 0;
       els.experimentVisual.innerHTML = lesson.visual;
       els.experimentZone.className = "experiment-zone";
+      els.runExperiment.hidden = true;
+      els.lessonNextCopy.hidden = false;
+      els.lessonNextCopy.textContent = "碰一個答案，畫面就會動起來。";
       els.discoveryFeedback.textContent = subject.interaction === "story"
-        ? "先看圖找線索，再回答兔兔的第一個問題。"
+        ? "看一看故事，碰一個答案。"
         : subject.interaction === "emotion"
-          ? "先看看發生了什麼，再幫兔兔認出感受。"
-          : "先猜猜看，再按下按鈕做實驗。";
+          ? "看看兔兔的表情，碰一個答案。"
+          : "小手碰一個，馬上看看會發生什麼。";
       els.parentScienceNote.textContent = lesson.parent;
       renderDiscoveryQuestion(lesson.prediction, lesson.action, subject, 0);
 
@@ -6322,7 +7402,7 @@
         button.textContent = item.tab;
         button.setAttribute("aria-pressed", String(index === activeLessonIndex));
         button.addEventListener("click", () => {
-          window.speechSynthesis?.cancel();
+          cancelSpeechQueue();
           activeLessonIndex = index;
           activeAdventureMission = null;
           journeyContext = null;
@@ -6336,6 +7416,8 @@
     function focusActiveContent(world = activeWorld) {
       const target = world === "today"
         ? els.todayWorld
+        : world === "playroom"
+          ? els.playroomWorld
         : world === "alphabet"
           ? els.alphabetWorld
           : els.discoveryWorld;
@@ -6346,7 +7428,7 @@
     }
 
     function updateJourneyDock() {
-      const showDock = activeWorld !== "today";
+      const showDock = activeWorld !== "today" && activeWorld !== "playroom";
       const journeyComplete = journeyContext?.status === "complete";
       const activityComplete = lessonJustCompleted || journeyComplete;
       els.journeyDock.hidden = !showDock;
@@ -6404,16 +7486,25 @@
     function renderDiscoveryQuestion(question, actionLabel, subject, stage) {
       const storyMode = subject.interaction === "story";
       const emotionMode = subject.interaction === "emotion";
-      const twoTurnMode = storyMode || emotionMode;
       activePrediction = null;
-      const promptPrefix = storyMode
-        ? (stage === 0 ? "看一看：" : "再想一想：")
+      discoveryInteractionLocked = false;
+      pendingDiscoveryAction = null;
+      els.discoveryActionCue.textContent = storyMode
+        ? (stage === 0 ? "碰一個線索" : "再碰一個")
         : emotionMode
-          ? (stage === 0 ? "感受一下：" : "可以怎麼做：")
-          : "先猜一猜：";
-      els.predictionQuestion.textContent = `${promptPrefix}${question.question}`;
+          ? (stage === 0 ? "看看表情，碰一個" : "碰一個好方法")
+          : subject.name === "寶寶數學"
+            ? "用手指碰一個"
+            : "碰一個看看";
+      els.predictionQuestion.textContent = question.question;
       els.predictionChoices.dataset.count = String(question.choices.length);
       els.predictionChoices.innerHTML = "";
+      els.predictionChoices.setAttribute("aria-label", `${els.discoveryActionCue.textContent}：${question.question}`);
+      els.runExperiment.hidden = true;
+      els.lessonNextCopy.hidden = false;
+      els.lessonNextCopy.textContent = stage === 0
+        ? "碰一個答案，兔兔馬上回應。"
+        : "再碰一個，完成這個小故事。";
 
       question.choices.forEach((choice, index) => {
         const button = document.createElement("button");
@@ -6422,28 +7513,95 @@
         button.textContent = choice;
         button.setAttribute("aria-pressed", "false");
         button.addEventListener("click", () => {
-          activePrediction = index;
-          els.predictionChoices.querySelectorAll(".prediction-choice").forEach((item, itemIndex) => {
-            item.setAttribute("aria-pressed", String(itemIndex === index));
-          });
-          if (!(twoTurnMode && stage === 1)) {
-            Array.from(els.experimentZone.classList)
-              .filter((className) => className === "is-running" || className.startsWith("choice-"))
-              .forEach((className) => els.experimentZone.classList.remove(className));
-          }
-          els.runExperiment.disabled = false;
-          els.runExperiment.textContent = actionLabel;
-          els.discoveryFeedback.textContent = storyMode
-            ? (stage === 0 ? "兔兔聽見你的答案了！一起看下一幕。" : "兔兔聽見了！按下按鈕找出故事線索。")
-            : emotionMode
-              ? (stage === 0 ? "兔兔聽見你的想法了！一起看看感受線索。" : "兔兔聽見了！按下按鈕看看這個方法。")
-              : "兔兔記住你的猜想了！現在動手試試看。";
+          answerDiscoveryQuestion(index, question, subject, stage);
         });
         els.predictionChoices.appendChild(button);
       });
+    }
 
-      els.runExperiment.disabled = true;
-      els.runExperiment.textContent = twoTurnMode ? "先選一個答案" : "先選一個猜想";
+    function answerDiscoveryQuestion(index, question, subject, stage) {
+      if (discoveryInteractionLocked) return;
+      discoveryInteractionLocked = true;
+      activePrediction = index;
+      const lesson = currentDiscoveryLesson();
+      if (!lesson) return;
+      const storyMode = subject.interaction === "story";
+      const emotionMode = subject.interaction === "emotion";
+      const twoTurnMode = storyMode || emotionMode;
+
+      els.predictionChoices.querySelectorAll(".prediction-choice").forEach((item, itemIndex) => {
+        item.setAttribute("aria-pressed", String(itemIndex === index));
+        item.classList.toggle("is-answered", itemIndex === index);
+        item.classList.toggle("is-quiet", itemIndex !== index);
+        item.disabled = true;
+      });
+
+      Array.from(els.experimentZone.classList)
+        .filter((className) => className === "is-running" || className.startsWith("choice-"))
+        .forEach((className) => els.experimentZone.classList.remove(className));
+      void els.experimentZone.offsetWidth;
+      const resultIndex = question.randomResult
+        ? Math.floor(Math.random() * question.choices.length)
+        : question.answer;
+      els.experimentZone.classList.add(`choice-${resultIndex}`);
+      els.experimentZone.classList.add("is-running");
+
+      const matched = index === resultIndex;
+      const comparison = storyMode
+        ? (matched ? "你找到故事線索了！" : "我們一起再看一次線索。")
+        : emotionMode
+          ? stage === 0
+            ? (matched ? "你看見兔兔的感受了！" : "我們一起看看兔兔的表情。")
+            : (matched ? "這是一個安全又尊重的方法！" : "兔兔陪你找一個更安全的方法。")
+          : (matched ? "找到了！" : "和剛才想的不一樣，也有新發現！");
+      const randomResult = question.randomResult
+        ? `這次是「${question.choices[resultIndex]}」。`
+        : "";
+      const stageFeedback = stage === 1 && lesson.followUp
+        ? lesson.followUp.feedback
+        : lesson.feedback;
+      let feedback = `${comparison}${randomResult}${stageFeedback}`;
+
+      els.discoveryFeedback.textContent = feedback;
+      sayDiscoveryText(discoveryFeedbackSpeech(comparison, randomResult, stageFeedback));
+
+      if (twoTurnMode && stage === 0 && lesson.followUp) {
+        pendingDiscoveryAction = () => {
+          activeQuestionStage = 1;
+          renderDiscoveryQuestion(lesson.followUp, lesson.followUp.action || "下一步", subject, 1);
+          els.discoveryFeedback.textContent = emotionMode
+            ? "再碰一個安全的好方法。"
+            : "故事還有一個小線索，再碰一個。";
+          speakCurrentDiscovery();
+        };
+        els.lessonNextCopy.hidden = true;
+        els.runExperiment.hidden = false;
+        els.runExperiment.textContent = "下一步 ›";
+        return;
+      }
+
+      if (twoTurnMode && lesson.retell) {
+        feedback += emotionMode
+          ? ` 可以和大人練習說：${lesson.retell}`
+          : ` 可以說給兔兔聽：${lesson.retell}`;
+        els.discoveryFeedback.textContent = feedback;
+      }
+      completeDiscoveryLesson(lesson);
+      pendingDiscoveryAction = () => {
+        renderDiscoveryLesson();
+        speakCurrentDiscovery();
+      };
+      els.lessonNextCopy.hidden = true;
+      els.runExperiment.hidden = false;
+      els.runExperiment.textContent = "↻ 再玩一次";
+    }
+
+    function discoveryFeedbackSpeech(comparison, randomResult, stageFeedback) {
+      const firstSentence = String(stageFeedback || "")
+        .split(/[。！？!?]/)
+        .map((part) => part.trim())
+        .find(Boolean);
+      return [comparison, randomResult, firstSentence ? `${firstSentence}。` : ""].filter(Boolean);
     }
 
     function preloadDiscoveryImages() {
@@ -6475,72 +7633,22 @@
       const subject = currentDiscoverySubject();
       if (!lesson || !subject) return;
       const question = activeQuestionStage === 1 && lesson.followUp ? lesson.followUp : lesson.prediction;
-      const prompt = subject.interaction === "story"
-        ? `${activeQuestionStage === 0 ? "看看故事。" : "再想一想。"}${question.question}`
+      const promptParts = subject.interaction === "story"
+        ? [activeQuestionStage === 0 ? "跟兔兔一起看。" : "故事還有一個線索。", question.question]
         : subject.interaction === "emotion"
-          ? `${activeQuestionStage === 0 ? "看看兔兔的感受。" : "想一個安全的好方法。"}${question.question}`
-          : `先猜猜看。${question.question}`;
-      sayDiscoveryText(prompt);
-      els.discoveryFeedback.textContent = prompt;
+          ? [activeQuestionStage === 0 ? "看看兔兔的臉。" : "找一個安全的好方法。", question.question]
+          : subject.name === "寶寶數學"
+            ? ["小手指一指。", question.question]
+            : ["小手碰一碰。", question.question];
+      sayDiscoveryText(promptParts);
+      els.discoveryFeedback.textContent = promptParts.join("");
     }
 
     function runDiscoveryExperiment() {
-      const lesson = currentDiscoveryLesson();
-      const subject = currentDiscoverySubject();
-      if (!lesson || !subject) return;
-      const storyMode = subject.interaction === "story";
-      const emotionMode = subject.interaction === "emotion";
-      const twoTurnMode = storyMode || emotionMode;
-      const question = activeQuestionStage === 1 && lesson.followUp ? lesson.followUp : lesson.prediction;
-      if (activePrediction === null) {
-        els.discoveryFeedback.textContent = storyMode
-          ? "先選一個答案，兔兔才知道你看見哪個線索。"
-          : emotionMode
-            ? "先選一個答案，兔兔才知道你感受到什麼。"
-            : "先選一個猜想，兔兔才知道你在想什麼喔。";
-        return;
-      }
-
-      Array.from(els.experimentZone.classList)
-        .filter((className) => className === "is-running" || className.startsWith("choice-"))
-        .forEach((className) => els.experimentZone.classList.remove(className));
-      void els.experimentZone.offsetWidth;
-      const resultIndex = question.randomResult
-        ? Math.floor(Math.random() * question.choices.length)
-        : question.answer;
-      els.experimentZone.classList.add(`choice-${resultIndex}`);
-      els.experimentZone.classList.add("is-running");
-      const comparison = storyMode
-        ? (activePrediction === resultIndex ? "你找到故事線索了！" : "再看一次線索，也有新發現！")
-        : emotionMode
-          ? activeQuestionStage === 0
-            ? (activePrediction === resultIndex ? "你找到感受線索了！" : "再看看表情和動作，也有新發現！")
-            : (activePrediction === resultIndex ? "你找到一個安全又尊重的方法！" : "再看看這個情境，兔兔陪你想一個更安全的方法！")
-          : (activePrediction === resultIndex ? "和你的猜想一樣！" : "和你的猜想不一樣，也有新發現！");
-      const randomResult = question.randomResult
-        ? `這次是「${question.choices[resultIndex]}」。`
-        : "";
-      const stageFeedback = activeQuestionStage === 1 && lesson.followUp
-        ? lesson.followUp.feedback
-        : lesson.feedback;
-      let feedback = `${comparison}${randomResult}${stageFeedback}`;
-
-      if (twoTurnMode && activeQuestionStage === 0 && lesson.followUp) {
-        els.discoveryFeedback.textContent = feedback;
-        sayDiscoveryText(feedback);
-        activeQuestionStage = 1;
-        renderDiscoveryQuestion(lesson.followUp, lesson.followUp.action || "回答兔兔", subject, 1);
-        return;
-      }
-
-      if (twoTurnMode && lesson.retell) {
-        feedback += emotionMode
-          ? ` 和兔兔練習說：${lesson.retell}`
-          : ` 試著說給兔兔聽：${lesson.retell}`;
-      }
-      els.discoveryFeedback.textContent = feedback;
-      sayDiscoveryText(feedback);
-      completeDiscoveryLesson(lesson);
+      const action = pendingDiscoveryAction;
+      if (!action) return;
+      pendingDiscoveryAction = null;
+      action();
     }
 
     function completeDiscoveryLesson(lesson) {
@@ -6574,6 +7682,57 @@
       return Object.values(DISCOVERY).reduce((total, subject) => total + subject.lessons.length, 0);
     }
 
+    function cancelSpeechQueue() {
+      speechSequenceToken += 1;
+      window.speechSynthesis?.cancel();
+    }
+
+    function splitSpeechParts(value) {
+      const input = Array.isArray(value) ? value : [value];
+      return input.flatMap((item) => {
+        const text = String(item || "").trim();
+        if (!text) return [];
+        const sentences = text.match(/[^。！？!?]+[。！？!?]?/g) || [text];
+        return sentences.flatMap((sentence) => {
+          const clean = sentence.trim();
+          if (clean.length <= 26) return [clean];
+          const phrases = (clean.match(/[^，,；;：:]+[，,；;：:]?/g) || [clean])
+            .map((part) => part.trim())
+            .filter(Boolean);
+          return phrases.length > 1 ? phrases : [clean];
+        });
+      });
+    }
+
+    function speakSequence(parts, settings) {
+      if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance !== "function") return false;
+      const queue = splitSpeechParts(parts);
+      if (!queue.length) return false;
+      const token = ++speechSequenceToken;
+      window.speechSynthesis.cancel();
+
+      const speakPart = (index) => {
+        if (token !== speechSequenceToken || index >= queue.length) return;
+        const utterance = new SpeechSynthesisUtterance(queue[index]);
+        utterance.lang = settings.lang;
+        utterance.rate = settings.rate;
+        utterance.pitch = settings.pitch;
+        utterance.volume = settings.volume;
+        const voice = settings.voice();
+        if (voice) utterance.voice = voice;
+        const continueQueue = () => {
+          if (token !== speechSequenceToken) return;
+          window.setTimeout(() => speakPart(index + 1), settings.pause);
+        };
+        utterance.onend = continueQueue;
+        utterance.onerror = continueQueue;
+        window.speechSynthesis.speak(utterance);
+      };
+
+      speakPart(0);
+      return true;
+    }
+
     function sayDiscoveryText(text) {
       if (state.soundStyle === "chimeOnly") {
         playDiscoveryChime();
@@ -6585,36 +7744,41 @@
         return;
       }
 
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "zh-TW";
-      utterance.rate = 0.84;
-      utterance.pitch = 1;
-      utterance.volume = 0.9;
-      friendlyChineseVoice = friendlyChineseVoice || pickFriendlyChineseVoice();
-      if (friendlyChineseVoice) {
-        utterance.voice = friendlyChineseVoice;
-      }
-      window.speechSynthesis.speak(utterance);
+      speakSequence(text, {
+        lang: "zh-TW",
+        rate: 0.8,
+        pitch: 1,
+        volume: 0.88,
+        pause: 190,
+        voice: () => {
+          friendlyChineseVoice = friendlyChineseVoice || pickFriendlyChineseVoice();
+          return friendlyChineseVoice;
+        }
+      });
     }
 
     function pickFriendlyChineseVoice() {
       if (!("speechSynthesis" in window)) return null;
       const voices = window.speechSynthesis.getVoices();
       const chineseVoices = voices.filter((voice) => /^zh[-_]/i.test(voice.lang));
+      const taiwanVoices = chineseVoices.filter((voice) => /^zh[-_]TW/i.test(voice.lang));
+      const naturalPattern = /enhanced|premium|neural|natural|高品質/i;
       const preferredNames = [
+        /flo.*(?:台灣|taiwan)/i,
+        /sandy.*(?:台灣|taiwan)/i,
+        /yu.shu/i,
+        /mei.?jia/i,
+        /sin.ji|sinji/i,
         /ting.ting/i,
-        /mei.jia/i,
-        /sin.ji/i,
         /mandarin.*taiwan/i,
         /taiwan/i,
         /google.*中文/i
       ];
       const preferredVoice = preferredNames
-        .map((pattern) => chineseVoices.find((voice) => pattern.test(voice.name)))
+        .map((pattern) => [...taiwanVoices, ...chineseVoices].find((voice) => pattern.test(voice.name)))
         .find(Boolean);
-      const premiumVoice = chineseVoices.find((voice) => /enhanced|premium|neural|natural/i.test(voice.name));
-      return preferredVoice || premiumVoice || chineseVoices.find((voice) => voice.localService) || chineseVoices[0] || null;
+      const premiumVoice = [...taiwanVoices, ...chineseVoices].find((voice) => naturalPattern.test(voice.name));
+      return premiumVoice || preferredVoice || taiwanVoices.find((voice) => voice.localService) || chineseVoices.find((voice) => voice.localService) || taiwanVoices[0] || chineseVoices[0] || null;
     }
 
     function playDiscoveryChime() {
@@ -6823,20 +7987,20 @@
         return;
       }
 
-      window.speechSynthesis.cancel();
-      const text = includeWord
-        ? `${letter.upper}. ${letter.upper} is for ${letter.word}.`
-        : `Can you find the letter ${letter.upper}?`;
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "en-US";
-      utterance.rate = 0.82;
-      utterance.pitch = 1.02;
-      utterance.volume = 0.92;
-      friendlyVoice = friendlyVoice || pickFriendlyVoice();
-      if (friendlyVoice) {
-        utterance.voice = friendlyVoice;
-      }
-      window.speechSynthesis.speak(utterance);
+      const parts = includeWord
+        ? [`${letter.upper}.`, `${letter.upper} is for ${letter.word}.`]
+        : [`Can you find the letter ${letter.upper}?`];
+      speakSequence(parts, {
+        lang: "en-US",
+        rate: 0.78,
+        pitch: 1,
+        volume: 0.9,
+        pause: 230,
+        voice: () => {
+          friendlyVoice = friendlyVoice || pickFriendlyVoice();
+          return friendlyVoice;
+        }
+      });
       touch(letter, "heard", false);
     }
 
@@ -6844,7 +8008,11 @@
       if (!("speechSynthesis" in window)) return null;
       const voices = window.speechSynthesis.getVoices();
       const englishVoices = voices.filter((voice) => /^en[-_]/i.test(voice.lang));
+      const usVoices = englishVoices.filter((voice) => /^en[-_]US/i.test(voice.lang));
+      const naturalPattern = /enhanced|premium|neural|natural/i;
       const preferredNames = [
+        /flo/i,
+        /sandy/i,
         /ava/i,
         /samantha/i,
         /zoe/i,
@@ -6859,11 +8027,11 @@
         /english.*united states/i
       ];
       const preferredVoice = preferredNames
-        .map((pattern) => englishVoices.find((voice) => pattern.test(voice.name)))
+        .map((pattern) => [...usVoices, ...englishVoices].find((voice) => pattern.test(voice.name)))
         .find(Boolean);
-      const premiumVoice = englishVoices.find((voice) => /enhanced|premium|neural|natural/i.test(voice.name));
+      const premiumVoice = [...usVoices, ...englishVoices].find((voice) => naturalPattern.test(voice.name));
 
-      return preferredVoice || premiumVoice || englishVoices.find((voice) => voice.localService) || englishVoices[0] || voices[0] || null;
+      return premiumVoice || preferredVoice || usVoices.find((voice) => voice.localService) || englishVoices.find((voice) => voice.localService) || usVoices[0] || englishVoices[0] || voices[0] || null;
     }
 
     function playCuteChime(letter) {
@@ -6906,13 +8074,15 @@
       els.starPill.textContent = `⭐ 星星 ${state.stars}`;
       els.unlockPill.textContent = activeWorld === "today"
         ? `🌱 花園 ${state.gardenLevel}/5`
+        : activeWorld === "playroom"
+          ? `🟢 3D ${state.playroomDays[TODAY_KEY] ? "完成" : "準備玩"}`
         : activeWorld === "alphabet"
           ? `🔤 字母 ${unlockedCount()}/26`
           : `🧭 活動 ${completedDiscoveryCount()}/${totalDiscoveryCount()}`;
       els.todayPill.textContent = activeWorld === "today"
         ? `🧭 任務 ${completedTodayMissionCount()}/3`
         : `🌷 今天 ${state.days[TODAY_KEY] || 0}`;
-      document.getElementById("toggleSoundStyle").textContent = state.soundStyle === "chimeOnly" ? "聲音：只要鈴聲" : "聲音：自然語音";
+      els.toggleSoundStyle.textContent = state.soundStyle === "chimeOnly" ? "聲音：只要鈴聲" : "聲音：自然語音";
       if (activeWorld === "today") renderTodayWorld();
       renderFocusLetters();
       renderProgressList(els.miniProgressList, LETTERS.slice(0, unlockedCount()), true);

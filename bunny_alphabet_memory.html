@@ -2334,6 +2334,135 @@
       text-align: right;
     }
 
+    .parent-voice-studio {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid #e1d9e6;
+    }
+
+    .parent-voice-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .parent-voice-heading h3 {
+      margin: 0 0 5px;
+      color: #493d52;
+      font-size: 18px;
+    }
+
+    .parent-voice-heading p {
+      max-width: 650px;
+      margin: 0;
+      color: #746879;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .parent-pace-control {
+      display: grid;
+      grid-template-columns: auto repeat(2, minmax(86px, auto));
+      align-items: center;
+      gap: 7px;
+      flex: 0 0 auto;
+    }
+
+    .parent-pace-control > span {
+      color: #6a5e71;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .parent-pace-control .quiet-button {
+      min-height: 44px;
+      padding: 7px 11px;
+    }
+
+    .parent-pace-control .quiet-button.is-selected {
+      border-color: #70a98c;
+      background: #eaf7f0;
+      color: #316d53;
+      box-shadow: inset 0 0 0 1px #70a98c;
+    }
+
+    .parent-voice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 24px;
+      margin-top: 12px;
+    }
+
+    .parent-voice-row {
+      min-width: 0;
+      padding: 14px 0;
+      border-top: 1px solid #ebe5ee;
+    }
+
+    .parent-voice-info {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: baseline;
+      gap: 5px 10px;
+      min-width: 0;
+    }
+
+    .parent-voice-info strong {
+      color: #55495e;
+      font-size: 15px;
+    }
+
+    .parent-voice-position {
+      color: #8a6680;
+      font-size: 12px;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .parent-voice-name {
+      grid-column: 1 / -1;
+      min-height: 20px;
+      color: #716576;
+      font-size: 13px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .parent-voice-controls {
+      display: grid;
+      grid-template-columns: 44px 64px 44px minmax(82px, 1fr);
+      gap: 7px;
+      margin-top: 9px;
+    }
+
+    .parent-voice-controls .quiet-button {
+      min-width: 0;
+      min-height: 44px;
+      padding: 6px 8px;
+    }
+
+    .parent-voice-step {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .parent-voice-auto[aria-pressed="true"] {
+      border-color: #9a7bac;
+      background: #f1e9f5;
+      color: #684778;
+      box-shadow: inset 0 0 0 1px #9a7bac;
+    }
+
+    .parent-voice-status {
+      min-height: 21px;
+      margin: 2px 0 0;
+      color: #5f7d6d;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
     .parent-station-controls {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 220px)) minmax(260px, 1fr);
@@ -5064,6 +5193,18 @@
         grid-template-columns: 1fr;
       }
 
+      .parent-voice-heading {
+        display: grid;
+      }
+
+      .parent-pace-control {
+        grid-template-columns: auto repeat(2, minmax(0, 1fr));
+      }
+
+      .parent-voice-grid {
+        grid-template-columns: 1fr;
+      }
+
       .parent-guidance {
         padding: 0 0 16px;
       }
@@ -6129,6 +6270,51 @@
               </div>
             </section>
 
+            <section class="parent-voice-studio" aria-labelledby="parentVoiceHeading">
+              <div class="parent-voice-heading">
+                <div>
+                  <h3 id="parentVoiceHeading">兔兔聲音試聽室</h3>
+                  <p>聲音來自這台裝置。先試聽，再留下孩子聽起來最舒服的一個；換裝置時可能會改用自動音色。</p>
+                </div>
+                <div class="parent-pace-control" role="group" aria-label="兔兔說話速度">
+                  <span>語速</span>
+                  <button class="quiet-button speech-pace-button" type="button" data-speech-pace="gentle" aria-pressed="true">柔和</button>
+                  <button class="quiet-button speech-pace-button" type="button" data-speech-pace="extraSlow" aria-pressed="false">再慢一點</button>
+                </div>
+              </div>
+
+              <div class="parent-voice-grid">
+                <div class="parent-voice-row" data-voice-language="zh">
+                  <div class="parent-voice-info">
+                    <strong>中文兔兔</strong>
+                    <span class="parent-voice-position" id="chineseVoicePosition">正在找聲音</span>
+                    <small class="parent-voice-name" id="chineseVoiceName">裝置預設中文聲音</small>
+                  </div>
+                  <div class="parent-voice-controls">
+                    <button class="quiet-button parent-voice-step" type="button" id="previousChineseVoice" aria-label="上一個中文聲音" title="上一個中文聲音">‹</button>
+                    <button class="quiet-button parent-voice-auto" type="button" id="autoChineseVoice" aria-pressed="true">自動</button>
+                    <button class="quiet-button parent-voice-step" type="button" id="nextChineseVoice" aria-label="下一個中文聲音" title="下一個中文聲音">›</button>
+                    <button class="quiet-button" type="button" id="previewChineseVoice">▶ 試聽</button>
+                  </div>
+                </div>
+
+                <div class="parent-voice-row" data-voice-language="en">
+                  <div class="parent-voice-info">
+                    <strong>英文兔兔</strong>
+                    <span class="parent-voice-position" id="englishVoicePosition">正在找聲音</span>
+                    <small class="parent-voice-name" id="englishVoiceName">裝置預設英文聲音</small>
+                  </div>
+                  <div class="parent-voice-controls">
+                    <button class="quiet-button parent-voice-step" type="button" id="previousEnglishVoice" aria-label="上一個英文聲音" title="上一個英文聲音">‹</button>
+                    <button class="quiet-button parent-voice-auto" type="button" id="autoEnglishVoice" aria-pressed="true">自動</button>
+                    <button class="quiet-button parent-voice-step" type="button" id="nextEnglishVoice" aria-label="下一個英文聲音" title="下一個英文聲音">›</button>
+                    <button class="quiet-button" type="button" id="previewEnglishVoice">▶ 試聽</button>
+                  </div>
+                </div>
+              </div>
+              <p class="parent-voice-status" id="parentVoiceStatus" role="status" aria-live="polite">柔和速度已開啟。</p>
+            </section>
+
             <div class="parent-station-controls">
               <button class="quiet-button" type="button" id="toggleSoundStyle">聲音：自然語音</button>
               <button class="quiet-button" type="button" id="resetProgress">重置全部進度</button>
@@ -7121,6 +7307,11 @@
       voice: "今天心裡像哪一個？可以選一個，也可以先不選。"
     };
 
+    const SPEECH_RATES = Object.freeze({
+      gentle: Object.freeze({ zh: 0.76, en: 0.75, label: "柔和" }),
+      extraSlow: Object.freeze({ zh: 0.70, en: 0.69, label: "再慢一點" })
+    });
+
     const state = loadState();
     let activeWorld = "today";
     let activeMode = "learn";
@@ -7285,6 +7476,19 @@
       parentLifeHouseConcept: document.getElementById("parentLifeHouseConcept"),
       parentLifeHouseProgress: document.getElementById("parentLifeHouseProgress"),
       toggleSoundStyle: document.getElementById("toggleSoundStyle"),
+      chineseVoicePosition: document.getElementById("chineseVoicePosition"),
+      chineseVoiceName: document.getElementById("chineseVoiceName"),
+      previousChineseVoice: document.getElementById("previousChineseVoice"),
+      autoChineseVoice: document.getElementById("autoChineseVoice"),
+      nextChineseVoice: document.getElementById("nextChineseVoice"),
+      previewChineseVoice: document.getElementById("previewChineseVoice"),
+      englishVoicePosition: document.getElementById("englishVoicePosition"),
+      englishVoiceName: document.getElementById("englishVoiceName"),
+      previousEnglishVoice: document.getElementById("previousEnglishVoice"),
+      autoEnglishVoice: document.getElementById("autoEnglishVoice"),
+      nextEnglishVoice: document.getElementById("nextEnglishVoice"),
+      previewEnglishVoice: document.getElementById("previewEnglishVoice"),
+      parentVoiceStatus: document.getElementById("parentVoiceStatus"),
       alphabetWorld: document.getElementById("alphabetWorld"),
       discoveryWorld: document.getElementById("discoveryWorld"),
       discoveryScene: document.getElementById("discoveryScene"),
@@ -7353,6 +7557,17 @@
     });
     document.getElementById("resetProgress").addEventListener("click", resetProgress);
     els.toggleSoundStyle.addEventListener("click", toggleSoundStyle);
+    els.previousChineseVoice.addEventListener("click", () => cycleSpeechVoice("zh", -1));
+    els.autoChineseVoice.addEventListener("click", () => useAutomaticSpeechVoice("zh"));
+    els.nextChineseVoice.addEventListener("click", () => cycleSpeechVoice("zh", 1));
+    els.previewChineseVoice.addEventListener("click", () => previewSpeechVoice("zh"));
+    els.previousEnglishVoice.addEventListener("click", () => cycleSpeechVoice("en", -1));
+    els.autoEnglishVoice.addEventListener("click", () => useAutomaticSpeechVoice("en"));
+    els.nextEnglishVoice.addEventListener("click", () => cycleSpeechVoice("en", 1));
+    els.previewEnglishVoice.addEventListener("click", () => previewSpeechVoice("en"));
+    document.querySelectorAll(".speech-pace-button").forEach((button) => {
+      button.addEventListener("click", () => setSpeechPace(button.dataset.speechPace));
+    });
     document.getElementById("playPrompt").addEventListener("click", () => sayLetter(listenTarget, { includeWord: false }));
     els.speakDiscovery.addEventListener("click", speakCurrentDiscovery);
     els.runExperiment.addEventListener("click", runDiscoveryExperiment);
@@ -7391,6 +7606,7 @@
       window.speechSynthesis.onvoiceschanged = () => {
         friendlyVoice = pickFriendlyVoice();
         friendlyChineseVoice = pickFriendlyChineseVoice();
+        renderVoiceStudio();
       };
       friendlyVoice = pickFriendlyVoice();
       friendlyChineseVoice = pickFriendlyChineseVoice();
@@ -7424,6 +7640,8 @@
           stars: Number(parsed.stars || 0),
           days: parsed.days || {},
           soundStyle: parsed.soundStyle === "chimeOnly" ? "chimeOnly" : "softVoice",
+          speechPace: parsed.speechPace === "extraSlow" ? "extraSlow" : "gentle",
+          speechVoices: normalizeSpeechVoices(parsed.speechVoices),
           discoveryCompleted: parsed.discoveryCompleted || {},
           playroomDays: parsed.playroomDays && typeof parsed.playroomDays === "object" ? parsed.playroomDays : {},
           mathGarden: normalizeMathGardenState(parsed.mathGarden),
@@ -7438,6 +7656,8 @@
           stars: 0,
           days: {},
           soundStyle: "softVoice",
+          speechPace: "gentle",
+          speechVoices: normalizeSpeechVoices(),
           discoveryCompleted: {},
           playroomDays: {},
           mathGarden: normalizeMathGardenState(),
@@ -7448,6 +7668,14 @@
           stats: blankStats
         };
       }
+    }
+
+    function normalizeSpeechVoices(raw = {}) {
+      const source = raw && typeof raw === "object" ? raw : {};
+      return {
+        zh: typeof source.zh === "string" ? source.zh : "",
+        en: typeof source.en === "string" ? source.en : ""
+      };
     }
 
     function normalizeMathGardenState(raw = {}) {
@@ -8849,7 +9077,11 @@
       window.speechSynthesis.cancel();
 
       const speakPart = (index) => {
-        if (token !== speechSequenceToken || index >= queue.length) return;
+        if (token !== speechSequenceToken) return;
+        if (index >= queue.length) {
+          settings.onComplete?.();
+          return;
+        }
         const utterance = new SpeechSynthesisUtterance(queue[index]);
         utterance.lang = settings.lang;
         utterance.rate = settings.rate;
@@ -8883,7 +9115,7 @@
 
       speakSequence(text, {
         lang: "zh-TW",
-        rate: 0.76,
+        rate: speechRateFor("zh"),
         pitch: 1,
         volume: 0.86,
         pause: 140,
@@ -8895,32 +9127,189 @@
       });
     }
 
-    function pickFriendlyChineseVoice() {
-      if (!("speechSynthesis" in window)) return null;
-      const voices = window.speechSynthesis.getVoices();
-      const chineseVoices = voices.filter((voice) => /^zh[-_]/i.test(voice.lang));
-      const taiwanVoices = chineseVoices.filter((voice) => /^zh[-_]TW/i.test(voice.lang));
+    function speechRateFor(language) {
+      return SPEECH_RATES[state.speechPace]?.[language] ?? SPEECH_RATES.gentle[language];
+    }
+
+    function speechVoiceId(voice) {
+      if (!voice) return "";
+      return String(voice.voiceURI || `${voice.name || "voice"}::${voice.lang || ""}`);
+    }
+
+    function getAvailableSpeechVoices() {
+      if (!("speechSynthesis" in window)) return [];
+      try {
+        const voices = window.speechSynthesis.getVoices();
+        return Array.from(voices || []).filter(Boolean);
+      } catch {
+        return [];
+      }
+    }
+
+    function voicePreferenceScore(voice, language) {
+      const name = String(voice.name || "");
+      const lang = String(voice.lang || "");
       const naturalPattern = /enhanced|premium|neural|natural|高品質/i;
-      const preferredNames = [
-        /flo.*(?:台灣|taiwan)/i,
-        /sandy.*(?:台灣|taiwan)/i,
-        /yu.shu/i,
-        /mei.?jia/i,
-        /sin.ji|sinji/i,
-        /ting.ting/i,
-        /mandarin.*taiwan/i,
-        /taiwan/i,
-        /google.*中文/i
-      ];
-      const preferredTaiwanVoice = preferredNames
-        .map((pattern) => taiwanVoices.find((voice) => pattern.test(voice.name)))
-        .find(Boolean);
-      const preferredChineseVoice = preferredNames
-        .map((pattern) => chineseVoices.find((voice) => pattern.test(voice.name)))
-        .find(Boolean);
-      const premiumTaiwanVoice = taiwanVoices.find((voice) => naturalPattern.test(voice.name));
-      const premiumChineseVoice = chineseVoices.find((voice) => naturalPattern.test(voice.name));
-      return premiumTaiwanVoice || preferredTaiwanVoice || taiwanVoices.find((voice) => voice.localService) || taiwanVoices[0] || premiumChineseVoice || preferredChineseVoice || chineseVoices.find((voice) => voice.localService) || chineseVoices[0] || null;
+      const preferredNames = language === "zh"
+        ? [/flo.*(?:台灣|taiwan)/i, /sandy.*(?:台灣|taiwan)/i, /yu.shu/i, /mei.?jia/i, /sin.ji|sinji/i, /ting.ting/i, /mandarin.*taiwan/i, /taiwan/i, /google.*中文/i]
+        : [/flo/i, /sandy/i, /ava/i, /samantha/i, /zoe/i, /karen/i, /tessa/i, /allison/i, /jenny/i, /aria/i, /victoria/i, /moira/i, /google us english/i, /english.*united states/i];
+      const preferredIndex = preferredNames.findIndex((pattern) => pattern.test(name));
+      let score = 0;
+      if (language === "zh" && /^zh[-_]TW/i.test(lang)) score += 160;
+      if (language === "en" && /^en[-_]US/i.test(lang)) score += 160;
+      if (naturalPattern.test(name)) score += 90;
+      if (preferredIndex >= 0) score += 70 - preferredIndex;
+      if (voice.localService) score += 25;
+      if (voice.default) score += 5;
+      return score;
+    }
+
+    function rankedSpeechVoices(language) {
+      const languagePattern = language === "zh" ? /^zh(?:[-_]|$)/i : /^en(?:[-_]|$)/i;
+      return getAvailableSpeechVoices()
+        .filter((voice) => languagePattern.test(String(voice.lang || "")))
+        .sort((left, right) => {
+          const scoreDifference = voicePreferenceScore(right, language) - voicePreferenceScore(left, language);
+          return scoreDifference || String(left.name || "").localeCompare(String(right.name || ""));
+        });
+    }
+
+    function getSpeechVoiceSelection(language) {
+      const voices = rankedSpeechVoices(language);
+      const storedId = state.speechVoices?.[language] || "";
+      const storedIndex = voices.findIndex((voice) => speechVoiceId(voice) === storedId);
+      const voice = storedIndex >= 0 ? voices[storedIndex] : voices[0] || null;
+      return {
+        voices,
+        voice,
+        index: voice ? voices.indexOf(voice) : -1,
+        automatic: storedIndex < 0,
+        missing: Boolean(storedId) && storedIndex < 0
+      };
+    }
+
+    function setFriendlySpeechVoice(language, voice) {
+      if (language === "zh") friendlyChineseVoice = voice;
+      else friendlyVoice = voice;
+    }
+
+    function voiceStudioElements(language) {
+      return language === "zh"
+        ? {
+            position: els.chineseVoicePosition,
+            name: els.chineseVoiceName,
+            previous: els.previousChineseVoice,
+            automatic: els.autoChineseVoice,
+            next: els.nextChineseVoice,
+            preview: els.previewChineseVoice
+          }
+        : {
+            position: els.englishVoicePosition,
+            name: els.englishVoiceName,
+            previous: els.previousEnglishVoice,
+            automatic: els.autoEnglishVoice,
+            next: els.nextEnglishVoice,
+            preview: els.previewEnglishVoice
+          };
+    }
+
+    function renderVoiceStudio() {
+      const speechAvailable = "speechSynthesis" in window && typeof SpeechSynthesisUtterance === "function";
+      ["zh", "en"].forEach((language) => {
+        const selection = getSpeechVoiceSelection(language);
+        const controls = voiceStudioElements(language);
+        controls.position.textContent = selection.voices.length
+          ? `${selection.missing ? "改用自動" : selection.automatic ? "自動" : "已選"} · ${selection.index + 1} / ${selection.voices.length}`
+          : "裝置預設";
+        controls.name.textContent = selection.voice
+          ? `${selection.voice.name} · ${selection.voice.lang}`
+          : language === "zh" ? "裝置預設中文聲音" : "裝置預設英文聲音";
+        controls.previous.disabled = selection.voices.length <= 1;
+        controls.next.disabled = selection.voices.length <= 1;
+        controls.automatic.disabled = !selection.voices.length;
+        controls.automatic.setAttribute("aria-pressed", String(selection.automatic));
+        controls.preview.disabled = !speechAvailable;
+      });
+
+      document.querySelectorAll(".speech-pace-button").forEach((button) => {
+        const selected = button.dataset.speechPace === state.speechPace;
+        button.classList.toggle("is-selected", selected);
+        button.setAttribute("aria-pressed", String(selected));
+      });
+
+      if (!speechAvailable) {
+        els.parentVoiceStatus.textContent = "這個瀏覽器沒有語音，孩子活動會改用柔和鈴聲。";
+      } else if (state.soundStyle === "chimeOnly") {
+        els.parentVoiceStatus.textContent = "孩子活動目前只播放鈴聲；試聽按鈕仍可比較裝置聲音。";
+      } else {
+        els.parentVoiceStatus.textContent = `${SPEECH_RATES[state.speechPace].label}速度已開啟。`;
+      }
+    }
+
+    function cycleSpeechVoice(language, direction) {
+      const selection = getSpeechVoiceSelection(language);
+      if (!selection.voices.length) {
+        els.parentVoiceStatus.textContent = "這台裝置目前沒有列出可切換的相容聲音。";
+        return;
+      }
+      const currentIndex = selection.index >= 0 ? selection.index : 0;
+      const nextIndex = (currentIndex + direction + selection.voices.length) % selection.voices.length;
+      const nextVoice = selection.voices[nextIndex];
+      state.speechVoices[language] = speechVoiceId(nextVoice);
+      setFriendlySpeechVoice(language, nextVoice);
+      cancelSpeechQueue();
+      saveState();
+      renderVoiceStudio();
+      els.parentVoiceStatus.textContent = `${language === "zh" ? "中文" : "英文"}已選 ${nextVoice.name}，可以按試聽比較。`;
+    }
+
+    function useAutomaticSpeechVoice(language) {
+      state.speechVoices[language] = "";
+      const automaticVoice = getSpeechVoiceSelection(language).voice;
+      setFriendlySpeechVoice(language, automaticVoice);
+      cancelSpeechQueue();
+      saveState();
+      renderVoiceStudio();
+      els.parentVoiceStatus.textContent = `${language === "zh" ? "中文" : "英文"}已恢復自動選擇。`;
+    }
+
+    function setSpeechPace(pace) {
+      if (!(pace in SPEECH_RATES)) return;
+      state.speechPace = pace;
+      cancelSpeechQueue();
+      saveState();
+      renderVoiceStudio();
+      els.parentVoiceStatus.textContent = `${SPEECH_RATES[pace].label}速度已開啟，可以再按試聽比較。`;
+    }
+
+    function previewSpeechVoice(language) {
+      const isChinese = language === "zh";
+      const selection = getSpeechVoiceSelection(language);
+      const voiceName = selection.voice?.name || "裝置預設聲音";
+      const started = speakSequence(
+        isChinese
+          ? ["嗨，我是兔兔。", "你想先看一看，還是碰一碰？", "我們慢慢來。"]
+          : ["Hi, I'm Bunny.", "Shall we look first, or tap and see?", "We can take our time."],
+        {
+          lang: isChinese ? "zh-TW" : "en-US",
+          rate: speechRateFor(language),
+          pitch: 1,
+          volume: isChinese ? 0.86 : 0.88,
+          pause: isChinese ? 140 : 160,
+          mergeBelow: isChinese ? 40 : 74,
+          voice: () => selection.voice,
+          onComplete: () => {
+            els.parentVoiceStatus.textContent = `${isChinese ? "中文" : "英文"}試聽完成：${voiceName}`;
+          }
+        }
+      );
+      els.parentVoiceStatus.textContent = started
+        ? `${isChinese ? "中文" : "英文"}正在試聽：${voiceName}`
+        : "這個瀏覽器目前無法播放語音。";
+    }
+
+    function pickFriendlyChineseVoice() {
+      return getSpeechVoiceSelection("zh").voice;
     }
 
     function playDiscoveryChime() {
@@ -9134,7 +9523,7 @@
         : [`Can you find the letter ${letter.upper}?`];
       speakSequence(parts, {
         lang: "en-US",
-        rate: 0.75,
+        rate: speechRateFor("en"),
         pitch: 1,
         volume: 0.88,
         pause: 160,
@@ -9148,37 +9537,7 @@
     }
 
     function pickFriendlyVoice() {
-      if (!("speechSynthesis" in window)) return null;
-      const voices = window.speechSynthesis.getVoices();
-      const englishVoices = voices.filter((voice) => /^en[-_]/i.test(voice.lang));
-      const usVoices = englishVoices.filter((voice) => /^en[-_]US/i.test(voice.lang));
-      const naturalPattern = /enhanced|premium|neural|natural/i;
-      const preferredNames = [
-        /flo/i,
-        /sandy/i,
-        /ava/i,
-        /samantha/i,
-        /zoe/i,
-        /karen/i,
-        /tessa/i,
-        /allison/i,
-        /jenny/i,
-        /aria/i,
-        /victoria/i,
-        /moira/i,
-        /google us english/i,
-        /english.*united states/i
-      ];
-      const preferredUsVoice = preferredNames
-        .map((pattern) => usVoices.find((voice) => pattern.test(voice.name)))
-        .find(Boolean);
-      const preferredEnglishVoice = preferredNames
-        .map((pattern) => englishVoices.find((voice) => pattern.test(voice.name)))
-        .find(Boolean);
-      const premiumUsVoice = usVoices.find((voice) => naturalPattern.test(voice.name));
-      const premiumEnglishVoice = englishVoices.find((voice) => naturalPattern.test(voice.name));
-
-      return premiumUsVoice || preferredUsVoice || usVoices.find((voice) => voice.localService) || usVoices[0] || premiumEnglishVoice || preferredEnglishVoice || englishVoices.find((voice) => voice.localService) || englishVoices[0] || voices[0] || null;
+      return getSpeechVoiceSelection("en").voice;
     }
 
     function playCuteChime(letter) {
@@ -9239,7 +9598,8 @@
       els.todayPill.textContent = activeWorld === "today"
         ? `🧭 任務 ${completedTodayMissionCount()}/3`
         : `🌷 今天 ${state.days[TODAY_KEY] || 0}`;
-      els.toggleSoundStyle.textContent = state.soundStyle === "chimeOnly" ? "聲音：只要鈴聲" : "聲音：自然語音";
+      els.toggleSoundStyle.textContent = state.soundStyle === "chimeOnly" ? "播放方式：只要鈴聲" : "播放方式：自然語音";
+      renderVoiceStudio();
       if (activeWorld === "today") renderTodayWorld();
       renderFocusLetters();
       renderProgressList(els.miniProgressList, LETTERS.slice(0, unlockedCount()), true);

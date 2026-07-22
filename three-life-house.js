@@ -16,37 +16,37 @@
           id: "wet",
           target: "wash-faucet",
           prompt: "先打開水",
-          hint: "碰碰發光的水龍頭",
-          speech: ["先讓小手碰到水。", "碰碰水龍頭。"],
+          hint: "現在只要：輕碰正在發光的水龍頭",
+          speech: ["水龍頭在這裡。", "洗手的第一步，是先把手弄濕。"],
           result: "水流下來，小手濕了",
-          resultSpeech: ["水流下來了。", "小手先弄濕。"]
+          resultSpeech: ["水流下來了。", "小手先變濕。"]
         },
         {
           id: "soap",
           target: "wash-soap",
           prompt: "接著按一下肥皂",
-          hint: "碰碰發光的肥皂瓶",
-          speech: ["接著要用肥皂。", "按一下肥皂瓶。"],
+          hint: "現在只要：輕碰正在發光的肥皂瓶",
+          speech: ["小手已經濕了。", "接著按肥皂，泡泡就會來。"],
           result: "泡泡出來了，小手搓一搓",
-          resultSpeech: ["泡泡出來了。", "手心手背搓一搓。"]
+          resultSpeech: ["泡泡出來了。", "手心和手背都要輕輕搓。"]
         },
         {
           id: "rinse",
           target: "rinse-faucet",
           prompt: "把泡泡沖乾淨",
-          hint: "再碰一次水龍頭",
-          speech: ["泡泡搓好了。", "再用水沖乾淨。"],
+          hint: "現在只要：輕碰正在發光的水龍頭",
+          speech: ["手心手背都搓過了。", "接著用水把泡泡沖走。"],
           result: "水把泡泡沖走了",
-          resultSpeech: ["泡泡沖走了。", "小手乾乾淨淨。"]
+          resultSpeech: ["水把泡泡沖走了。", "小手乾乾淨淨。"]
         },
         {
           id: "dry",
           target: "wash-towel",
           prompt: "最後用毛巾擦乾",
-          hint: "碰碰發光的小毛巾",
-          speech: ["最後還有一件事。", "用毛巾擦乾。"],
+          hint: "現在只要：輕碰正在發光的小毛巾",
+          speech: ["泡泡都不見了。", "最後用毛巾把手擦乾。"],
           result: "小手擦乾了",
-          resultSpeech: ["小手擦乾了。", "洗手順序完成。"]
+          resultSpeech: ["小手擦乾了。", "洗手的四個步驟都完成了。"]
         }
       ]
     },
@@ -62,8 +62,8 @@
           id: "blocks",
           target: "tidy-blocks",
           prompt: "先讓積木回盒子",
-          hint: "碰碰發光的大積木",
-          speech: ["積木要回家了。", "碰碰大積木。"],
+          hint: "現在只要：輕碰正在發光的大積木",
+          speech: ["地上有幾顆積木。", "先送它們回盒子。"],
           result: "積木一個一個進盒子",
           resultSpeech: ["積木收進盒子了。", "地板空出來了。"]
         },
@@ -71,19 +71,19 @@
           id: "book",
           target: "tidy-book",
           prompt: "接著把書放上架",
-          hint: "碰碰發光的故事書",
-          speech: ["接著輪到故事書。", "碰碰書本。"],
+          hint: "現在只要：輕碰正在發光的故事書",
+          speech: ["地板空了一點。", "接著讓故事書站回書架。"],
           result: "書本立在書架上",
-          resultSpeech: ["書放上架了。", "下次就容易找到。"]
+          resultSpeech: ["故事書站回書架了。", "下次就容易找到。"]
         },
         {
           id: "bear",
           target: "tidy-bear",
           prompt: "最後讓玩偶回籃子",
-          hint: "碰碰發光的小熊玩偶",
-          speech: ["最後是小熊玩偶。", "送它回籃子。"],
+          hint: "現在只要：輕碰正在發光的小熊玩偶",
+          speech: ["只剩小熊還在外面。", "最後送它回籃子休息。"],
           result: "小熊坐進籃子裡",
-          resultSpeech: ["小熊回家了。", "收拾順序完成。"]
+          resultSpeech: ["小熊坐進籃子裡了。", "三樣玩具都回到位置了。"]
         }
       ]
     },
@@ -99,8 +99,8 @@
           id: "shoes",
           target: "outing-shoes",
           prompt: "先穿好鞋子",
-          hint: "碰碰發光的小鞋子",
-          speech: ["出門前先穿鞋。", "碰碰小鞋子。"],
+          hint: "現在只要：輕碰正在發光的小鞋子",
+          speech: ["我們要準備出門了。", "第一步先把兩隻鞋穿好。"],
           result: "鞋子穿到腳上了",
           resultSpeech: ["鞋子穿好了。", "兩隻腳都準備好。"]
         },
@@ -108,17 +108,17 @@
           id: "bag",
           target: "outing-bag",
           prompt: "接著背好小包包",
-          hint: "碰碰發光的小背包",
-          speech: ["接著拿小包包。", "碰碰背包。"],
+          hint: "現在只要：輕碰正在發光的小背包",
+          speech: ["鞋子穿好了。", "接著背上自己的小包包。"],
           result: "背包背好了",
-          resultSpeech: ["背包背好了。", "自己的東西準備好了。"]
+          resultSpeech: ["小包包背好了。", "自己的東西準備好了。"]
         },
         {
           id: "wait",
           target: "outing-stop",
           prompt: "最後在門口停一下",
-          hint: "碰碰發光的停一停圖案",
-          speech: ["到門口要停一下。", "碰碰停一停。"],
+          hint: "現在只要：輕碰正在發光的停一停圖案",
+          speech: ["東西都準備好了。", "到門口先停下來等大人。"],
           result: "兔兔停下來等大人",
           resultSpeech: ["兔兔停下來了。", "等大人一起出門。"]
         }
@@ -300,9 +300,11 @@
     let active = false;
     let locked = false;
     let completionReported = false;
+    let reminderCount = 0;
     let frameId = 0;
     let resizeObserver;
     let transitionTimer = 0;
+    let transitionToken = 0;
     let lastTime = performance.now();
     let bunnyJumping = false;
 
@@ -1052,10 +1054,12 @@
 
     function setStage(nextStage, announce = true) {
       global.clearTimeout(transitionTimer);
+      transitionToken += 1;
       animations.length = 0;
       stage = Math.max(0, Math.min(currentRoutine().tasks.length - 1, nextStage));
       complete = false;
       locked = false;
+      reminderCount = 0;
       stageSpecs.forEach((spec) => { spec.root.visible = false; });
       const task = currentTask();
       const spec = stageSpecs.get(task.id);
@@ -1114,6 +1118,14 @@
     function remindTarget() {
       const task = currentTask();
       options.onStatus?.(task.hint, "ready");
+      reminderCount += 1;
+      if (reminderCount === 1) {
+        options.speak?.(["看看正在發光的那一個。", "兔兔陪你慢慢找。"], {
+          kind: "retry",
+          stage,
+          taskId: task.id
+        });
+      }
       const start = performance.now();
       animations.push((now) => {
         const raw = Math.min(1, (now - start) / (reduceMotion ? 220 : 520));
@@ -1133,17 +1145,32 @@
       spec.effect();
       bunnyJump();
       options.onStatus?.(task.result, "observing");
-      options.speak?.([...task.resultSpeech]);
-      scheduleNext(reduceMotion ? 750 : ["soap", "rinse", "blocks", "wait"].includes(task.id) ? 2200 : 1850);
+      const narration = options.speak?.([...task.resultSpeech], {
+        kind: "result",
+        stage,
+        taskId: task.id
+      });
+      scheduleNext(reduceMotion ? 750 : ["soap", "rinse", "blocks", "wait"].includes(task.id) ? 2200 : 1850, narration);
       return true;
     }
 
-    function scheduleNext(wait) {
+    function scheduleNext(wait, narration) {
       global.clearTimeout(transitionTimer);
-      transitionTimer = global.setTimeout(() => {
+      const token = ++transitionToken;
+      const minimum = new Promise((resolve) => {
+        transitionTimer = global.setTimeout(resolve, wait);
+      });
+      const narrationWait = narration && typeof narration.then === "function"
+        ? Promise.race([
+          Promise.resolve(narration).catch(() => null),
+          new Promise((resolve) => global.setTimeout(resolve, 8000))
+        ])
+        : Promise.resolve();
+      Promise.all([minimum, narrationWait]).then(() => {
+        if (token !== transitionToken) return;
         if (stage < currentRoutine().tasks.length - 1) setStage(stage + 1, true);
         else finish();
-      }, wait);
+      });
     }
 
     function finish() {
@@ -1265,6 +1292,7 @@
 
     function reset(resetOptions = {}) {
       global.clearTimeout(transitionTimer);
+      transitionToken += 1;
       animations.length = 0;
       completionReported = false;
       complete = false;
@@ -1276,6 +1304,7 @@
     function destroy() {
       pause();
       global.clearTimeout(transitionTimer);
+      transitionToken += 1;
       resizeObserver?.disconnect();
       renderer.domElement.removeEventListener("pointerup", handlePointerUp);
       renderer.domElement.removeEventListener("keydown", handleKeyDown);

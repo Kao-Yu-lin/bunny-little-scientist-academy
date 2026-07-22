@@ -6346,7 +6346,7 @@
         <div class="playroom-bottom">
           <div class="playroom-hint" id="playroomHint" role="status" aria-live="polite">
             <span class="playroom-touch" aria-hidden="true">☝️</span>
-            <span id="playroomHintText">小手碰一碰紅色球</span>
+            <span id="playroomHintText">現在只要：輕碰正在發光的紅色球</span>
           </div>
           <div class="playroom-progress" id="playroomProgress" aria-label="3D 小任務進度">
             <span class="playroom-progress-dot is-current"></span>
@@ -6455,7 +6455,7 @@
         <div class="playroom-bottom">
           <div class="playroom-hint" id="lifeHouseHint" role="status" aria-live="polite">
             <span class="playroom-touch" aria-hidden="true">☝️</span>
-            <span id="lifeHouseHintText">碰碰發光的水龍頭</span>
+            <span id="lifeHouseHintText">現在只要：輕碰正在發光的水龍頭</span>
           </div>
           <div class="playroom-progress" id="lifeHouseProgress" aria-label="3D 生活步驟進度">
             <span class="playroom-progress-dot is-current"></span>
@@ -7312,6 +7312,13 @@
       extraSlow: Object.freeze({ zh: 0.70, en: 0.69, label: "再慢一點" })
     });
 
+    const BUNNY_WORLD_INTROS = Object.freeze({
+      playroom: Object.freeze({ first: "球球遊樂場準備好了。", returning: "球球又在等我們了。" }),
+      math3d: Object.freeze({ first: "胡蘿蔔今天長得真好。", returning: "胡蘿蔔又長出來了。" }),
+      science3d: Object.freeze({ first: "小小實驗桌亮起來了。", returning: "實驗桌又有新變化了。" }),
+      life3d: Object.freeze({ first: "小屋裡有一件小事等我們。", returning: "我們又回到兔兔小屋了。" })
+    });
+
     const state = loadState();
     let activeWorld = "today";
     let activeMode = "learn";
@@ -7333,6 +7340,7 @@
     let friendlyVoice = null;
     let friendlyChineseVoice = null;
     let speechSequenceToken = 0;
+    let activeSpeechSettle = null;
     let playroomController = null;
     let mathGardenController = null;
     let scienceLabController = null;
@@ -7340,10 +7348,15 @@
     let lifeHouseController = null;
     let lifeHouseRoutineOverride = null;
     const discoveryImagePreloads = [];
-    let currentPlayroomSpeech = ["兔兔想找紅色球。", "小手碰一碰！"];
-    let currentMathGardenSpeech = ["幫兔兔摘兩根胡蘿蔔。", "一根一根碰。"];
-    let currentScienceLabSpeech = ["這顆小球會去哪裡呢？", "小手碰碰看。"];
-    let currentLifeHouseSpeech = ["先讓小手碰到水。", "碰碰水龍頭。"];
+    let currentPlayroomSpeech = ["我在找一顆紅色球。", "你看見它了嗎？輕輕指給我看。"];
+    let currentMathGardenSpeech = ["我們一起整理胡蘿蔔。", "請一根一根放進籃子。"];
+    let currentScienceLabSpeech = ["小球停在高高的地方。", "你猜放開後，它會往哪裡走？"];
+    let currentLifeHouseSpeech = ["水龍頭在這裡。", "洗手的第一步，是先把手弄濕。"];
+    let currentPlayroomContext = { world: "playroom", kind: "prompt", stage: 0 };
+    let currentMathGardenContext = { world: "math3d", kind: "prompt", stage: 0 };
+    let currentScienceLabContext = { world: "science3d", kind: "prompt", stage: 0 };
+    let currentLifeHouseContext = { world: "life3d", kind: "prompt", stage: 0 };
+    let bunnyDialogueSession = { world: "", introduced: false };
 
     const els = {
       starPill: document.getElementById("starPill"),
@@ -7573,22 +7586,22 @@
     els.runExperiment.addEventListener("click", runDiscoveryExperiment);
     els.playroomHome.addEventListener("click", returnToToday);
     els.playroomFinishHome.addEventListener("click", returnToToday);
-    els.playroomSpeak.addEventListener("click", () => sayDiscoveryText(currentPlayroomSpeech));
+    els.playroomSpeak.addEventListener("click", () => speakBunnyTurn(currentPlayroomSpeech, { ...currentPlayroomContext, repeat: true }));
     els.playroomReplay.addEventListener("click", () => playroomController?.reset());
     els.mathGardenHome.addEventListener("click", returnToToday);
     els.mathGardenFinishHome.addEventListener("click", returnToToday);
-    els.mathGardenSpeak.addEventListener("click", () => sayDiscoveryText(currentMathGardenSpeech));
+    els.mathGardenSpeak.addEventListener("click", () => speakBunnyTurn(currentMathGardenSpeech, { ...currentMathGardenContext, repeat: true }));
     els.mathGardenReplay.addEventListener("click", () => mathGardenController?.reset());
     els.scienceLabHome.addEventListener("click", returnToToday);
     els.scienceLabFinishHome.addEventListener("click", returnToToday);
-    els.scienceLabSpeak.addEventListener("click", () => sayDiscoveryText(currentScienceLabSpeech));
+    els.scienceLabSpeak.addEventListener("click", () => speakBunnyTurn(currentScienceLabSpeech, { ...currentScienceLabContext, repeat: true }));
     els.scienceLabNext.addEventListener("click", () => {
       scienceLabCourseOverride = null;
       scienceLabController?.reset({ course: nextScienceLabCourse() });
     });
     els.lifeHouseHome.addEventListener("click", returnToToday);
     els.lifeHouseFinishHome.addEventListener("click", returnToToday);
-    els.lifeHouseSpeak.addEventListener("click", () => sayDiscoveryText(currentLifeHouseSpeech));
+    els.lifeHouseSpeak.addEventListener("click", () => speakBunnyTurn(currentLifeHouseSpeech, { ...currentLifeHouseContext, repeat: true }));
     els.lifeHouseNext.addEventListener("click", () => {
       lifeHouseRoutineOverride = null;
       lifeHouseController?.reset({ routine: nextLifeHouseRoutine() });
@@ -8244,11 +8257,20 @@
 
     function speakTodayAdventure() {
       const completedCount = completedTodayMissionCount();
-      const text = completedCount === 3
-        ? "今天的三件小任務都完成了。兔兔謝謝你照顧小花園。"
-        : `今天和兔兔做三件小事。先暖身，再發現一件新事情，最後到生活裡找一找。慢慢來就好。`;
-      sayDiscoveryText(text);
-      els.todayStoryLine.textContent = text;
+      const moodLead = {
+        slow: "我們慢慢來。",
+        sad: "兔兔會陪著你。",
+        hug: "先收下一個小抱抱。"
+      }[getTodayMood()] || "";
+      const turns = [
+        ["今天只有三件小事。", "先和字母打招呼，再看一個新發現，最後到生活小屋。"],
+        ["第一件完成了。", "下一站有一個新發現在等你。"],
+        ["我們走到最後一件了。", "到生活小屋練一個小步驟。"],
+        ["三件小事都完成了。", "謝謝你陪我照顧花園。你想重玩哪一個？"]
+      ];
+      const parts = [moodLead, ...turns[completedCount]].filter(Boolean);
+      sayDiscoveryText(parts);
+      els.todayStoryLine.textContent = parts.join("");
     }
 
     function touch(letter, field, star = false) {
@@ -8271,6 +8293,9 @@
 
     function setWorld(world, options = {}) {
       if (world !== "map" && world !== "today" && world !== "playroom" && world !== "math3d" && world !== "science3d" && world !== "life3d" && world !== "alphabet" && !DISCOVERY[world]) return;
+      if (bunnyDialogueSession.world !== world) {
+        bunnyDialogueSession = { world, introduced: false };
+      }
       activeWorld = world;
       if (!options.preserveLesson) activeLessonIndex = 0;
       lessonJustCompleted = false;
@@ -8316,11 +8341,11 @@
         renderTodayWorld();
       } else if (showPlayroom) {
         els.appTitle.textContent = "兔兔 3D 遊樂場";
-        els.appSubtitle.textContent = "找顏色、比大小，再看小球滾下來。";
+        els.appSubtitle.textContent = "找顏色、比大小，再看看小球怎麼走。";
         ensurePlayroom().start({ announce: true });
       } else if (showMathGarden) {
         els.appTitle.textContent = "兔兔 3D 數學花園";
-        els.appSubtitle.textContent = "碰胡蘿蔔、慢慢數，再看看哪邊比較多。";
+        els.appSubtitle.textContent = "一根一根數，再看看兩邊哪裡不一樣。";
         const controller = ensureMathGarden();
         if (options.resetMath || controller.getSnapshot().complete) controller.reset();
         else controller.start({ announce: true });
@@ -8328,11 +8353,10 @@
         const course = options.scienceCourse || scienceLabCourseOverride || nextScienceLabCourse();
         const courseLabel = window.BunnyScienceLab3D.courses[course].label;
         els.appTitle.textContent = "兔兔 3D 科學實驗室";
-        els.appSubtitle.textContent = `今天觀察：${courseLabel}。碰發光的物件就好。`;
+        els.appSubtitle.textContent = `今天觀察：${courseLabel}。每次只看一個發光物件。`;
         const controller = ensureScienceLab();
         if (options.resetScience || controller.getSnapshot().complete || controller.getSnapshot().course !== course) {
           controller.reset({ course });
-          controller.start({ course, announce: true });
         } else {
           controller.start({ course, announce: true });
         }
@@ -8344,7 +8368,6 @@
         const controller = ensureLifeHouse();
         if (options.resetLife || controller.getSnapshot().complete || controller.getSnapshot().routine !== routine) {
           controller.reset({ routine });
-          controller.start({ routine, announce: true });
         } else {
           controller.start({ routine, announce: true });
         }
@@ -8364,7 +8387,7 @@
       playroomController = window.BunnyPlayroom3D.create({
         host: els.playroomCanvasHost,
         fallback: els.playroomFallback,
-        speak: (parts) => sayDiscoveryText(parts),
+        speak: (parts, context = {}) => speakBunnyTurn(parts, { world: "playroom", ...context }),
         onTask: renderPlayroomTask,
         onStatus: (message, status) => {
           els.playroomHint.dataset.status = status;
@@ -8379,6 +8402,7 @@
 
     function renderPlayroomTask(task) {
       currentPlayroomSpeech = task.speech;
+      currentPlayroomContext = { world: "playroom", kind: "prompt", stage: task.stage, taskId: task.id };
       els.playroomStep.textContent = `第 ${task.stage + 1} 個小任務 · 共 ${task.total} 個`;
       els.playroomPrompt.textContent = task.prompt;
       els.playroomHint.dataset.status = "ready";
@@ -8388,11 +8412,12 @@
         dot.classList.toggle("is-done", index < task.stage);
         dot.classList.toggle("is-current", index === task.stage);
       });
-      if (task.announce) sayDiscoveryText(task.speech);
+      if (task.announce) speakBunnyTurn(task.speech, currentPlayroomContext);
     }
 
     function renderPlayroomComplete() {
-      currentPlayroomSpeech = ["三個都完成了！", "兔兔和你一起歡呼。"];
+      currentPlayroomSpeech = ["球球都玩過了。", "你想再玩一次，還是回今天看看？"];
+      currentPlayroomContext = { world: "playroom", kind: "complete", stage: 3 };
       els.playroomStep.textContent = "三個小任務都完成了";
       els.playroomPrompt.textContent = "你讓兔兔的遊樂場動起來了！";
       els.playroomHint.dataset.status = "complete";
@@ -8402,6 +8427,7 @@
         dot.classList.remove("is-current");
       });
       els.playroomCompleteActions.hidden = false;
+      speakBunnyTurn(currentPlayroomSpeech, currentPlayroomContext);
     }
 
     function completePlayroom() {
@@ -8423,7 +8449,7 @@
         fallback: els.mathGardenFallback,
         getLevel: () => state.mathGarden.level,
         getRound: () => state.mathGarden.rounds,
-        speak: (parts) => sayDiscoveryText(parts),
+        speak: (parts, context = {}) => speakBunnyTurn(parts, { world: "math3d", ...context }),
         onTask: renderMathGardenTask,
         onStatus: (message, status) => {
           els.mathGardenHint.dataset.status = status;
@@ -8438,6 +8464,7 @@
 
     function renderMathGardenTask(task) {
       currentMathGardenSpeech = task.speech;
+      currentMathGardenContext = { world: "math3d", kind: "prompt", stage: task.stage, taskId: task.id };
       els.mathGardenStep.textContent = `第 ${task.stage + 1} 個小任務 · 數量 1–${task.max}`;
       els.mathGardenPrompt.textContent = task.prompt;
       els.mathGardenHint.dataset.status = "ready";
@@ -8447,14 +8474,15 @@
         dot.classList.toggle("is-done", index < task.stage);
         dot.classList.toggle("is-current", index === task.stage);
       });
-      if (task.announce) sayDiscoveryText(task.speech);
+      if (task.announce) speakBunnyTurn(task.speech, currentMathGardenContext);
     }
 
     function renderMathGardenComplete(result) {
       const max = (result.level || state.mathGarden.level) + 2;
       currentMathGardenSpeech = result.upgraded
-        ? ["四個小任務都完成了！", `下次一起慢慢數到${max}。`]
-        : ["四個小任務都完成了！", "兔兔謝謝你整理胡蘿蔔。"];
+        ? ["胡蘿蔔都整理好了。", `下次我們會慢慢數到${max}。`, "你想再數一次，還是回今天看看？"]
+        : ["胡蘿蔔都整理好了。", "你想再數一次，還是回今天看看？"];
+      currentMathGardenContext = { world: "math3d", kind: "complete", stage: 4 };
       els.mathGardenStep.textContent = "四個數學小任務都完成了";
       els.mathGardenPrompt.textContent = "你幫兔兔把胡蘿蔔整理好了！";
       els.mathGardenHint.dataset.status = "complete";
@@ -8466,6 +8494,7 @@
         dot.classList.remove("is-current");
       });
       els.mathGardenCompleteActions.hidden = false;
+      speakBunnyTurn(currentMathGardenSpeech, currentMathGardenContext);
     }
 
     function completeMathGarden(summary) {
@@ -8513,7 +8542,7 @@
         fallback: els.scienceLabFallback,
         getCourse: () => scienceLabCourseOverride || nextScienceLabCourse(),
         getRound: () => state.scienceLab.rounds,
-        speak: (parts) => sayDiscoveryText(parts),
+        speak: (parts, context = {}) => speakBunnyTurn(parts, { world: "science3d", ...context }),
         onTask: renderScienceLabTask,
         onStatus: (message, status) => {
           els.scienceLabHint.dataset.status = status;
@@ -8528,8 +8557,9 @@
 
     function renderScienceLabTask(task) {
       currentScienceLabSpeech = task.speech;
+      currentScienceLabContext = { world: "science3d", kind: "prompt", stage: task.stage, taskId: task.id };
       if (activeWorld === "science3d") {
-        els.appSubtitle.textContent = `今天觀察：${task.courseLabel}。碰發光的物件就好。`;
+        els.appSubtitle.textContent = `今天觀察：${task.courseLabel}。每次只看一個發光物件。`;
       }
       els.scienceLabStep.textContent = `${task.courseIcon} ${task.courseLabel} · 第 ${task.stage + 1} 個小發現`;
       els.scienceLabPrompt.textContent = task.prompt;
@@ -8541,11 +8571,12 @@
         dot.classList.toggle("is-current", index === task.stage);
       });
       if (activeWorld === "science3d") refreshAll();
-      if (task.announce) sayDiscoveryText(task.speech);
+      if (task.announce) speakBunnyTurn(task.speech, currentScienceLabContext);
     }
 
     function renderScienceLabComplete(result) {
-      currentScienceLabSpeech = ["三個小發現都看到了！", `${result.courseLabel}的實驗完成了。`];
+      currentScienceLabSpeech = ["三個小發現都看見了。", `我們剛才一起觀察${result.courseLabel}。`, "你想看下一個實驗，還是回今天？"];
+      currentScienceLabContext = { world: "science3d", kind: "complete", stage: 3 };
       els.scienceLabStep.textContent = `${result.courseLabel} · 三個小發現都完成了`;
       els.scienceLabPrompt.textContent = "你和兔兔一起看見原因和結果！";
       els.scienceLabHint.dataset.status = "complete";
@@ -8559,6 +8590,7 @@
         dot.classList.remove("is-current");
       });
       els.scienceLabCompleteActions.hidden = false;
+      speakBunnyTurn(currentScienceLabSpeech, currentScienceLabContext);
     }
 
     function completeScienceLab(summary) {
@@ -8601,7 +8633,7 @@
         fallback: els.lifeHouseFallback,
         getRoutine: () => lifeHouseRoutineOverride || nextLifeHouseRoutine(),
         getRound: () => state.lifeHouse.rounds,
-        speak: (parts) => sayDiscoveryText(parts),
+        speak: (parts, context = {}) => speakBunnyTurn(parts, { world: "life3d", ...context }),
         onTask: renderLifeHouseTask,
         onStatus: (message, status) => {
           els.lifeHouseHint.dataset.status = status;
@@ -8616,6 +8648,7 @@
 
     function renderLifeHouseTask(task) {
       currentLifeHouseSpeech = task.speech;
+      currentLifeHouseContext = { world: "life3d", kind: "prompt", stage: task.stage, taskId: task.id };
       if (activeWorld === "life3d") {
         els.appSubtitle.textContent = `今天練習：${task.routineLabel}。一次做一個步驟。`;
       }
@@ -8630,11 +8663,12 @@
         dot.classList.toggle("is-current", index === task.stage);
       });
       if (activeWorld === "life3d") refreshAll();
-      if (task.announce) sayDiscoveryText(task.speech);
+      if (task.announce) speakBunnyTurn(task.speech, currentLifeHouseContext);
     }
 
     function renderLifeHouseComplete(result) {
-      currentLifeHouseSpeech = result.retell;
+      currentLifeHouseSpeech = [...result.retell, "你想看下一個生活練習，還是回今天？"];
+      currentLifeHouseContext = { world: "life3d", kind: "complete", stage: result.retell.length };
       els.lifeHouseStep.textContent = `${result.routineLabel} · 生活順序完成`;
       els.lifeHousePrompt.textContent = "先、接著、最後，都看到了！";
       els.lifeHouseHint.dataset.status = "complete";
@@ -8646,6 +8680,7 @@
         dot.classList.remove("is-current");
       });
       els.lifeHouseCompleteActions.hidden = false;
+      speakBunnyTurn(currentLifeHouseSpeech, currentLifeHouseContext);
     }
 
     function completeLifeHouse(summary) {
@@ -8896,12 +8931,12 @@
 
       const matched = index === resultIndex;
       const comparison = storyMode
-        ? (matched ? "你找到故事線索了！" : "我們一起再看一次線索。")
+        ? (matched ? "這個線索接上故事了。" : "這個想法也可以，我們再看一次線索。")
         : emotionMode
           ? stage === 0
-            ? (matched ? "你看見兔兔的感受了！" : "我們一起看看兔兔的表情。")
-            : (matched ? "這是一個安全又尊重的方法！" : "兔兔陪你找一個更安全的方法。")
-          : (matched ? "找到了！" : "和剛才想的不一樣，也有新發現！");
+            ? (matched ? "兔兔的表情和這個感受很像。" : "再看看耳朵和嘴巴，它們會給我們線索。")
+            : (matched ? "這個方法安全，也尊重自己和別人。" : "我們換一個不傷害自己和別人的方法。")
+          : (matched ? "結果和你想的一樣。" : "結果和剛才想的不一樣，我們有新發現。");
       const randomResult = question.randomResult
         ? `這次是「${question.choices[resultIndex]}」。`
         : "";
@@ -8984,12 +9019,12 @@
       if (!lesson || !subject) return;
       const question = activeQuestionStage === 1 && lesson.followUp ? lesson.followUp : lesson.prediction;
       const promptParts = subject.interaction === "story"
-        ? [activeQuestionStage === 0 ? "跟兔兔一起看。" : "故事還有一個線索。", question.question]
+        ? [activeQuestionStage === 0 ? "我看見一個故事線索。" : "故事還有一個線索。", question.question]
         : subject.interaction === "emotion"
-          ? [activeQuestionStage === 0 ? "看看兔兔的臉。" : "找一個安全的好方法。", question.question]
+          ? [activeQuestionStage === 0 ? "先看看兔兔的臉。" : "我們一起找安全的好方法。", question.question]
           : subject.name === "寶寶數學"
-            ? ["小手指一指。", question.question]
-            : ["小手碰一碰。", question.question];
+            ? ["我們一起看一看。", question.question]
+            : ["先猜一猜會發生什麼。", question.question];
       sayDiscoveryText(promptParts);
       els.discoveryFeedback.textContent = promptParts.join("");
     }
@@ -9032,9 +9067,49 @@
       return Object.values(DISCOVERY).reduce((total, subject) => total + subject.lessons.length, 0);
     }
 
+    function settleActiveSpeech(status) {
+      const settle = activeSpeechSettle;
+      activeSpeechSettle = null;
+      settle?.(status);
+    }
+
     function cancelSpeechQueue() {
       speechSequenceToken += 1;
+      settleActiveSpeech("cancelled");
       window.speechSynthesis?.cancel();
+    }
+
+    function bunnyWorldHasHistory(world) {
+      if (world === "playroom") return Object.values(state.playroomDays || {}).some(Boolean);
+      if (world === "math3d") return Number(state.mathGarden?.rounds || 0) > 0;
+      if (world === "science3d") return Number(state.scienceLab?.rounds || 0) > 0;
+      if (world === "life3d") return Number(state.lifeHouse?.rounds || 0) > 0;
+      return false;
+    }
+
+    function bunnyWorldIntro(world) {
+      const moodIntro = {
+        slow: "我們慢慢來，一次只看一件事。",
+        sad: "兔兔在這裡，只玩一小步也可以。",
+        hug: "先靠近兔兔一下，我們一起看。"
+      }[getTodayMood()];
+      if (moodIntro) return moodIntro;
+      const intro = BUNNY_WORLD_INTROS[world];
+      if (!intro) return "";
+      return bunnyWorldHasHistory(world) ? intro.returning : intro.first;
+    }
+
+    function speakBunnyTurn(parts, context = {}) {
+      const world = context.world || activeWorld;
+      const output = Array.isArray(parts) ? [...parts] : [parts];
+      const shouldIntroduce = context.kind === "prompt" && Number(context.stage) === 0 && !context.repeat &&
+        bunnyDialogueSession.world === world && !bunnyDialogueSession.introduced;
+      if (shouldIntroduce) {
+        const intro = bunnyWorldIntro(world);
+        if (intro) output.unshift(intro);
+        bunnyDialogueSession.introduced = true;
+      }
+      return sayDiscoveryText(output);
     }
 
     function splitSpeechParts(value) {
@@ -9073,13 +9148,36 @@
       if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance !== "function") return false;
       const queue = mergeShortSpeechParts(splitSpeechParts(parts), settings.mergeBelow);
       if (!queue.length) return false;
+      settleActiveSpeech("cancelled");
       const token = ++speechSequenceToken;
       window.speechSynthesis.cancel();
+      let settled = false;
+      let safetyTimer = 0;
+
+      const settle = (status) => {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(safetyTimer);
+        if (activeSpeechSettle === settle) activeSpeechSettle = null;
+        if (status === "completed") settings.onComplete?.();
+        settings.onSettled?.({ status });
+      };
+      activeSpeechSettle = settle;
+      safetyTimer = window.setTimeout(() => {
+        if (token === speechSequenceToken) {
+          speechSequenceToken += 1;
+          window.speechSynthesis.cancel();
+        }
+        settle("timeout");
+      }, settings.maxDuration || 12000);
 
       const speakPart = (index) => {
-        if (token !== speechSequenceToken) return;
+        if (token !== speechSequenceToken) {
+          settle("cancelled");
+          return;
+        }
         if (index >= queue.length) {
-          settings.onComplete?.();
+          settle("completed");
           return;
         }
         const utterance = new SpeechSynthesisUtterance(queue[index]);
@@ -9090,7 +9188,10 @@
         const voice = settings.voice();
         if (voice) utterance.voice = voice;
         const continueQueue = () => {
-          if (token !== speechSequenceToken) return;
+          if (token !== speechSequenceToken) {
+            settle("cancelled");
+            return;
+          }
           window.setTimeout(() => speakPart(index + 1), settings.pause);
         };
         utterance.onend = continueQueue;
@@ -9103,27 +9204,37 @@
     }
 
     function sayDiscoveryText(text) {
-      if (state.soundStyle === "chimeOnly") {
-        playDiscoveryChime();
-        return;
-      }
-
-      if (!("speechSynthesis" in window)) {
-        playDiscoveryChime();
-        return;
-      }
-
-      speakSequence(text, {
-        lang: "zh-TW",
-        rate: speechRateFor("zh"),
-        pitch: 1,
-        volume: 0.86,
-        pause: 140,
-        mergeBelow: 34,
-        voice: () => {
-          friendlyChineseVoice = friendlyChineseVoice || pickFriendlyChineseVoice();
-          return friendlyChineseVoice;
+      return new Promise((resolve) => {
+        const finishWithChime = (status) => {
+          cancelSpeechQueue();
+          playDiscoveryChime();
+          window.setTimeout(() => resolve({ status }), 220);
+        };
+        if (state.soundStyle === "chimeOnly") {
+          finishWithChime("chime");
+          return;
         }
+
+        if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance !== "function") {
+          finishWithChime("fallback");
+          return;
+        }
+
+        const started = speakSequence(text, {
+          lang: "zh-TW",
+          rate: speechRateFor("zh"),
+          pitch: 1,
+          volume: 0.86,
+          pause: 140,
+          mergeBelow: 34,
+          maxDuration: 12000,
+          voice: () => {
+            friendlyChineseVoice = friendlyChineseVoice || pickFriendlyChineseVoice();
+            return friendlyChineseVoice;
+          },
+          onSettled: resolve
+        });
+        if (!started) finishWithChime("fallback");
       });
     }
 

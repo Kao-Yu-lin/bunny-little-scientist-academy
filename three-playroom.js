@@ -6,23 +6,29 @@
     {
       id: "red",
       target: "red",
-      prompt: "兔兔想找紅色球",
-      hint: "小手碰一碰紅色球",
-      speech: ["兔兔想找紅色球。", "小手碰一碰！"]
+      prompt: "找找紅色球",
+      hint: "現在只要：輕碰正在發光的紅色球",
+      speech: ["我在找一顆紅色球。", "你看見它了嗎？輕輕指給我看。"],
+      result: "紅色球被你找到了",
+      resultSpeech: ["就是這一顆。", "紅色球被你找到了。"]
     },
     {
       id: "big",
       target: "yellow",
-      prompt: "哪一顆球比較大？",
-      hint: "碰一碰比較大的球",
-      speech: ["哪一顆球比較大呢？", "碰一碰！"]
+      prompt: "哪一顆球最大？",
+      hint: "現在只要：指一指最大顆的球",
+      speech: ["這三顆球不太一樣。", "哪一顆佔的地方最大呢？"],
+      result: "黃色球佔的地方最大",
+      resultSpeech: ["這顆比較大。", "它佔的地方比另外兩顆多。"]
     },
     {
       id: "roll",
       target: "green",
-      prompt: "幫小球滾下斜坡",
-      hint: "碰斜坡上面的綠色球",
-      speech: ["綠色小球在上面。", "碰一下，看它往下滾。"]
+      prompt: "小球會往哪裡滾？",
+      hint: "現在只要：輕碰斜坡上的綠色球",
+      speech: ["綠色小球站在斜坡上。", "你猜它會去哪裡？輕輕碰它看看。"],
+      result: "小球從高處滾到低處",
+      resultSpeech: ["它從高處滾到低處了。", "斜坡讓小球動起來。"]
     }
   ];
 
@@ -173,9 +179,12 @@
     let active = false;
     let locked = false;
     let completionReported = false;
+    let reminderCount = 0;
     let bunnyJumping = false;
     let frameId = 0;
     let resizeObserver;
+    let transitionTimer = 0;
+    let transitionToken = 0;
     let lastTime = performance.now();
 
     setStage(0, false);
@@ -407,9 +416,12 @@
     }
 
     function setStage(nextStage, announce = true) {
+      global.clearTimeout(transitionTimer);
+      transitionToken += 1;
       stage = Math.max(0, Math.min(TASKS.length - 1, nextStage));
       complete = false;
       locked = false;
+      reminderCount = 0;
       ramp.root.visible = stage === 2;
 
       const red = targetRoots.get("red");
@@ -468,31 +480,53 @@
       const expected = TASKS[stage].target;
       if (key !== expected) {
         wiggle(root);
-        options.onStatus?.("再找找。兔兔會陪你。", "try-again");
-        options.speak?.(["再找找。", "兔兔會陪你。"]);
+        pulseGlow(targetRoots.get(expected));
+        reminderCount += 1;
+        options.onStatus?.("看看正在輕輕發光的那一顆", "try-again");
+        if (reminderCount === 1) {
+          options.speak?.(["它還在等我們。", "看看哪一顆正在輕輕發光。"], {
+            kind: "retry",
+            stage,
+            taskId: TASKS[stage].id
+          });
+        }
         return false;
       }
 
+      const task = TASKS[stage];
       locked = true;
-      options.onStatus?.(stage === 2 ? "小球往下滾了！" : "找到了！", "correct");
-      options.speak?.(stage === 0
-        ? ["找到了！", "這是紅色球。"]
-        : stage === 1
-          ? ["找到了！", "黃色球比較大。"]
-          : ["滾下來了！", "斜坡讓小球往下走。"]);
+      options.onStatus?.(task.result, "correct");
+      const narration = options.speak?.([...task.resultSpeech], {
+        kind: "result",
+        stage,
+        taskId: task.id
+      });
       bounce(root);
       bunnyJump();
 
       if (stage === 2) rollDownRamp(root);
       const wait = reduceMotion ? 480 : (stage === 2 ? 1550 : 980);
-      global.setTimeout(() => {
-        if (stage < TASKS.length - 1) {
-          setStage(stage + 1, true);
-        } else {
-          finish();
-        }
-      }, wait);
+      scheduleNext(wait, narration);
       return true;
+    }
+
+    function scheduleNext(wait, narration) {
+      global.clearTimeout(transitionTimer);
+      const token = ++transitionToken;
+      const minimum = new Promise((resolve) => {
+        transitionTimer = global.setTimeout(resolve, wait);
+      });
+      const narrationWait = narration && typeof narration.then === "function"
+        ? Promise.race([
+          Promise.resolve(narration).catch(() => null),
+          new Promise((resolve) => global.setTimeout(resolve, 8000))
+        ])
+        : Promise.resolve();
+      Promise.all([minimum, narrationWait]).then(() => {
+        if (token !== transitionToken) return;
+        if (stage < TASKS.length - 1) setStage(stage + 1, true);
+        else finish();
+      });
     }
 
     function finish() {
@@ -516,6 +550,29 @@
           return false;
         }
         return true;
+      });
+    }
+
+    function pulseGlow(root) {
+      if (!root) return;
+      const materials = [];
+      root.traverse((object) => {
+        const objectMaterials = Array.isArray(object.material) ? object.material : [object.material];
+        objectMaterials.filter((item) => item?.emissive).forEach((item) => {
+          materials.push({ material: item, intensity: item.emissiveIntensity });
+        });
+      });
+      const start = performance.now();
+      animations.push((now) => {
+        const progress = Math.min(1, (now - start) / (reduceMotion ? 360 : 900));
+        const glow = Math.sin(progress * Math.PI) * 0.7;
+        materials.forEach(({ material, intensity }) => {
+          material.emissiveIntensity = intensity + glow;
+        });
+        if (progress >= 1) {
+          materials.forEach(({ material, intensity }) => { material.emissiveIntensity = intensity; });
+        }
+        return progress < 1;
       });
     }
 
@@ -625,6 +682,8 @@
     }
 
     function reset() {
+      global.clearTimeout(transitionTimer);
+      transitionToken += 1;
       animations.length = 0;
       completionReported = false;
       complete = false;
@@ -634,6 +693,8 @@
 
     function destroy() {
       pause();
+      global.clearTimeout(transitionTimer);
+      transitionToken += 1;
       resizeObserver?.disconnect();
       renderer.domElement.removeEventListener("pointerup", handlePointerUp);
       renderer.domElement.removeEventListener("keydown", handleKeyDown);
@@ -750,6 +811,7 @@
   global.BunnyPlayroom3D = {
     create: createPlayroom,
     taskCount: TASKS.length,
+    tasks: TASKS.map((task) => ({ ...task, speech: [...task.speech], resultSpeech: [...task.resultSpeech] })),
     revision: THREE?.REVISION || null
   };
 })(window);

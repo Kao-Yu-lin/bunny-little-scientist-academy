@@ -38,6 +38,39 @@
     };
   }
 
+  function taskCopyForRound(round) {
+    return [
+      {
+        id: TASK_IDS[0],
+        prompt: `幫兔兔摘 ${round.countTarget} 根胡蘿蔔`,
+        hint: `現在只要：一根一根輕碰，放 ${round.countTarget} 根`,
+        speech: ["我們一起整理胡蘿蔔。", `請放${NUMBER_WORDS[round.countTarget]}根進籃子。`],
+        resultSpeech: [`現在有${NUMBER_WORDS[round.countTarget]}根。`, "剛好是我們要的數量。"]
+      },
+      {
+        id: TASK_IDS[1],
+        prompt: `哪個籃子剛好有 ${round.exactTarget} 根？`,
+        hint: `現在只要：輕碰剛好有 ${round.exactTarget} 根的籃子`,
+        speech: ["兩個籃子不一樣。", `哪一個剛好有${NUMBER_WORDS[round.exactTarget]}根？指給我看。`],
+        resultSpeech: [`這裡有${NUMBER_WORDS[round.exactTarget]}根。`, "和我們要找的數量一樣。"]
+      },
+      {
+        id: TASK_IDS[2],
+        prompt: "哪個籃子的胡蘿蔔比較多？",
+        hint: "現在只要：輕碰胡蘿蔔比較多的籃子",
+        speech: ["兩個籃子都裝好了。", "哪一邊的胡蘿蔔比較多？"],
+        resultSpeech: [`這邊有${NUMBER_WORDS[Math.max(round.moreLeft, round.moreRight)]}根。`, "它比另一邊多。"]
+      },
+      {
+        id: TASK_IDS[3],
+        prompt: `有 ${round.addBase} 根，再放 1 根`,
+        hint: "現在只要：輕碰旁邊那一根胡蘿蔔",
+        speech: [`籃子裡已經有${NUMBER_WORDS[round.addBase]}根。`, "再放一根，會變成幾根呢？"],
+        resultSpeech: [`${NUMBER_WORDS[round.addBase]}根，再來一根。`, `現在是${NUMBER_WORDS[round.addResult]}根。`]
+      }
+    ];
+  }
+
   function unsupportedController(options) {
     const showFallback = () => {
       if (options.fallback) options.fallback.hidden = false;
@@ -208,10 +241,12 @@
     let active = false;
     let locked = false;
     let completionReported = false;
+    let reminderCount = 0;
     let bunnyJumping = false;
     let frameId = 0;
     let resizeObserver;
     let transitionTimer = 0;
+    let transitionToken = 0;
     let lastTime = performance.now();
 
     setStage(0, false);
@@ -526,42 +561,16 @@
     }
 
     function taskDetails() {
-      if (stage === 0) {
-        return {
-          id: TASK_IDS[stage],
-          prompt: `幫兔兔摘 ${round.countTarget} 根胡蘿蔔`,
-          hint: `一根一根碰，摘 ${round.countTarget} 根`,
-          speech: [`幫兔兔摘${NUMBER_WORDS[round.countTarget]}根胡蘿蔔。`, "一根一根碰。"]
-        };
-      }
-      if (stage === 1) {
-        return {
-          id: TASK_IDS[stage],
-          prompt: `哪個籃子剛好有 ${round.exactTarget} 根？`,
-          hint: "看一看，再碰一個籃子",
-          speech: [`哪個籃子剛好有${NUMBER_WORDS[round.exactTarget]}根？`, "看一看，再碰一碰。"]
-        };
-      }
-      if (stage === 2) {
-        return {
-          id: TASK_IDS[stage],
-          prompt: "哪個籃子的胡蘿蔔比較多？",
-          hint: "碰一碰比較多的那一邊",
-          speech: ["哪個籃子的胡蘿蔔比較多？", "碰一碰那一邊。"]
-        };
-      }
-      return {
-        id: TASK_IDS[stage],
-        prompt: `有 ${round.addBase} 根，再放 1 根`,
-        hint: "碰旁邊的胡蘿蔔",
-        speech: [`籃子裡有${NUMBER_WORDS[round.addBase]}根。`, "再放一根進去。"]
-      };
+      return taskCopyForRound(round)[stage];
     }
 
     function setStage(nextStage, announce = true) {
+      global.clearTimeout(transitionTimer);
+      transitionToken += 1;
       stage = Math.max(0, Math.min(TASK_IDS.length - 1, nextStage));
       complete = false;
       locked = false;
+      reminderCount = 0;
       countRoot.visible = stage === 0;
       choiceRoot.visible = stage === 1 || stage === 2;
       addRoot.visible = stage === 3;
@@ -650,13 +659,17 @@
         done ? `剛剛好，摘到 ${countProgress} 根了！` : `摘了 ${countProgress} 根，再找一根`,
         done ? "correct" : "counting"
       );
-      options.speak?.(done
-        ? [`${NUMBER_WORDS[countProgress]}。`, "剛剛好！"]
-        : [`${NUMBER_WORDS[countProgress]}。`, "再摘一根。"]);
+      const narration = options.speak?.(done
+        ? [`現在有${NUMBER_WORDS[countProgress]}根。`, "剛好是我們要的數量。"]
+        : [`現在有${NUMBER_WORDS[countProgress]}根。`, `還差${NUMBER_WORDS[round.countTarget - countProgress]}根，我們再找一根。`], {
+        kind: done ? "result" : "progress",
+        stage,
+        taskId: TASK_IDS[stage]
+      });
       if (done) {
         locked = true;
         bunnyJump();
-        scheduleNext(reduceMotion ? 420 : 900);
+        scheduleNext(reduceMotion ? 420 : 900, narration);
       }
       return true;
     }
@@ -668,24 +681,41 @@
         if (scoredTask === "exact") exactFirstTry = false;
         if (scoredTask === "more") moreFirstTry = false;
         wiggle(root);
+        pulseGlow(targetRoots.get(expected));
         countBasketItems();
-        options.onStatus?.("一起慢慢數，再碰一次。", "try-again");
-        options.speak?.(["一起慢慢數。", "再碰一次。"]);
+        reminderCount += 1;
+        options.onStatus?.("看看正在發光的籃子，我們再數一次", "try-again");
+        if (reminderCount === 1) {
+          options.speak?.(["兩邊的數量不一樣。", "看它們亮一亮，我們再數一次。"], {
+            kind: "retry",
+            stage,
+            taskId: TASK_IDS[stage]
+          });
+        }
         return false;
       }
 
       locked = true;
       bounce(root);
       bunnyJump();
+      let narration;
       if (stage === 1) {
-        options.onStatus?.(`找到了，這裡有 ${round.exactTarget} 根！`, "correct");
-        options.speak?.(["找到了！", `這裡有${NUMBER_WORDS[round.exactTarget]}根。`]);
+        options.onStatus?.(`這裡有 ${round.exactTarget} 根，數量剛剛好`, "correct");
+        narration = options.speak?.([`這裡有${NUMBER_WORDS[round.exactTarget]}根。`, "和我們要找的數量一樣。"], {
+          kind: "result",
+          stage,
+          taskId: TASK_IDS[stage]
+        });
       } else {
         const moreCount = Math.max(round.moreLeft, round.moreRight);
-        options.onStatus?.(`找到了，${moreCount} 根比較多！`, "correct");
-        options.speak?.(["找到了！", `${NUMBER_WORDS[moreCount]}根比較多。`]);
+        options.onStatus?.(`這邊有 ${moreCount} 根，比另一邊多`, "correct");
+        narration = options.speak?.([`這邊有${NUMBER_WORDS[moreCount]}根。`, "它比另一邊多。"], {
+          kind: "result",
+          stage,
+          taskId: TASK_IDS[stage]
+        });
       }
-      scheduleNext(reduceMotion ? 430 : 920);
+      scheduleNext(reduceMotion ? 430 : 920, narration);
       return true;
     }
 
@@ -704,18 +734,33 @@
         return raw < 1;
       });
       options.onStatus?.(`現在有 ${round.addResult} 根了！`, "correct");
-      options.speak?.([`${NUMBER_WORDS[round.addBase]}，再加一。`, `現在有${NUMBER_WORDS[round.addResult]}根。`]);
+      const narration = options.speak?.([`${NUMBER_WORDS[round.addBase]}根，再來一根。`, `現在是${NUMBER_WORDS[round.addResult]}根。`], {
+        kind: "result",
+        stage,
+        taskId: TASK_IDS[stage]
+      });
       bunnyJump();
-      scheduleNext(reduceMotion ? 500 : 1080);
+      scheduleNext(reduceMotion ? 500 : 1080, narration);
       return true;
     }
 
-    function scheduleNext(wait) {
+    function scheduleNext(wait, narration) {
       global.clearTimeout(transitionTimer);
-      transitionTimer = global.setTimeout(() => {
+      const token = ++transitionToken;
+      const minimum = new Promise((resolve) => {
+        transitionTimer = global.setTimeout(resolve, wait);
+      });
+      const narrationWait = narration && typeof narration.then === "function"
+        ? Promise.race([
+          Promise.resolve(narration).catch(() => null),
+          new Promise((resolve) => global.setTimeout(resolve, 8000))
+        ])
+        : Promise.resolve();
+      Promise.all([minimum, narrationWait]).then(() => {
+        if (token !== transitionToken) return;
         if (stage < TASK_IDS.length - 1) setStage(stage + 1, true);
         else finish();
-      }, wait);
+      });
     }
 
     function finish() {
@@ -784,6 +829,29 @@
           return false;
         }
         return true;
+      });
+    }
+
+    function pulseGlow(root) {
+      if (!root) return;
+      const materials = [];
+      root.traverse((object) => {
+        const objectMaterials = Array.isArray(object.material) ? object.material : [object.material];
+        objectMaterials.filter((item) => item?.emissive).forEach((item) => {
+          materials.push({ material: item, intensity: item.emissiveIntensity });
+        });
+      });
+      const start = performance.now();
+      animations.push((now) => {
+        const progress = Math.min(1, (now - start) / (reduceMotion ? 360 : 900));
+        const glow = Math.sin(progress * Math.PI) * 0.7;
+        materials.forEach(({ material, intensity }) => {
+          material.emissiveIntensity = intensity + glow;
+        });
+        if (progress >= 1) {
+          materials.forEach(({ material, intensity }) => { material.emissiveIntensity = intensity; });
+        }
+        return progress < 1;
       });
     }
 
@@ -883,6 +951,7 @@
 
     function reset() {
       global.clearTimeout(transitionTimer);
+      transitionToken += 1;
       animations.length = 0;
       completionReported = false;
       exactFirstTry = true;
@@ -896,6 +965,7 @@
     function destroy() {
       pause();
       global.clearTimeout(transitionTimer);
+      transitionToken += 1;
       resizeObserver?.disconnect();
       renderer.domElement.removeEventListener("pointerup", handlePointerUp);
       renderer.domElement.removeEventListener("keydown", handleKeyDown);
@@ -1019,6 +1089,7 @@
     create: createMathGarden,
     taskCount: TASK_IDS.length,
     revision: THREE?.REVISION || null,
-    makeRound
+    makeRound,
+    taskCopy: (level, seed) => taskCopyForRound(makeRound(level, seed))
   };
 })(window);

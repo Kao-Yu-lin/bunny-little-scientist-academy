@@ -18,29 +18,29 @@
         {
           id: "drop",
           target: "drop-ball",
-          prompt: "碰碰黃色小球",
-          hint: "發光的小球在等你",
-          speech: ["這顆小球會去哪裡呢？", "小手碰碰看。"],
+          prompt: "小球會往哪裡走？",
+          hint: "現在只要：輕碰正在發光的黃色球",
+          speech: ["小球停在高高的地方。", "你猜放開後，它會往哪裡走？"],
           result: "小球掉下來了",
-          resultSpeech: ["掉下來了。", "地球一直把東西往下拉。"]
+          resultSpeech: ["小球往下掉了。", "地球的重力把它往地面拉。"]
         },
         {
           id: "ramp",
           target: "ramp-ball",
-          prompt: "碰斜坡上的藍色球",
-          hint: "碰碰發光的小球",
-          speech: ["斜坡上的球準備好了。", "碰碰它。"],
+          prompt: "看看小球走哪一條路",
+          hint: "現在只要：輕碰斜坡上發光的藍色球",
+          speech: ["小球站在斜坡上。", "輕輕碰它，看看它走的路。"],
           result: "小球沿著斜坡往下滾",
-          resultSpeech: ["滾下來了。", "斜坡讓它往下移動。"]
+          resultSpeech: ["小球沿著斜坡往下滾。", "斜坡改變了它走的方向。"]
         },
         {
           id: "push",
           target: "push-car",
-          prompt: "碰碰紅色小車",
-          hint: "輕輕碰一下小車",
-          speech: ["小車正在等你。", "輕輕碰一下。"],
+          prompt: "怎麼讓小車動起來？",
+          hint: "現在只要：輕碰正在發光的紅色小車",
+          speech: ["小車還沒有動。", "輕輕碰一下，看看會發生什麼。"],
           result: "推力讓小車往前走",
-          resultSpeech: ["小車往前走了。", "推力改變了它的動作。"]
+          resultSpeech: ["小車往前走了。", "剛才的推力改變了它的動作。"]
         }
       ]
     },
@@ -53,29 +53,29 @@
         {
           id: "float",
           target: "boat",
-          prompt: "把小船放進水裡",
-          hint: "碰碰發光的小船",
-          speech: ["小船要下水了。", "碰碰小船。"],
+          prompt: "小船會浮著還是沉下去？",
+          hint: "現在只要：輕碰正在發光的小船",
+          speech: ["小船要下水了。", "你猜它會浮著，還是沉下去？"],
           result: "小船浮在水面",
-          resultSpeech: ["小船浮著。", "水的浮力托住了它。"]
+          resultSpeech: ["小船留在水面上。", "水向上的托力撐住了它。"]
         },
         {
           id: "sink",
           target: "stone",
-          prompt: "把石頭放進水裡",
-          hint: "碰碰發光的石頭",
-          speech: ["石頭也想試試看。", "碰碰它。"],
+          prompt: "石頭也會留在水面嗎？",
+          hint: "現在只要：輕碰正在發光的石頭",
+          speech: ["換石頭試試看。", "它也會留在水面嗎？"],
           result: "石頭沉到水底",
-          resultSpeech: ["石頭沉下去了。", "它的重量比水的托力更大。"]
+          resultSpeech: ["石頭沉到水底了。", "它受到的重力比水的托力更大。"]
         },
         {
           id: "melt",
           target: "ice",
-          prompt: "碰碰暖暖的冰塊",
-          hint: "碰碰發光的冰塊",
-          speech: ["冰塊來到溫暖的地方。", "碰碰看。"],
+          prompt: "冰塊在暖處會怎麼變？",
+          hint: "現在只要：輕碰正在發光的冰塊",
+          speech: ["冰塊來到暖暖的地方。", "輕輕碰它，看看它會不會改變。"],
           result: "冰慢慢融化成水",
-          resultSpeech: ["冰慢慢變成水了。", "它吸收了周圍的熱。"]
+          resultSpeech: ["冰慢慢變成水了。", "周圍的熱讓它融化。"]
         }
       ]
     },
@@ -88,29 +88,29 @@
         {
           id: "shadow",
           target: "flashlight",
-          prompt: "打開亮亮的手電筒",
-          hint: "碰碰發光的手電筒",
-          speech: ["玩具後面會出現什麼呢？", "碰碰手電筒。"],
+          prompt: "玩具後面會出現什麼？",
+          hint: "現在只要：輕碰正在發光的手電筒",
+          speech: ["手電筒還沒打開。", "亮起來後，玩具後面會有什麼？"],
           result: "玩具擋住光，影子出現了",
-          resultSpeech: ["影子出現了。", "玩具擋住了一部分光。"]
+          resultSpeech: ["玩具後面出現影子。", "因為玩具擋住了一部分光。"]
         },
         {
           id: "reflect",
           target: "mirror",
-          prompt: "碰碰銀色小鏡子",
-          hint: "鏡子正在閃閃發光",
-          speech: ["光遇到鏡子會怎麼走呢？", "碰碰鏡子。"],
+          prompt: "光碰到鏡子會往哪裡走？",
+          hint: "現在只要：輕碰正在發光的銀色鏡子",
+          speech: ["這面鏡子正在等光。", "光碰到鏡子後會往哪裡走？"],
           result: "光從鏡面反射到另一邊",
-          resultSpeech: ["光轉向了。", "它從鏡面反射到另一邊。"]
+          resultSpeech: ["光轉向另一邊了。", "這叫做反射。"]
         },
         {
           id: "photons",
           target: "star-light",
-          prompt: "送出一點一點的光",
-          hint: "碰碰發光的星星燈",
-          speech: ["探測器準備好了。", "碰碰星星燈。"],
+          prompt: "探測器會怎麼亮？",
+          hint: "現在只要：輕碰正在發光的星星燈",
+          speech: ["星星燈和探測器準備好了。", "打開燈，看看探測器怎麼亮。"],
           result: "探測器一點一點亮起來",
-          resultSpeech: ["一點、一點，亮起來了。", "這是光子抵達的概念模型。"]
+          resultSpeech: ["探測器一點一點亮起來。", "這是光子抵達的概念模型。"]
         }
       ]
     }
@@ -279,9 +279,11 @@
     let active = false;
     let locked = false;
     let completionReported = false;
+    let reminderCount = 0;
     let frameId = 0;
     let resizeObserver;
     let transitionTimer = 0;
+    let transitionToken = 0;
     let lastTime = performance.now();
     let bunnyJumping = false;
 
@@ -1021,10 +1023,12 @@
 
     function setStage(nextStage, announce = true) {
       global.clearTimeout(transitionTimer);
+      transitionToken += 1;
       animations.length = 0;
       stage = Math.max(0, Math.min(currentCourse().tasks.length - 1, nextStage));
       complete = false;
       locked = false;
+      reminderCount = 0;
       stageSpecs.forEach((spec) => { spec.root.visible = false; });
       const task = currentTask();
       const spec = stageSpecs.get(task.id);
@@ -1083,6 +1087,14 @@
     function remindTarget() {
       const task = currentTask();
       options.onStatus?.(task.hint, "ready");
+      reminderCount += 1;
+      if (reminderCount === 1) {
+        options.speak?.(["看看正在發光的那一個。", "兔兔陪你慢慢找。"], {
+          kind: "retry",
+          stage,
+          taskId: task.id
+        });
+      }
       const start = performance.now();
       animations.push((now) => {
         const raw = Math.min(1, (now - start) / (reduceMotion ? 220 : 520));
@@ -1102,17 +1114,32 @@
       spec.effect();
       bunnyJump();
       options.onStatus?.(task.result, "observing");
-      options.speak?.([...task.resultSpeech]);
-      scheduleNext(reduceMotion ? 750 : task.id === "photons" || task.id === "melt" ? 2400 : 1900);
+      const narration = options.speak?.([...task.resultSpeech], {
+        kind: "result",
+        stage,
+        taskId: task.id
+      });
+      scheduleNext(reduceMotion ? 750 : task.id === "photons" || task.id === "melt" ? 2400 : 1900, narration);
       return true;
     }
 
-    function scheduleNext(wait) {
+    function scheduleNext(wait, narration) {
       global.clearTimeout(transitionTimer);
-      transitionTimer = global.setTimeout(() => {
+      const token = ++transitionToken;
+      const minimum = new Promise((resolve) => {
+        transitionTimer = global.setTimeout(resolve, wait);
+      });
+      const narrationWait = narration && typeof narration.then === "function"
+        ? Promise.race([
+          Promise.resolve(narration).catch(() => null),
+          new Promise((resolve) => global.setTimeout(resolve, 8000))
+        ])
+        : Promise.resolve();
+      Promise.all([minimum, narrationWait]).then(() => {
+        if (token !== transitionToken) return;
         if (stage < currentCourse().tasks.length - 1) setStage(stage + 1, true);
         else finish();
-      }, wait);
+      });
     }
 
     function finish() {
@@ -1232,6 +1259,7 @@
 
     function reset(resetOptions = {}) {
       global.clearTimeout(transitionTimer);
+      transitionToken += 1;
       animations.length = 0;
       completionReported = false;
       complete = false;
@@ -1243,6 +1271,7 @@
     function destroy() {
       pause();
       global.clearTimeout(transitionTimer);
+      transitionToken += 1;
       resizeObserver?.disconnect();
       renderer.domElement.removeEventListener("pointerup", handlePointerUp);
       renderer.domElement.removeEventListener("keydown", handleKeyDown);
